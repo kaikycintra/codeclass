@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula 4: SQL e Django Models</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        code {
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .note {
+            background-color: #e7f5ff;
+            border-left: 4px solid #4dabf7;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Aula 4: SQL e Django Models</h1>
+    
+    <h2>Conteúdos</h2>
+    <ul>
+        <li><a href="#introduction">Introdução</a></li>
+        <li><a href="#sql">SQL</a>
+            <ul>
+                <li><a href="#databases">Bancos de Dados</a></li>
+                <li><a href="#column-types">Tipos de Coluna</a></li>
+            </ul>
+        </li>
+        <li><a href="#tables">Tabelas</a></li>
+        <li><a href="#select">SELECT</a>
+            <ul>
+                <li><a href="#working-with-sql-in-the-terminal">Trabalhando com SQL no Terminal</a></li>
+                <li><a href="#functions">Funções</a></li>
+                <li><a href="#update">UPDATE</a></li>
+                <li><a href="#delete">DELETE</a></li>
+                <li><a href="#other-clauses">Outras Cláusulas</a></li>
+            </ul>
+        </li>
+        <li><a href="#joining-tables">Unindo Tabelas</a>
+            <ul>
+                <li><a href="#join-query">Consulta JOIN</a></li>
+                <li><a href="#indexing">Indexação</a></li>
+                <li><a href="#sql-vulnerabilities">Vulnerabilidades SQL</a></li>
+            </ul>
+        </li>
+        <li><a href="#django-models">Django Models</a></li>
+        <li><a href="#migrations">Migrações</a></li>
+        <li><a href="#shell">Shell</a>
+            <ul>
+                <li><a href="#starting-our-application">Iniciando nossa aplicação</a></li>
+            </ul>
+        </li>
+        <li><a href="#django-admin">Django Admin</a></li>
+        <li><a href="#many-to-many-relationships">Relações Muitos-para-Muitos</a></li>
+        <li><a href="#users">Usuários</a></li>
+    </ul>
+
+    <h2 id="introduction">Introdução</h2>
+    <ul>
+        <li>Até agora, discutimos como construir páginas web simples usando HTML e CSS.</li>
+        <li>Também começamos a usar Django para criar aplicações web.</li>
+        <li>Hoje, aprenderemos sobre como usar SQL e Django models para armazenar e acessar dados de forma eficiente.</li>
+    </ul>
+
+    <h2 id="sql">SQL</h2>
+    <p><a href="https://www.w3schools.com/sql/">SQL</a>, ou Structured Query Language, é uma linguagem de programação que nos permite atualizar e consultar bancos de dados.</p>
+    <p><img src="static4/sql.png" alt="Logo SQL"></p>
+
+    <h3 id="databases">Bancos de Dados</h3>
+    <p>Antes de entrarmos em como usar a linguagem SQL, devemos discutir como nossos dados são armazenados. Ao usar SQL, trabalharemos com um <a href="https://www.oracle.com/database/what-is-a-relational-database/#:~:text=A%20relational%20database%20is%20a,of%20representing%20data%20in%20tables.">banco de dados relacional</a> onde todos os nossos dados são armazenados em várias <a href="https://www.essentialsql.com/what-is-a-database-table/">tabelas</a>. Cada uma dessas tabelas é composta por um número fixo de colunas e um número variável de linhas.</p>
+    <p>Para ilustrar como trabalhar com SQL, usaremos o exemplo de um site de cursos, que armazena dados do curso, usuários, entre outras coisas. Um exemplo de tabela que iremos ver está a seguir:</p>
+    <p><img src="static4/users.png" alt="usuários"></p>
+    <p>Existem vários sistemas de gerenciamento de banco de dados relacionais diferentes que são comumente usados para armazenar informações e que podem interagir facilmente com comandos SQL:</p>
+    <ul>
+        <li><a href="https://www.mysql.com/">MySQL</a></li>
+        <li><a href="https://www.postgresql.org/">PostgreSQL</a></li>
+        <li><a href="https://www.sqlite.org/index.html">SQLite</a></li>
+        <li>...</li>
+    </ul>
+    <p>Os dois primeiros, MySQL e PostgreSQL, são sistemas de gerenciamento de banco de dados mais robustos que normalmente são executados em servidores separados daqueles que executam um site. SQLite, por outro lado, é um sistema mais leve que pode armazenar todos os seus dados em um único arquivo. Usaremos SQLite ao longo deste curso, pois é o sistema padrão usado pelo Django.</p>
+
+    <h3 id="column-types">Tipos de Coluna</h3>
+    <p>Assim como trabalhamos com vários tipos de variáveis em Python, SQLite tem <a href="https://www.sqlite.org/datatype3.html">tipos</a> que representam diferentes formas de informação. Outros sistemas de gerenciamento podem ter tipos de dados diferentes, mas todos são bastante semelhantes aos do SQLite:</p>
+    <ul>
+        <li><code>TEXT</code>: Para strings de texto (Ex. nome de uma pessoa)</li>
+        <li><code>NUMERIC</code>: Uma forma mais geral de dados numéricos (Ex. Uma data ou valor booleano)</li>
+        <li><code>INTEGER</code>: Qualquer número não decimal (Ex. idade de uma pessoa)</li>
+        <li><code>REAL</code>: Qualquer número real (Ex. peso de uma pessoa)</li>
+        <li><code>BLOB</code> (Binary Large Object): Qualquer outro dado binário que possamos querer armazenar em nosso banco de dados (Ex. uma imagem)</li>
+    </ul>
+
+    <h2 id="tables">Tabelas</h2>
+    <p>Agora, para realmente começar a usar SQL para interagir com um banco de dados, vamos começar criando uma nova tabela. O <a href="https://www.w3schools.com/sql/sql_create_table.asp">comando para criar uma nova tabela</a> é mais ou menos assim:</p>
+    
+    <pre><code>CREATE TABLE users(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+username TEXT UNIQUE NOT NULL,
+email TEXT UNIQUE NOT NULL,
+pass_hash TEXT NOT NULL
+);</code></pre>
+
+    <p>No comando acima, estamos criando uma nova tabela que decidimos chamar de <code>users</code>, e adicionamos quatro colunas a esta tabela:</p>
+    <ol>
+        <li><code>id</code>: Muitas vezes é útil ter um número que nos permita identificar exclusivamente cada linha em uma tabela. Aqui especificamos que <code>id</code> é um inteiro e também que é nossa <a href="https://www.w3schools.com/sql/sql_primarykey.ASP">chave primária</a>, significando que é nosso identificador único. Além disso, especificamos que ele <code>AUTOINCREMENT</code>, o que significa que não precisaremos fornecer um id toda vez que adicionarmos à tabela, pois isso será feito automaticamente.</li>
+        <li><code>username</code>: Aqui especificamos que este será um campo de texto, e ao escrever <code>NOT NULL</code> exigimos que ele tenha um valor. Ademais, ao escrever <code>UNIQUE</code>, exigimos que este valor seja único naquela coluna.</li>
+        <li><code>email</code>: Novamente especificamos que este será um campo de texto e impedimos que seja nulo.</li>
+        <li><code>password_hash</code>: Por último, especificamos que temos uma senha armazenada como texto, e que não seja nula. Em databases, <strong>não devemos guardar uma senha em texto puro!</strong> Como exemplo aqui, usamos uma senha com hash. Mas há diferentes maneiras de tratar senhas.</li>
+    </ol>
+
+    <p>Acabamos de ver as restrições <code>NOT NULL</code>, <code>PRIMARY KEY</code> e <code>UNIQUE</code> ao criar uma coluna, mas existem várias outras <a href="https://www.tutorialspoint.com/sqlite/sqlite_constraints.htm">restrições</a> disponíveis para nós:</p>
+    <ul>
+        <li><code>CHECK</code>: Garante que certas restrições sejam atendidas antes de permitir que uma linha seja adicionada/modificada</li>
+        <li><code>DEFAULT</code>: Fornece um valor padrão se nenhum valor for fornecido</li>
+        <li><code>NOT NULL</code>: Garante que um valor seja fornecido</li>
+        <li><code>PRIMARY KEY</code>: Indica que esta é a principal forma de buscar uma linha no banco de dados</li>
+        <li><code>UNIQUE</code>: Garante que nenhuma duas linhas tenham o mesmo valor nessa coluna.</li>
+        <li>...</li>
+    </ul>
+
+    <p>Agora que vimos como criar uma tabela, vamos ver como podemos adicionar linhas a ela. Em SQL, fazemos isso usando o comando <code>INSERT</code>:</p>
+    
+    <pre><code>INSERT INTO users
+(username, email, password_hash)
+VALUES ("fulano_dev", "fulano@codelab.br", "2b$12");</code></pre>
+
+    <p>No comando acima, especificamos o nome da tabela em que desejamos inserir, depois fornecemos uma lista dos nomes das colunas sobre as quais forneceremos informações e, em seguida, especificamos os <code>VALUES</code> que gostaríamos de preencher nessa linha da tabela, garantindo que os <code>VALUES</code> venham na mesma ordem que nossa lista correspondente de colunas. Observe que não precisamos fornecer um valor para <code>id</code> porque ele é incrementado automaticamente.</p>
+
+    <h2 id="select">SELECT</h2>
+    <p>Depois que uma tabela é preenchida com algumas linhas, provavelmente queremos uma maneira de acessar os dados dentro dessa tabela. Fazemos isso usando a consulta <a href="https://www.w3schools.com/sql/sql_select.asp">SELECT</a> do SQL. A consulta <code>SELECT</code> mais simples em nossa tabela de usuários pode ser mais ou menos assim:</p>
+    
+    <pre><code>SELECT * FROM users;</code></pre>
+
+    <p>O comando acima (*) recupera todos os dados da nossa tabela de usuários</p>
+    <p><img src="static4/todos.png" alt="todos"></p>
+
+    <p>Pode ser o caso, porém, que não precisamos realmente de todas as colunas do banco de dados, apenas username e email. Para acessar apenas essas colunas, podemos substituir o * pelos nomes das colunas que gostaríamos de acessar. A consulta a seguir retorna todos os usernames e emails.</p>
+    
+    <pre><code>SELECT username, email FROM users;</code></pre>
+
+    <p><img src="static4/2cols.png" alt="Apenas duas colunas"></p>
+
+    <p>À medida que nossas tabelas ficam cada vez maiores, também queremos reduzir quais linhas nossa consulta retorna. Fazemos isso adicionando um <a href="https://www.w3schools.com/sql/sql_where.asp">WHERE</a> seguido por alguma condição. Por exemplo, o comando a seguir seleciona apenas a linha com um <code>id</code> de <code>3</code>:</p>
+    
+    <pre><code>SELECT * FROM users WHERE id = 3;</code></pre>
+
+    <p><img src="static4/1row.png" alt="apenas uma linha"></p>
+
+    <h3 id="working-with-sql-in-the-terminal">Trabalhando com SQL no Terminal</h3>
+    <p>Agora que conhecemos alguns comandos básicos de SQL, vamos testá-los no terminal! Para trabalhar com SQLite em seu computador, você deve primeiro <a href="https://www.sqlite.org/download.html">baixar o SQLite</a>. (Não usaremos em aula, mas você também pode <a href="https://sqlitebrowser.org/dl/">baixar o DB Browser</a> para uma maneira mais amigável de executar consultas SQL.)</p>
+    <p>Podemos começar criando um arquivo para nosso banco de dados criando manualmente um novo arquivo ou executando <code>touch users.sql</code> no terminal. Agora, se executarmos <code>sqlite3 users.sql</code> no terminal, seremos levados a um prompt SQLite onde podemos executar comandos SQL:</p>
+    
+    <pre><code># Entrando no Prompt SQLite
+(base) % sqlite3 users.sql
+SQLite version 3.49.1 2025-02-18 13:38:58
+Enter ".help" for usage hints.
+
+# Criando uma nova Tabela
+sqlite> CREATE TABLE users(
+...>     id INTEGER PRIMARY KEY AUTOINCREMENT,
+...>     username TEXT UNIQUE NOT NULL,
+...>     email TEXT NOT NULL,
+...>     password_hash TEXT NOT NULL
+...> );
+
+# Listando todas as tabelas atuais (Apenas users por enquanto)
+sqlite> .tables
+users
+
+# Consultando tudo dentro de users (Que está vazio agora)
+sqlite> SELECT * FROM users;
+
+# Adicionando um usuário
+sqlite> INSERT INTO users
+...>     (username, email, password_hash)
+...>     VALUES ("fulano_dev", "fulano@codelab.br", "2b$12");
+
+# Verificando por novas informações, que agora podemos ver
+sqlite> SELECT * FROM users;
+1|fulano_dev|fulano@codelab.br|2b$12
+
+# Adicionando mais alguns voos
+sqlite> INSERT INTO users (username, email, password_hash) VALUES ("ciclano_dev", "ciclano@codelab.br", "a31lW");
+sqlite> INSERT INTO users (username, email, password_hash) VALUES ("beltrano_dev", "beltrano@codelab.br", "Wxn96p3");
+sqlite> INSERT INTO users (username, email, password_hash) VALUES ("alano_dev", "alano@codelab.br", "3OXePa");
+
+# Consultando essas novas informações
+sqlite> SELECT * FROM users;
+1|fulano_dev|fulano@codelab.br|2b$12
+2|beltrano_dev|beltrano@codelab.br|a31lW
+3|ciclano_dev|ciclano@codelab.br|Wxn96p3
+4|fulano_dev|fulano@codelab.br|3OXePa
+
+# Alterando as configurações para tornar a saída mais legível
+sqlite> .mode columns
+sqlite> .headers yes
+
+# Consultando todas as informações novamente
+sqlite> SELECT * FROM users;
+id  username      email                password_hash
+--  ------------  -------------------  -------------
+1   fulano_dev    fulano@codelab.br    2b$12        
+2   ciclano_dev   ciclano@codelab.br   a31lW        
+3   beltrano_dev  beltrano@codelab.br  Wxn96p3      
+4   alano_dev     alano@codelab.br     3OXePa       
+
+# Procurando apenas por um usuário com email ciclano@codelab.br
+sqlite> SELECT * FROM users WHERE email = "ciclano@codelab.br";
+id  username     email               password_hash
+--  -----------  ------------------  -------------
+2   ciclano_dev  ciclano@codelab.br  a31lW      </code></pre>
+
+    <p>Também podemos usar mais do que apenas igualdade para filtrar usuários. Para valores inteiros e reais, podemos usar maior que ou menor que:</p>
+    
+    <pre><code>SELECT * FROM users WHERE id > 1;</code></pre>
+
+    <p><img src="static4/500.png" alt="> 500"></p>
+
+    <p>E também podemos usar outra lógica (<a href="https://www.w3schools.com/sql/sql_and_or.asp">AND, OR</a>) como em Python:</p>
+    
+    <pre><code>SELECT * FROM users WHERE id > 2 AND email = "alano@codelab.br";</code></pre>
+
+    <p><img src="static4/2andemail.png" alt="> 2 e email"></p>
+
+    <pre><code>SELECT * FROM users WHERE id > 3 OR email = "fulano@codelab.br";</code></pre>
+
+    <p><img src="static4/3oremail.png" alt="> 3 ou email"></p>
+
+    <p>Também podemos usar a palavra-chave <a href="https://www.w3schools.com/sql/sql_in.asp">IN</a> para ver se um pedaço de dados é uma de várias opções:</p>
+    
+    <pre><code>SELECT * FROM users WHERE username IN ("fulano_dev", "ciclano_dev");</code></pre>
+
+    <p><img src="static4/in.png" alt="em"></p>
+
+    <p>Podemos até usar expressões regulares para pesquisar palavras de forma mais ampla usando a palavra-chave <a href="https://www.w3schools.com/sql/sql_like.asp">LIKE</a>. A consulta abaixo encontra todos os resultados com um <code>f</code> no username, usando <code>%</code> como caractere curinga.</p>
+    
+    <pre><code>SELECT * FROM users WHERE username LIKE "%f%";</code></pre>
+
+    <p><img src="static4/like.png" alt="username tem um 'f'"></p>
+
+    <h3 id="functions">Funções</h3>
+    <p>Também há várias funções SQL que podemos aplicar aos resultados de uma consulta. Elas podem ser úteis se não precisarmos de todos os dados retornados por uma consulta, mas apenas de algumas estatísticas resumidas dos dados.</p>
+    <ul>
+        <li><a href="https://www.w3schools.com/sql/sql_count_avg_sum.asp">AVERAGE</a></li>
+        <li><a href="https://www.w3schools.com/sql/sql_count_avg_sum.asp">COUNT</a></li>
+        <li><a href="https://www.w3schools.com/sql/sql_min_max.asp">MAX</a></li>
+        <li><a href="https://www.w3schools.com/sql/sql_min_max.asp">MIN</a></li>
+        <li><a href="https://www.w3schools.com/sql/sql_count_avg_sum.asp">SUM</a></li>
+        <li>...</li>
+    </ul>
+
+    <h3 id="update">UPDATE</h3>
+    <p>Agora vimos como adicionar e pesquisar tabelas, mas também podemos querer atualizar linhas de uma tabela que já existem. Fazemos isso usando o comando <a href="https://www.w3schools.com/sql/sql_update.asp">UPDATE</a> como mostrado abaixo. Como você pode ter adivinhado ao ler isso em voz alta, o comando encontra o usuário "alano_dev" e define seu email como alano2@codelab.br .</p>
+    
+    <pre><code>UPDATE users
+SET email = "alano2@codelab.br"
+WHERE username = "alano_dev";</code></pre>
+
+    <h3 id="delete">DELETE</h3>
+    <p>Também podemos querer a capacidade de excluir linhas do nosso banco de dados, e podemos fazer isso usando o comando <a href="https://www.w3schools.com/sql/sql_delete.asp">DELETE</a>.</p>
+    
+    <pre><code>DELETE FROM users WHERE username = "alano_dev";</code></pre>
+
+    <h3 id="other-clauses">Outras Cláusulas</h3>
+    <p>Existem várias cláusulas adicionais que podemos usar para controlar as consultas que nos retornam</p>
+    <ul>
+        <li><a href="https://www.w3schools.com/sql/sql_top.asp">LIMIT</a>: Limita o número de resultados retornados por uma consulta</li>
+        <li><a href="https://www.w3schools.com/sql/sql_orderby.asp">ORDER BY</a>: Ordena os resultados com base em uma coluna especificada</li>
+        <li><a href="https://www.w3schools.com/sql/sql_groupby.asp">GROUP BY</a>: Agrupa resultados por uma coluna especificada</li>
+        <li><a href="https://www.w3schools.com/sql/sql_having.asp">HAVING</a>: Permite restrições adicionais com base no número de resultados</li>
+    </ul>
+
+    <h2 id="joining-tables">Unindo Tabelas</h2>
+    <p>Até agora, trabalhamos apenas com uma tabela por vez, mas muitos bancos de dados na prática são preenchidos por várias tabelas que se relacionam de alguma forma. Como exemplo, no CodeClass, além da tabela de usuários, podemos ter uma tabela de cursos, mostrando cada curso disponível. Então, poderiamos relacionar as duas tabelas.</p>
+    <p>A tabela de cursos pode ser mais ou menos assim</p>
+    <p><img src="static4/cursos.png" alt="Tabela Cursos"></p>
+    <p>Dessa forma, podemos relacionar os usuários com cursos. Entretanto, um usuário pode estar inscrito em vários cursos, então se tivéssemos que relacionar os usuários com seus cursos, teríamos que criar várias colunas na tabela <code>users</code>, o que não é intuitivo. Assim, podemos criar mais uma tabela <code>enrollments</code>, que armazena as matrículas dos usuários. Ela se parece como:</p>
+    <img src="static4/enrollments.png"alt="table enrollments">
+    <p>Agora temos uma tabela enrollments, onde cada matrícula está relacionada a um usuário e a um curso. Como estamos usando a coluna <code>id</code> da tabela de usuários para preencher <code>user_id</code> e <code>id</code> da tabela de cursos para preencher <code>course_id</code>, chamamos esses valores de <a href="https://www.w3schools.com/sql/sql_foreignkey.asp">Chaves Estrangeiras</a>.</p>
+    <p>A relação entre <code>users</code> e <code>courses</code> é conhecida como <strong>Muitos para muitos</strong>.</p>
+    <p>A tabela de matrículas é conhecida como uma <strong>tabela de associação</strong>, pois associa as tabelas <code>users</code> e <code>courses</code>.</p>
+    <p>Dessa forma, criamos diferentes tabelas que irão nos proporcionar uma melhor organização.</p>
+
+    <h3 id="join-query">Consulta JOIN</h3>
+    <p>Embora nossos dados agora estejam armazenados de forma mais eficiente, parece que pode ser mais difícil consultar nossos dados. Felizmente, SQL tem uma consulta <a href="https://www.w3schools.com/sql/sql_join.asp">JOIN</a> onde podemos combinar duas tabelas para os propósitos de outra consulta.</p>
+    <p>Por exemplo, digamos que queremos listar todos os cursos de um usuário, então:</p>
+    
+    <pre><code>SELECT courses.title
+FROM courses
+JOIN enrollments ON courses.id = enrollments.course_id
+WHERE enrollments.user_id = 1;</code></pre>
+    
+    <p>Aqui, o que fizemos foi selecionar os títulos dos cursos em que o usuário de id <code>1</code> está inscrito.</p>
+    <p>Para juntar as tabelas de curso e matrículas, procuramos linhas em <code>enrollments</code> onde <code>courses.id = enrollments.course_id</code>, o que conecta os cursos às matrículas.</p>
+    <p>Acabamos de usar algo chamado <a href="https://www.w3schools.com/sql/sql_join_inner.asp">INNER JOIN</a>, o que significa que estamos ignorando linhas que não têm correspondências entre as tabelas, mas existem outros tipos de junções, incluindo <a href="https://www.w3schools.com/sql/sql_join_left.asp"><strong>LEFT JOIN</strong></a>, <a href="https://www.w3schools.com/sql/sql_join_right.asp"><strong>RIGHT JOIN</strong></a> e <a href="https://www.w3schools.com/sql/sql_join_full.asp"><strong>FULL OUTER JOIN</strong></a>, que não discutiremos aqui em detalhes.</p>
+
+    <h3 id="indexing">Indexação</h3>
+    <p>Uma maneira de tornar nossas consultas mais eficientes ao lidar com tabelas grandes é criar um índice semelhante ao índice que você pode ver no final de um livro didático. Por exemplo, se sabemos que frequentemente procuraremos usuários por username, poderíamos criar um índice de username usando o comando:</p>
+    
+    <pre><code>CREATE INDEX user_username_index ON users (username);</code></pre>
+
+    <h3 id="sql-vulnerabilities">Vulnerabilidades SQL</h3>
+    <p>Agora que sabemos o básico de usar SQL para trabalhar com dados, é importante destacar as principais vulnerabilidades associadas ao uso de SQL. Começaremos com <a href="https://www.w3schools.com/sql/sql_injection.asp">Injeção SQL</a>.</p>
+    <p>Um ataque de injeção SQL é quando um usuário malicioso insere código SQL como entrada em um site para contornar as medidas de segurança do site. Por exemplo, digamos que nossa tabela de usuários seja mais simples (com username e password), e então um formulário de login na página inicial de um site. Podemos procurar o usuário usando uma consulta como:</p>
+    
+    <pre><code>SELECT * FROM users
+WHERE username = username AND password = password;</code></pre>
+
+    <p>Um usuário chamado Harry pode acessar este site e digitar <code>harry</code> como nome de usuário e <code>12345</code> como senha, caso em que a consulta seria assim:</p>
+    
+    <pre><code>SELECT * FROM users
+WHERE username = "harry" AND password = "12345";</code></pre>
+
+    <p>Um hacker, por outro lado, pode digitar <code>harry" --</code> como nome de usuário e nada como senha. Acontece que <code>--</code> representa um comentário em SQL, então a consulta ficaria assim:</p>
+    
+    <pre><code>SELECT * FROM users
+WHERE username = "harry"--" AND password = "12345";</code></pre>
+
+    <p>Porque nesta consulta a verificação de senha foi comentada, o hacker pode fazer login na conta de Harry sem saber sua senha. Para resolver este problema, podemos usar:</p>
+    <ul>
+        <li>Caracteres de escape para garantir que o SQL trate a entrada como texto simples e não como código SQL.</li>
+        <li>Uma camada de abstração sobre o SQL que inclui sua própria sequência de escape, para que não precisemos escrever consultas SQL nós mesmos.</li>
+    </ul>
+
+    <p>A outra principal vulnerabilidade quando se trata de SQL é conhecida como <a href="https://searchstorage.techtarget.com/definition/race-condition#:~:text=A%20race%20condition%20is%20an,sequence%20to%20be%20done%20correctly.">Condição de Corrida</a>.</p>
+    <p>Uma condição de corrida é uma situação que ocorre quando várias consultas a um banco de dados ocorrem simultaneamente. Quando essas não são tratadas adequadamente, podem surgir problemas nos momentos precisos em que os bancos de dados são atualizados. Por exemplo, digamos que eu tenha $150 na minha conta bancária. Uma condição de corrida pode ocorrer se eu fizer login na minha conta bancária tanto no meu telefone quanto no meu laptop e tentar sacar $100 em cada dispositivo. Se os desenvolvedores de software do banco não lidaram com condições de corrida corretamente, então eu posso conseguir sacar $200 de uma conta com apenas $150. Uma solução potencial para este problema seria bloquear o banco de dados. Poderíamos não permitir nenhuma outra interação com o banco de dados até que uma transação seja concluída. No exemplo do banco, depois de navegar para a página "Fazer um Saque" no meu computador, o banco pode não me permitir navegar para essa página no meu telefone.</p>
+
+    <h2 id="django-models">Django Models</h2>
+    <p><a href="https://docs.djangoproject.com/en/4.0/topics/db/models/">Django Models</a> são um nível de <a href="https://techterms.com/definition/abstraction">abstração</a> sobre o SQL que nos permite trabalhar com bancos de dados usando classes e objetos Python em vez de consultas SQL diretas.</p>
+    <p>Vamos começar a usar models criando um projeto Django para o dev.learn() e criando um app dentro desse projeto.</p>
+    
+    <pre><code>django-admin startproject devlearn
+cd devlearn
+python manage.py startapp codeclass</code></pre>
+
+    <p>Agora teremos que passar pelo processo de adicionar um app como de costume:</p>
+    <ol>
+        <li>Adicione <code>codeclass</code> à lista <code>INSTALLED_APPS</code> em <code>settings.py</code></li>
+        <li>Adicione uma rota para <code>codeclass</code> em <code>urls.py</code>:
+            <pre><code>path("codeclass/", include("codeclass.urls")),</code></pre>
+        </li>
+        <li>Crie um arquivo <code>urls.py</code> dentro do aplicativo <code>codeclass</code>. E preencha-o com imports padrão de <code>urls.py</code> e listas.</li>
+    </ol>
+
+    <p>Agora, em vez de criar caminhos reais e começar em <code>views.py</code>, criaremos alguns models no arquivo <code>models.py</code>. Neste arquivo, descreveremos quais dados queremos armazenar em nosso aplicativo. Então, Django determinará a sintaxe SQL necessária para armazenar informações em cada um de nossos models. Nesta etapa, trabalharemos inicialmente com os modelos de cursos, e veremos mais sobre os usuários à frente.</p>
+    <p>O modelo de cursos pode ser como:</p>
+    <pre><code>class Course(models.Model):
+    title = models.CharField(max_length=64)
+    description = models.CharField(blank=True)
+</code></pre>
+
+    <p>Vamos ver o que está acontecendo nesta definição de model:</p>
+    <ul>
+        <li>Na primeira linha, criamos um novo model que <strong>estende</strong> a classe model do Django.</li>
+        <li>Abaixo, adicionamos campos para título, descrição e slug. Os dois primeiros são <a href="https://docs.djangoproject.com/en/4.0/ref/forms/fields/#charfield">Char Fields</a>, o que significa que armazenam strings. Este é apenas uma das muitas <a href="https://docs.djangoproject.com/en/4.0/ref/forms/fields/#built-in-field-classes">classes de campo Django integradas</a></li>
+        <li>Especificamos comprimentos máximos de 64 para um dos Character Fields, e deixamos o outro como opcional para ser em branco. Você pode verificar as especificações disponíveis para um determinado campo verificando a <a href="https://docs.djangoproject.com/en/4.0/ref/forms/fields/#built-in-field-classes">documentação</a>.</li>
+    </ul>
+
+    <h2 id="migrations">Migrações</h2>
+    <p>Agora, mesmo que tenhamos criado um model, ainda não temos um banco de dados para armazenar essas informações. Para criar um banco de dados a partir de nossos models, navegamos até o diretório principal de nosso projeto e executamos o comando.</p>
+    
+    <pre><code>python manage.py makemigrations</code></pre>
+
+    <p>Este comando cria alguns arquivos Python que criarão ou editarão nosso banco de dados para poder armazenar o que temos em nossos models. Você deve obter uma saída que se parece mais ou menos com a abaixo, e se navegar até seu diretório <code>migrations</code>, notará que um novo arquivo foi criado para nós</p>
+    <p><img src="static4/migrations.png" alt="saída de migrações 0"></p>
+    <p>A seguir, para aplicar essas migrações ao nosso banco de dados, executamos o comando</p>
+    
+    <pre><code>python manage.py migrate</code></pre>
+
+    <p>Agora, você verá que algumas migrações padrão foram aplicadas junto com as nossas, e também notará que agora temos um arquivo chamado <code>db.sqlite3</code> no diretório do nosso projeto</p>
+    <p><img src="static4/migration1.png" alt="saída de migração"></p>
+
+    <h2 id="shell">Shell</h2>
+    <p>Agora, para começar a adicionar informações e manipular este banco de dados, podemos entrar no shell do Django, onde podemos executar comandos Python dentro de nosso projeto.</p>
+    
+    <pre><code>python manage.py shell
+Python 3.7.2 (default, Dec 29 2018, 00:00:04)
+Type 'copyright', 'credits' or 'license' for more information
+IPython 6.5.0 -- An enhanced Interactive Python. Type '?' for help.
+
+# Importar nosso model de curso
+In [1]: from codeclass.models import Course
+
+# Criar um novo curso
+In [2]: c = Course(title="Web-Dev", description="Welcome to webdev course!")
+
+# Inserir esse curso em nosso banco de dados
+In [3]: c.save()
+
+# Consultar todos os cursos armazenados no banco de dados
+In [4]: Course.objects.all()
+Out[4]: &lt;QuerySet [&lt;Course: Course object (1)&gt;]&gt;</code></pre>
+
+    <p>Quando consultamos nosso banco de dados, vemos que obtemos apenas um curso chamado <code>Course object (1)</code>. Este não é um nome muito informativo, mas podemos consertar isso. Dentro de <code>models.py</code>, definiremos uma função <code>__str__</code> que fornece instruções sobre como transformar um objeto Course em uma string:</p>
+    
+    <pre><code>class Course(models.Model):
+    title = models.CharField(max_length=64)
+    description = models.CharField(blank=True)
+
+    def __str__(self):
+        return self.title</code></pre>
+
+    <p>Agora, quando voltamos ao shell, nossa saída é um pouco mais legível. Obs: talvez seja necessário sair e entrar do shell. Para recuperar o curso, podemos fazer <code>c = Course.objects.get(title="Web-Dev")</code></p>
+    <pre><code># Criar uma variável chamada courses para armazenar os resultados de uma consulta
+In [7]: courses = Course.objects.all()
+
+# Exibindo todos os cursos
+In [8]: courses
+Out[8]: &lt;QuerySet [&lt;Course: Web-Dev&gt;]&gt;
+
+# Isolando apenas o primeiro curso
+In [9]: course = courses.first()
+
+# Imprimindo informações do curso
+In [10]: course
+Out[10]: &lt;Course: Web-Dev&gt;
+
+# Exibir id do curso
+In [11]: course.id
+Out[11]: 1
+
+# Exibir título do curso
+In [12]: course.title
+Out[12]: 'Web-Dev'
+
+# Exibir descrição do curso
+In [13]: course.description
+Out[13]: 'Welcome to webdev course!''</code></pre>
+
+    <p>Este é um bom começo. Agora, iremos criar um modelo para as matrículas. Devemos lembrar que a tabela de matrículas descreve uma relação <strong>Many-to-Many</strong> entre usuários e cursos. Para manter simplicidade, iremos também implementar uma tabela de estudantes (que substituirá, por enquanto, a tabela de usuários). Nosso <code>models.py</code> está assim:</p>
+
+    <pre><code>from django.db import models
+
+class Course(models.model):
+    # Definições anteriores aqui
+
+class Student(models.Model):
+    username = models.CharField(max_length=50, unique=True)
+    email = models.CharField(unique=True)
+    bio = models.CharField(blank=True)
+    
+    def __str__(self):
+        return self.username
+
+class Enrollment(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='enrollments')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='enrollments')
+    enrolled_at = models.DateTimeField(auto_now_add=True) # Auto-definido na criação
+
+    class Meta:
+        unique_together = ('student', 'course') # Previne duplicatas
+
+    def __str__(self):
+        return f"{self.student.username} matriculado em {self.course.title}"</code></pre>
+
+    <p>As mudanças nos campos <code>student</code> e <code>course</code> dentro da classe <code>Enrollment</code> são novas para nós:</p>
+    <ul>
+        <li>Especificamos que os campos <code>student</code> e <code>course</code> são cada um <a href="https://docs.djangoproject.com/en/4.0/topics/db/examples/many_to_one/">Foreign Keys</a>, o que significa que se referem a outro objeto.</li>
+        <li>Ao inserir <code>Student</code> como nosso primeiro argumento, estamos especificando o tipo de objeto a que este campo se refere, na primeira linha, assim como ao inserir <code>Course</code>.</li>
+        <li>O próximo argumento, <code>on_delete=models.CASCADE</code> dá instruções sobre o que deve acontecer se um estudante ou curso for excluído. Neste caso, especificamos que quando algum deles é excluído, todas as matrículas associadas a eles também devem ser excluídas. <a href="https://docs.djangoproject.com/en/4.0/ref/models/fields/#django.db.models.ForeignKey.on_delete">Existem várias outras opções</a> além de <code>CASCADE</code>.</li>
+        <li>Fornecemos um <a href="https://docs.djangoproject.com/en/4.0/ref/models/fields/#django.db.models.ForeignKey.related_name">related_name</a>, que nos dá uma maneira de procurar todas as matrículas com um determinado estudante ou curso.</li>
+        <li>Para o campo de <code>enrolled_at</code>, definimos uma auto-criação da data.</li>
+    </ul>
+
+    <p>Toda vez que fazemos alterações em <code>models.py</code>, temos que fazer migrações e depois migrar. Caso tivéssemos modificado algum campo do modelo <code>Course</code>, deveríamos remover as entradas antigas de cursos.</p>
+
+    <pre><code># Criar Novas Migrações
+python manage.py makemigrations
+
+# Migrar
+python manage.py migrate</code></pre>
+
+    <p>Agora, vamos testar esses novos models no shell do Django:</p>
+
+    <pre><code># Importar todos os models
+In [1]: from codeclass.models import *
+
+# Criar alguns novos estudantes
+In [2]: ful = Student(username="fulano", email="fulano@codelab.br", bio="Hello")
+In [3]: cic = Student(username="ciclano", email="ciclano@codelab.br", bio="Hi")
+
+
+# Salvar os aeroportos no banco de dados
+In [4]: ful.save()
+In [5]: cic.save()
+
+# Recuperamos um dos cursos com o comando abaixo
+c = Course.objects.get(title="Web-Dev")
+
+# Adicionar uma matrícula e salvá-la no banco de dados
+m = Enrollment(student=ful, course=c)
+m.save()
+
+# Exibir algumas informações sobre a matrícula
+In [8]: m
+Out[8]: &lt;Enrollment: 1: fulano matriculado em Web-Dev>
+
+# Exemplo de uso do related_name para buscar as matrículas de um estudante específico
+student = Student.objects.get(id=1)
+enrollments = student.course_enrollments.all()
+enrollments
+Out: &lt;QuerySet [&lt;Enrollment: fulano matriculado em Web-Dev>]>
+</code></pre>
+
+    <h3 id="starting-our-application">Iniciando nossa aplicação</h3>
+
+    <p>Agora podemos começar a construir uma aplicação em torno deste processo de usar models para interagir com um banco de dados. Vamos começar criando uma rota de índice para nosso site. Dentro de <code>urls.py</code>:</p>
+    <pre><code>urlpatterns = [
+path('', views.index, name="index"),
+]</code></pre>
+
+    <p>Dentro de <code>views.py</code>:</p>
+    <pre><code>from django.shortcuts import render
+from .models import Student, Course, Enrollment
+
+# Create your views here.
+def index(request):
+    return render(request, 'codeclass/index.html', {
+        "courses": Course.objects.all(),
+    })</code></pre>
+
+    <p>Dentro de nosso novo arquivo <code>layout.html</code>:</p>
+
+    <pre><code>&lt;!DOCTYPE html>
+&lt;html lang="en">
+&lt;head>
+    &lt;title>Cursos&lt;/title>
+&lt;/head>
+&lt;body>
+    {% block body %}
+    {% endblock %}
+&lt;/body>
+&lt;/html></code></pre>
+
+    <p>Dentro de um novo arquivo <code>index.html</code>:</p>
+
+    <pre><code>{% extends "codeclass/layout.html" %}
+
+{% block body %}
+&lt;h1>Cursos:&lt;/h1>
+&lt;ul>
+    {% for course in courses %}
+        &lt;li>Curso {{ course.id }}: {{ course.title }} - {{ course.description }}&lt;/li>
+    {% endfor %}
+&lt;/ul>
+{% endblock %}
+    </code></pre>
+
+    <p>O que fizemos aqui é criar uma página padrão onde temos uma lista de todos os cursos que criamos até agora. Quando abrimos a página agora, ela se parece com isso</p>
+
+    <img src="static4/index.png" alt="Apenas um curso na lista">
+
+    <p>Agora, vamos adicionar mais alguns cursos à nossa aplicação voltando ao shell do Django:</p>
+
+    <pre><code>
+# Criando e salvando um novo curso:
+p = Course(title="Python-Intro", description="Welcome to python course!")
+p.save()
+        
+</code></pre>
+
+    <p>Agora, nossa página se parece com isso:</p>
+    <img src="static4/index2.png" alt="2 cursos">
+
+    <h2 id="django-admin">Django Admin</h2>
+
+    <p>Como é muito comum que os desenvolvedores precisem criar novos objetos como fizemos no shell, o Django vem com um <a href="https://docs.djangoproject.com/en/4.0/ref/contrib/admin/">admin interface padrão</a> que nos permite fazer isso mais facilmente. Para começar a usar esta ferramenta, devemos primeiro criar um usuário administrativo:</p>
+
+    <pre><code>> python manage.py createsuperuser
+Username: user_a
+Email address: a@a.com
+Password:
+Password (again):
+Superuser created successfully.</code></pre>
+
+    <p>Agora, devemos adicionar nossos models ao aplicativo admin entrando no arquivo <code>admin.py</code> dentro de nosso app, e importando e registrando nossos models. Isso diz ao Django quais models gostaríamos de ter acesso no aplicativo admin.</p>
+
+    <pre><code>from django.contrib import admin
+from .models import Student, Course, Enrollment
+
+# Registrar seus models aqui.
+admin.site.register(Student)
+admin.site.register(Course)
+admin.site.register(Enrollment)</code></code></pre>
+
+    <p>Agora, quando visitamos nosso site e adicionamos <code>/admin</code> à url, podemos fazer login em uma página que se parece com isso</p>
+
+    <img src="static4/login.png" alt="login">
+
+    <p>Depois de fazer login, você será levado a uma página como a abaixo, onde pode criar, editar e excluir objetos armazenados no banco de dados</p>
+
+    <img src="static4/admin.png" alt="página admin">
+
+    <p>Agora, vamos adicionar mais algumas páginas ao nosso site. Começaremos adicionando a capacidade de clicar em um curso para obter mais informações sobre ele. Para fazer isso, vamos criar um caminho de URL que inclui o <code>id</code> de um curso:</p>
+
+    <pre><code>path("&lt;int:course_id>", views.course, name="course")</code></pre>
+
+    <p>Então, em <code>views.py</code> criaremos uma função course que recebe um id de curso e renderiza um novo arquivo html:</p>
+
+    <pre><code>def course(request, course_id):
+    course = Course.objects.get(id=course_id)
+    return render(request, "codeclass/course.html", {
+        "course": course
+    })</code></pre>
+
+    <p>Agora criaremos um template para exibir essas informações de curso com um link de volta para a página inicial</p>
+
+    <pre><code>{% extends "codeclass/layout.html" %}
+
+{% block body %}
+&lt;h1>Curso {{ course.id }}&lt;/h1>
+&lt;ul>
+    &lt;li>Título: {{ course.title }}&lt;/li>
+    &lt;li>Descrição: {{ course.description }}&lt;/li>
+&lt;/ul>
+&lt;a href="{% url 'index' %}">Todos os cursos&lt;/a>
+{% endblock %}</code></pre>
+
+    <p>Finalmente, precisamos adicionar a capacidade de vincular de uma página para outra, então modificaremos nossa página de índice para incluir links:</p>
+
+    <pre><code>{% extends "codeclass/layout.html" %}
+
+{% block body %}
+&lt;h1>Cursos:&lt;/h1>
+&lt;ul>
+    {% for course in courses %}
+        &lt;li>&lt;a href="{% url 'course' course.id %}">Curso {{ course.id }}</a>: {{ course.title }} - {{ course.description }}&lt;/li>
+    {% endfor %}
+&lt;/ul>
+{% endblock %}</code></pre>
+
+    <p>Agora nossa página inicial se parece com isso</p>
+
+    <img src="static4/home.png" alt="Nova home, com cursos">
+
+    <p>E quando clicamos no primeiro curso, por exemplo, somos levados a esta página</p>
+
+    <img src="static4/course1.png" alt="Curso 1, web dev">
+
+    <h2 id="many-to-many-relationships">Relações Muitos-para-Muitos</h2>
+
+    <p>Agora, iremos trabalhar com uma nova característica no Django. Para isso, adaptaremos nosso model Course para ter um outro campo:</p>
+
+    <pre><code>class Course(models.Model):
+    title = models.CharField(max_length=64)
+    description = models.CharField(blank=True)
+    students = models.ManyToManyField(Student, blank=True, related_name="courses")
+
+    def __str__(self):
+        return self.title</code></pre>
+
+    <ul>
+        <li>Como discutimos, cursos têm uma relação <strong>Muitos para Muitos</strong> com estudantes, e vice-versa (para fins didáticos, iremos mostrar apenas em um desses models), que descrevemos no Django usando o ManyToManyField.</li>
+        <li>O primeiro argumento neste campo é a classe de objetos a que este está relacionado.</li>
+        <li>Fornecemos o argumento <code>blank=True</code> que significa que um curso pode não ter estudantes</li>
+        <li>Adicionamos um <code>related_name</code> que serve ao mesmo propósito que antes: nos permitirá encontrar todos os estudantes em um curso.</li>
+        <li>Obs: caso haja um erro em <code>models.py</code>, dentro do model <code>Course</code>, teste passar o model para baixo da definição de <code>Student</code>.</li>
+    </ul>
+
+    <p>Para realmente fazer essas alterações, devemos fazer migrações e migrar. Como nosso modelo antigo <code>Course</code> não serve mais aqui, devemos tratar as remoções de cursos (o que remove as matrículas, por meio da propriedade <code>CASCADE</code>) Podemos então registrar o model Course em <code>admin.py</code> e visitar a página admin para criar alguns cursos! Obs: para remover os cursos que fizemos até agora, entre no shell e digite <code>Course.objects.all().delete()</code>.</p>
+    <p>Agora que adicionamos os cursos de Web-Dev e Python-Intro, vamos atualizar nossa página de curso para que ela exiba todos os estudantes em um curso. Primeiro visitaremos <code>views.py</code> e atualizaremos nossa visualização de curso para fornecer uma lista de estudantes como contexto. Acessamos a lista usando o related_name que definimos anteriormente.</p>
+
+    <pre><code>def course(request, course_id):
+    course = Course.objects.get(id=course_id)
+    students = course.students.all()
+    return render(request, "codeclass/course.html", {
+        "course": course,
+        "students": students
+    })</code></pre>
+
+    <p>Agora, adicione uma lista de estudantes a <code>course.html</code>:</p>
+
+    <pre><code>&lt;h2>Estudantes:&lt;/h2>
+&lt;ul>
+{% for student in students %}
+    &lt;li>{{ student.username }}&lt;/li>
+{% empty %}
+    &lt;li>Nenhum estudante.&lt;/li>
+{% endfor %}
+&lt;/ul></code></pre>
+
+    <p>Neste ponto, quando clicamos no primeiro curso (que possui id=4 agora, pelas remoções), vemos</p>
+
+    <img src="static4/coursestudents.png" alt="curso 4">
+
+    <p>Agora, vamos trabalhar em dar aos visitantes do nosso site a capacidade de adicionar uma matrícula (para fins didáticos, qualquer visitante pode matricular qualquer estudante disponível, o que não é o ideal em um cenário real). Faremos isso adicionando uma rota de matrícula em <code>urls.py</code>:</p>
+
+    <pre><code>path("&lt;int:course_id>/enroll", views.enroll, name="enroll")</code></pre>
+
+    <p>Agora, adicionaremos uma função enroll a <code>views.py</code> que adiciona um estudante a um curso:</p>
+
+    <pre><code>def enroll(request, course_id):
+
+    # Para uma requisição post, adicionar uma
+    if request.method == "POST":
+
+        # Acessando o curso
+        course = Course.objects.get(pk=course_id)
+
+        # Encontrando o id do estudante a partir dos dados do formulário enviado
+        student_id = int(request.POST["student"])
+
+        # Encontrando o estudante com base no id
+        student = Student.objects.get(pk=student_id)
+
+        # Adicionar estudante no curso, mas relações de cursos e enrollments
+        course.students.add(student)
+        Enrollment.objects.create(student=student, course=course)
+
+        # Redirecionar usuário para a página do voo
+        return HttpResponseRedirect(reverse("course", args=(course.id,)))
+        </code></pre>
+
+    <p>A seguir, adicionaremos algum contexto ao nosso template de curso para que a página tenha acesso a todos que não são atualmente estudantes no curso usando a capacidade do Django de <a href="https://docs.djangoproject.com/en/4.0/topics/db/queries/#retrieving-specific-objects-with-filters">excluir</a> certos objetos de uma consulta:</p>
+
+    <pre><code>def course(request, course_id):
+    course = Course.objects.get(id=course_id)
+    students = course.students.all()
+    non_students = Student.objects.exclude(id__in=students.values_list('id', flat=True)).all()
+    return render(request, "codeclass/course.html", {
+        "course": course,
+        "students": students,
+        "non_students": non_students
+    })</code></pre>
+
+    <p>Agora, adicionaremos um formulário à nossa página HTML de curso usando um campo de entrada select:</p>
+
+    <pre><code>&lt;form action="{% url 'enroll' course.id %}" method="post">
+    {% csrf_token %}
+    &lt;select name="student" id="">
+        {% for student in non_students %}
+            &lt;option value="{{ student.id }}">{{ student.username }}&lt;/option>
+        {% endfor %}
+    &lt;/select>
+    &lt;input type="submit">
+&lt;/form></code></pre>
+    
+    <p>Agora, vamos ver como o site fica quando vamos para uma página de curso e adicionamos estudantes:</p>
+
+    <img src="static4/form.png" alt="formulário">
+
+    <p>Outra vantagem de usar o aplicativo admin do Django é que ele é personalizável. Por exemplo, se desejarmos ver todos os aspectos de um curso na interface admin, podemos criar uma nova classe dentro de <code>admin.py</code> e adicioná-la como um argumento ao registrar o model <code>Course</code>:</p>
+
+    <pre><code>class CourseAdmin(admin.ModelAdmin):
+    list_display = ("id", "title", "description", "student_count")
+
+    # Contagem simples dos estudantes
+    def student_count(self, obj):
+        return obj.students.count()
+    student_count.short_description = "Estudantes"
+    
+# Registrar seus models aqui.
+admin.site.register(Course, CourseAdmin)</code></pre>
+
+    <p>Uma coisa a se notar é que não passamos a lista de estudantes como parâmetro. Infelizmente não é possível passar um campo <code>Many-to-many</code> para o Django Admin, mas há algumas abordagens alternativas que não veremos aqui.</p>
+
+    <p>Agora, quando visitamos a página admin para cursos, podemos ver o <code>id</code> também</p>
+    <img src="static4/courseadmin.png" alt="tabela admin">
+    <p>Confira a <a href="https://docs.djangoproject.com/en/4.0/ref/contrib/admin/">documentação do admin do Django</a> para encontrar mais maneiras de personalizar o aplicativo admin.</p>
+
+    <h2 id="users">Usuários</h2>
+
+    <p>A última coisa que discutiremos na aula de hoje é a ideia de autenticação, ou permitir que os usuários façam login e logout de um site. Felizmente, o Django torna isso muito fácil para nós, então vamos passar por um exemplo de como faríamos isso. Começaremos criando um novo app chamado <code>users</code>. Aqui passaremos por todas as etapas normais de criação de um novo app, mas em nosso novo arquivo <code>urls.py</code>, adicionaremos mais algumas rotas:</p>
+
+    <pre><code>urlpatterns = [
+    path('', views.index, name="index"),
+    path("login", views.login_view, name="login"),
+    path("logout", views.logout_view, name="logout")
+]</code></pre>
+
+    <p>Vamos começar criando um formulário onde um usuário pode fazer login. Criaremos um arquivo <code>layout.html</code> como sempre, e então criaremos um arquivo login.html que contém um formulário e que exibe uma mensagem se existir.</p>
+
+    <pre><code>{% extends "users/layout.html" %}
+
+{% block body %}
+{% if message %}
+    <div>{{ message }}</div>
+{% endif %}
+
+&lt;form action="{% url 'login' %}" method="post">
+    {% csrf_token %}
+    &lt;input type="text", name="username", placeholder="Nome de Usuário">
+    &lt;input type="password", name="password", placeholder="Senha">
+    &lt;input type="submit", value="Login">
+&lt;/form>
+{% endblock %}</code></pre>
+
+    <p>Agora, em <code>views.py</code>, adicionaremos três funções:</p>
+
+    <pre><code>def index(request):
+# Se nenhum usuário estiver logado, retornar à página de login:
+    if not request.user.is_authenticated:
+    return HttpResponseRedirect(reverse("login"))
+return render(request, "users/user.html")
+
+def login_view(request):
+    return render(request, "users/login.html")
+
+def logout_view(request):
+    # Pass é uma maneira simples de dizer ao python para não fazer nada.
+    pass</code></pre>
+
+    <p>A seguir, podemos ir para o site admin e adicionar alguns usuários. Depois de fazer isso, voltaremos para <code>views.py</code> e atualizaremos nossa função <code>login_view</code> para lidar com uma requisição <code>POST</code> com nome de usuário e senha:</p>
+
+    <pre><code># Importações adicionais que precisaremos:
+from django.contrib.auth import authenticate, login, logout
+
+def login_view(request):
+    if request.method == "POST":
+        # Acessando nome de usuário e senha dos dados do formulário
+        username = request.POST["username"]
+        password = request.POST["password"]
+
+        # Verificar se nome de usuário e senha estão corretos, retornando objeto User se sim
+        user = authenticate(request, username=username, password=password)
+
+        # Se um objeto user for retornado, fazer login e rotear para a página inicial:
+        if user:
+            login(request, user)
+            return HttpResponseRedirect(reverse("index"))
+        # Caso contrário, retornar à página de login novamente com novo contexto
+        else:
+            return render(request, "users/login.html", {
+                "message": "Credenciais Inválidas"
+            })
+    return render(request, "users/login.html")</code></pre>
+
+    <p>Agora, criaremos o arquivo <code>user.html</code> que a função index renderiza quando um usuário está autenticado:</p>
+
+    <pre><code>{% extends "users/layout.html" %}
+
+{% block body %}
+&lt;h1>Bem-vindo, {{ request.user.first_name }}&lt;/h1>
+&lt;ul>
+    &lt;li>Nome de Usuário: {{ request.user.username }}&lt;/li>
+    &lt;li>Email: {{ request.user.email }}&lt;/li>
+&lt;/ul>
+
+&lt;a href="{% url 'logout' %}">Sair&lt;/a>
+{% endblock %}</code></pre>
+
+    <p>Finalmente, para permitir que o usuário saia, atualizaremos a função <code>logout_view</code> para que ela use a função <code>logout</code> integrada do Django:</p>
+
+    <pre><code>def logout_view(request):
+logout(request)
+return render(request, "users/login.html", {
+            "message": "Deslogado"
+        })</code></pre>
+    
+    <p>Agora que terminamos, aqui está uma demonstração do site</p>
+
+    <img src="static4/users1.png" alt="Demo1">
+    <img src="static4/users2.png" alt="Demo2">
+    <img src="static4/users3.png" alt="Demo3">
+    <img src="static4/users4.png" alt="Demo4">
+
+    <p>Isso é tudo para esta aula! Na próxima vez, aprenderemos nossa segunda linguagem de programação do curso: JavaScript.</p>

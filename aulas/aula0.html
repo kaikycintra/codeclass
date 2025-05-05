@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula 0: HTML e CSS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        code {
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .note {
+            background-color: #e7f5ff;
+            border-left: 4px solid #4dabf7;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Aula 0: HTML e CSS</h1>
+    
+    <h2>Conteúdos</h2>
+    <ul>
+        <li>Introdução do curso</li>
+        <li>HTML
+            <ul>
+                <li>Document Object Model (DOM)</li>
+                <li>Mais Elementos HTML</li>
+                <li>Forms</li>
+            </ul>
+        </li>
+        <li>CSS (Cascading Style Sheets)
+            <ul>
+                <li>Fundamentos</li>
+                <li>Seletores</li>
+                <li>Seletores Avançados</li>
+                <li>Pseudo-Classes</li>
+            </ul>
+        </li>
+        <li>Design Responsivo
+            <ul>
+                <li><a href="#mediaquery">Media Queries</a></li>
+                <li>Flexbox</li>
+            </ul>
+        </li>
+        <li>Bootstrap
+            <ul>
+                <li>Navbar</li>
+                <li>Breakpoints</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>Introdução</h2>
+    <p>O objetivo do curso é ensinar conceitos fundamentais para a construção de aplicações web, assim como ferramentas que permitem desenvolvimento rápido de aplicações modernas.</p>
+    <p>Para estabelecer uma base para essas atividades, é importante entender um pouco daquilo sobre o que estamos trabalhando, a internet. A internet pode ser descrita de forma não rigorosa como uma série de computadores conectados. A conexão entre eles serve para trocar informações e ocorre em várias camadas, pro nosso curso nós estamos preocupados com a última camada que é a mais comum na internet, o HTTP.</p>
+    <p>O HTTP (Hypertext transfer protocol), é o protocolo que permite a transferência de hipertexto entre computadores. E o hipertexto, por sua vez, é texto que contém links para outros textos ou páginas que contém links para outras páginas. A partir disso, nós já conseguimos entender algo essencial sobre a forma como a internet é navegada.</p>
+    <p>Nós usuários da internet a navegamos entrando em uma página (por exemplo o Google), interagindo com ela e depois clicando em links para outras páginas com as quais também podemos interagir.</p>
+    <p>Essas páginas são escritas em um formato específico, o HTML, Hypertext Markup Language. O objetivo dessa primeira aula é ensinar vocês a escrever uma página web usando o HTML.</p>
+
+    <h2>HTML</h2>
+    <p>HTML é uma linguagem de markup que define a estrutura de uma página web. Ela é interpretada pelo seu browser que sabe como renderizar o conteúdo na sua tela.</p>
+    <p>Aqui temos um exemplo de um arquivo HTML:</p>
+    
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-br"&gt;
+    &lt;head&gt;
+        &lt;title&gt;Hello!&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        Hello, world!
+    &lt;/body&gt;
+&lt;html&gt;</code></pre>
+    
+    <p>Ao abrir esse arquivo em um browser veremos isso:</p>
+    <img src="static0/helloworld.png" alt="Exemplo de página HTML mostrando 'Hello, world!'">
+
+    <p>O arquivo que nós escrevemos parece complicado demais para mostrar algo tão simples, mas a estrutura do HTML é fácil de entender. Vamos passar por cada parte:</p>
+    <ul>
+        <li>A primeira linha é uma declaração para o browser de que esse é um documento HTML 5.</li>
+        <li>Depois disso, a página é construída a partir de elementos HTML aninhados, como html e body. Cada um desses elementos tem uma tag de abertura e fechamento.</li>
+        <li>Cada um dos elementos dentro de outro elemento é indentado, isso não é necessário para a leitura pelo browser, mas facilita muito a nossa leitura.</li>
+        <li>Elementos HTML podem incluir atributos, que dão informação adicional para o browser sobre o elemento. Por exemplo, <code>lang="pt-br"</code> é um atributo que indica para o browser que estamos usando o português brasileiro como nossa língua principal.</li>
+        <li>Dentro de cada documento HTML, nós incluímos uma tag <code>head</code> e uma tag <code>body</code>. A tag head inclui informação sobre a página que não necessariamente é renderizada, e a tag body contém o que vai ser visível para os usuários do site.</li>
+        <li>Dentro da head, nós incluímos uma tag <code>title</code> para a nossa página, ela tipicamente é renderizada pelo browser na aba acima da página.</li>
+        <li>Finalmente, nós incluímos o texto "Hello, world!" no body, que é a parte visível da página.</li>
+    </ul>
+
+    <h3>Document Object Model (DOM)</h3>
+    <p>A DOM é uma forma conveniente de visualizar uma página web. Além disso, ela é a representação em dados dos objetos que compõem uma página. Vamos aprender a interagir mais com a DOM em outro momento do curso, por enquanto, basta saber que ela existe como um grande objeto que define uma página web.</p>
+    <p>Abaixo temos uma visualização da DOM para a nossa página:</p>
+    <img src="static0/dom.png" alt="Visualização da DOM">
+
+    <h3>Mais Elementos HTML</h3>
+    <p>Abaixo temos um exemplo de página que usa diversos outros elementos HTML:</p>
+    
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+    &lt;head&gt;
+        &lt;title&gt;Elementos HTML&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;!-- Podemos criar títulos (headings) usando as tags h1, h2, ..., h6 --&gt;
+        &lt;h1&gt;Título Grande&lt;/h1&gt;
+        &lt;h2&gt;Título não tão grande&lt;/h2&gt;
+        &lt;h6&gt;Menor título&lt;/h6&gt;
+
+        &lt;!-- As tags bold e 'i' são usadas para escrever em negrito e itálico --&gt;
+        Uma palavra &lt;strong&gt;destacada&lt;/strong&gt; e uma em &lt;i&gt;itálico&lt;/i&gt;!
+
+        &lt;!-- Podemos linkar para outra página --&gt;
+        Veja o site do &lt;a href="https://codelab.ime.usp.br/"&gt;Codelab&lt;/a&gt;!
+        &lt;br&gt;
+        &lt;!-- Aqui usamos uma tag 'br' para adicionar espaço em branco --&gt;
+        Veja o site do &lt;a href="https://codelab.ime.usp.br/" target="_blank"&gt;Codelab&lt;/a&gt; em outra página!
+
+        &lt;!-- Usamos &lt;ol&gt; e &lt;ul&gt; para fazer listas com e sem ordem --&gt;
+        Uma lista ordenada:
+        &lt;ol&gt;
+            &lt;li&gt;foo&lt;/li&gt;
+            &lt;li&gt;bar&lt;/li&gt;
+            &lt;li&gt;baz&lt;/li&gt;
+        &lt;/ol&gt;
+        Uma lista sem ordem:
+        &lt;ul&gt;
+            &lt;li&gt;foo&lt;/li&gt;
+            &lt;li&gt;bar&lt;/li&gt;
+            &lt;li&gt;baz&lt;/li&gt;
+        &lt;/ul&gt;
+
+        &lt;!-- Imagens precisam de um atributo 'src', que pode ser o caminho para uma imagem no seu computador ou um link para uma imagem na internet. 
+        Também podemos incluir um atributo 'alt', que descreve a imagem se ela não aparecer --&gt;
+        Uma imagem:
+        &lt;img src="currents.jpg" alt="Capa do álbum Currents de Tame Impala" width="300px"&gt;
+        &lt;!-- Também podemos ver acima que para elementos que não contém outros, não precisamos escrever tags de fechamento --&gt;
+
+        &lt;br/&gt; &lt;br/&gt;
+
+        &lt;!-- Precisamos de algumas tags diferentes para criar tabelas --&gt;
+        &lt;table&gt;
+            &lt;thead&gt;
+                &lt;th&gt;Oceano&lt;/th&gt;
+                &lt;th&gt;Profundidade média&lt;/th&gt;
+                &lt;th&gt;Profundidade máxima&lt;/th&gt;
+            &lt;/thead&gt;
+            &lt;tbody&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;Pacífico&lt;/td&gt;
+                    &lt;td&gt;4280 m&lt;/td&gt;
+                    &lt;td&gt;10911 m&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;Atlântico&lt;/td&gt;
+                    &lt;td&gt;3646 m&lt;/td&gt;
+                    &lt;td&gt;8486 m&lt;/td&gt;
+                &lt;/tr&gt;
+            &lt;/tbody&gt;
+        &lt;/table&gt;
+    &lt;/body&gt;
+&lt;html&gt;</code></pre>
+
+    <p>Essa página ao ser renderizada fica assim:</p>
+    <img src="static0/elementoshtml.png" alt="Página com vários elementos HTML">
+
+    <p>Essa é apenas uma demonstração do tipo de conteúdo que conseguimos criar com HTML. Existem mais de 100 elementos HTML, que permitem criar mais tipos de conteúdo, mas você não precisa memorizar todos eles. Apesar disso, é bom ter um conhecimento de que certos elementos existem para poder buscá-los mais tarde.</p>
+    <p><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements" target="_blank">Referência de todos os elementos</a></p>
+
+    <h3>Forms</h3>
+    <p>Um conjunto de elementos que é muito importante ao criar um site é o de formulários. Nós podemos permitir que os usuários insiram dados usando um <code>form</code> HTML, com diversos tipos de entrada. Mais tarde no curso vamos aprender como lidar com a informação que foi enviada.</p>
+    <p>Abaixo temos um exemplo de formulário:</p>
+    
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-br"&gt;
+&lt;head&gt;
+    &lt;title&gt;Forms&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;form&gt;
+        &lt;input type="text" placeholder="Primeiro nome" name="primeiro"&gt;
+        &lt;input type="password" placeholder="Senha" name="senha"&gt;
+        &lt;div&gt;
+            Cor favorita:
+            &lt;input name="color" type="radio" value="azul"&gt; Azul
+            &lt;input name="color" type="radio" value="verde"&gt; Verde
+            &lt;input name="color" type="radio" value="amarelo"&gt; Amarelo
+            &lt;input name="color" type="radio" value="vermelho"&gt; Vermelho
+        &lt;/div&gt;
+        Álbum favorito:
+        &lt;select name="albums" id="albums"&gt;  
+            &lt;option value=""&gt;Escolha um álbum&lt;/option&gt;
+            &lt;option value="innerspeaker"&gt;InnerSpeaker&lt;/option&gt;  
+            &lt;option value="lonerism"&gt;Lonerism&lt;/option&gt;  
+            &lt;option value="currents"&gt;Currents&lt;/option&gt;  
+            &lt;option value="slowrush"&gt;The Slow Rush&lt;/option&gt;  
+        &lt;/select&gt;
+        &lt;input type="submit"&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <p>Quando renderizada vemos isso:</p>
+    <img src="static0/formshtml.png" alt="Exemplo de formulário HTML">
+
+    <p>Existem outros elementos que podem ser usados dentro de um formulário e também é possível criar seus próprios elementos <a href="https://www.w3schools.com/howto/howto_custom_select.asp" target="_blank">como neste exemplo</a>.</p>
+
+    <h2>CSS (Cascading Style Sheets)</h2>
+    <p>CSS é usado para mudar a aparência de um website. É possível aplicar estilos específicos para cada elemento adicionando um parâmetro style a ele, isso é chamado de estilização in-line. Nós mudamos o estilo alterando as propriedades CSS de um elemento, como <code>color: blue</code> ou <code>text-align: center</code>, como no exemplo abaixo:</p>
+    
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-br"&gt;
+    &lt;head&gt;
+        &lt;title&gt;Hello!&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1 style="color: blue; text-align: center;"&gt;Um título colorido!&lt;/h1&gt;
+        Hello, world!
+    &lt;/body&gt;
+&lt;html&gt;</code></pre>
+    
+    <img src="static0/colorido1.png" alt="Exemplo de título estilizado">
+
+    <p>Se nós estilizamos um elemento externo, todos os elementos internos automaticamente têm este estilo aplicado. Podemos ver isso se movermos os estilos da tag h1 para a tag body.</p>
+    
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-br"&gt;
+    &lt;head&gt;
+        &lt;title&gt;Hello!&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body style="color: blue; text-align: center;"&gt;
+        &lt;h1&gt;Um título colorido!&lt;/h1&gt;
+        Hello, world!
+    &lt;/body&gt;
+&lt;html&gt;</code></pre>
+    
+    <img src="static0/colorido2.png" alt="Exemplo de estilização herdada">
+
+    <p>Embora seja possível estilizar toda uma página escrevendo os estilos em cada elemento, é melhor movê-los juntos para fora das linhas individuais.</p>
+    <p>Uma forma de fazer isso é adicionar CSS dentro das tags <code>&lt;style&gt;</code> style na <code>head</code>. Dentro dessas tags nós podemos escrever quais elementos queremos estilizar e com quais parâmetros e valores o faremos:</p>
+    
+    <pre><code>&lt;html lang="pt-br"&gt;
+&lt;!DOCTYPE html&gt;
+&lt;head&gt;
+  &lt;title&gt;Hello!&lt;/title&gt;
+  &lt;style&gt;
+      h1 {
+          color: blue;
+          text-align: center;
+      }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Um título colorido!&lt;/h1&gt;
+  Hello, world!
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    
+    <img src="static0/colorido3.png" alt="Exemplo de CSS interno">
+
+    <p>Outra forma de fazer isso é incluir uma tag <code>&lt;link&gt;</code> na <code>head</code> com um link para um arquivo CSS que segue a mesma sintaxe vista acima:</p>
+    
+    <pre><code>&lt;html lang="pt-br"&gt;
+&lt;!DOCTYPE html&gt;
+&lt;head&gt;
+  &lt;title&gt;Hello!&lt;/title&gt;
+  &lt;link rel="stylesheet" href="styles.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Um título colorido!&lt;/h1&gt;
+  Hello, world!
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <p>E o nosso arquivo styles CSS:</p>
+    <pre><code>h1 {
+  color: blue;
+  text-align: center;
+}</code></pre>
+
+    <p>Assim como as tags HTML, existem muitas propriedades CSS para cobrirmos. Geralmente é mais fácil pesquisar algo na linha de "como centralizar div CSS". Abaixo estão alguns exemplos de propriedades CSS:</p>
+    <ul>
+        <li><code>color</code>: cor de texto</li>
+        <li><code>text-align</code>: alinhamento de texto na página</li>
+        <li><code>background-color</code>: cor de fundo da página</li>
+        <li><code>width</code>: em pixels, porcentagens da página ou outras unidades</li>
+        <li><code>height</code>: o mesmo que acima</li>
+        <li><code>padding</code>: Espaço entre a borda de um elemento e seu conteúdo</li>
+        <li><code>margin</code>: Espaço entre a borda de um elemento e o conteúdo ao seu redor</li>
+        <li><code>font-family</code>: tipo de fonte para o texto</li>
+        <li><code>font-size</code>: em pixels ou outras unidades</li>
+        <li><code>border</code>: tamanho tipo (solid, dashed, etc) cor</li>
+    </ul>
+
+    <p>Abaixo aplicamos algumas propriedades CSS para construir uma tabela mais bonita.</p>
+    
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-br"&gt;
+    &lt;head&gt;
+        &lt;title&gt;Tabela Bonita&lt;/title&gt;
+        &lt;style&gt;
+            table {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+            
+            td {
+                border: 1px solid black;
+                padding: 2px;
+            }
+            
+            th {
+                border: 1px solid black;
+                padding: 2px;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;table&gt;
+            &lt;thead&gt;
+                &lt;th&gt;Oceano&lt;/th&gt;
+                &lt;th&gt;Profundidade Média&lt;/th&gt;
+                &lt;th&gt;Profundidade Máxima&lt;/th&gt;
+            &lt;/thead&gt;
+            &lt;tbody&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;Pacífico&lt;/td&gt;
+                    &lt;td&gt;4280 m&lt;/td&gt;
+                    &lt;td&gt;10911 m&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;Atlântico&lt;/td&gt;
+                    &lt;td&gt;3646 m&lt;/td&gt;
+                    &lt;td&gt;8486 m&lt;/td&gt;
+                &lt;/tr&gt;
+            &lt;/tbody&gt;
+        &lt;/table&gt;
+    &lt;/body&gt;
+&lt;html&gt;</code></pre>
+    
+    <img src="static0/tabelabonita.png" alt="Exemplo de tabela estilizada">
+
+    <p>Note que os estilos de <code>td</code> e <code>th</code> que escrevemos são iguais, nós podemos juntá-los:</p>
+    <pre><code>table {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid black;
+    padding: 2px;
+}</code></pre>
+
+    <h3>Seletores CSS</h3>
+    <p>Essa é uma boa introdução ao que são conhecidos como <strong>seletores CSS</strong>. Existem muitas maneiras de determinar quais elementos HTML você está estilizando, algumas das quais mencionaremos aqui:</p>
+    <ul>
+        <li><strong>Tipo de elemento</strong>: isso é o que temos feito até agora, estilizando todos os elementos do mesmo tipo a partir da sua tag.</li>
+        <li><strong>id</strong>: outra opção é atribuir um <code>id</code> aos elementos HTML assim:
+            <pre><code>&lt;h1 id="primeiro-cabecalho"&gt;Olá!&lt;/h1&gt;</code></pre>
+            <p>Depois, aplicamos estilos usando a hashtag para indicar o id:</p>
+            <pre><code>#primeiro-cabecalho {
+    /* estilos aqui */
+}</code></pre>
+            <p>Importante: <strong>nenhum elemento pode ter mais de um <code>id</code></strong> e <strong>nenhum <code>id</code> pode ser repetido</strong> na mesma página.</p>
+        </li>
+        <li><strong>class</strong>: isso é similar ao <code>id</code>, mas uma classe pode ser compartilhada por vários elementos, e um único elemento pode ter mais de uma classe. Adicionamos classes assim:
+            <pre><code>&lt;h1 class="texto-pagina apagado"&gt;Olá!&lt;/h1&gt;</code></pre>
+            <p>Note que adicionamos duas classes: <code>texto-pagina</code> e <code>apagado</code>. Para estilizar com base em uma classe, usamos um ponto (.):</p>
+            <pre><code>.apagado {
+    display: none;
+}
+.texto-pagina {
+    text-align: center;
+    color: pink;
+}</code></pre>
+        </li>
+    </ul>
+
+    <h4>Conflito e Precedência</h4>
+    <p>Também precisamos lidar com o problema de conflitos de CSS. O que acontece quando um cabeçalho deveria ser vermelho com base na classe, mas azul com base no <code>id</code>?</p>
+    <p>Nesses casos os estilos são aplicados seguindo a precedência do CSS:</p>
+    <ol>
+        <li>Estilização in-line</li>
+        <li>id</li>
+        <li>classe</li>
+        <li>Tag</li>
+    </ol>
+
+    <h3>Seletores Múltiplos e Avançados</h3>
+    <p>Além da vírgula para múltiplos seletores, existem várias outras formas de especificar quais elementos você deseja estilizar. Esta tabela da aula mostra algumas, e veremos alguns exemplos abaixo:</p>
+    
+    <table>
+        <tr>
+            <th>Sintaxe</th>
+            <th>Tipo</th>
+        </tr>
+        <tr>
+            <td>a, b</td>
+            <td>Seletor de múltiplos elementos</td>
+        </tr>
+        <tr>
+            <td>a b</td>
+            <td>Seletor de descendente</td>
+        </tr>
+        <tr>
+            <td>a > b</td>
+            <td>Seletor de filho</td>
+        </tr>
+        <tr>
+            <td>a + b</td>
+            <td>Seletor de irmão adjacente</td>
+        </tr>
+        <tr>
+            <td>[a=b]</td>
+            <td>Seletor de atributo</td>
+        </tr>
+        <tr>
+            <td>a:b</td>
+            <td>Seletor de pseudoclasse</td>
+        </tr>
+        <tr>
+            <td>a::b</td>
+            <td>Seletor de pseudoelemento</td>
+        </tr>
+    </table>
+
+    <p>Aqui, usamos o seletor descendente para aplicar estilo somente aos itens de lista (<code>&lt;li&gt;</code>) dentro de uma lista não ordenada (<code>&lt;ul&gt;</code>):</p>
+    
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-br"&gt;
+&lt;head&gt;
+    &lt;title&gt;Usando Seletores&lt;/title&gt;
+    &lt;style&gt;
+        ul li {
+            color: blue;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;ol&gt;
+        &lt;li&gt;foo&lt;/li&gt;
+        &lt;li&gt;bar
+            &lt;ul&gt;
+                &lt;li&gt;olá&lt;/li&gt;
+                &lt;li&gt;adeus&lt;/li&gt;
+                &lt;li&gt;olá&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/li&gt;
+        &lt;li&gt;baz&lt;/li&gt;
+    &lt;/ol&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    
+    <img src="static0/seletores1.png" alt="Exemplo de seletor descendente">
+
+    <p>Também podemos restringir a seleção com base em atributos usando colchetes. Por exemplo, abaixo deixamos o link da Amazon em vermelho:</p>
+    
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-br"&gt;
+&lt;head&gt;
+    &lt;title&gt;Usando Seletores&lt;/title&gt;
+    &lt;style&gt;
+        a[href="https://www.amazon.com/"] {
+            color: red;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;ol&gt;
+        &lt;li&gt;&lt;a href="https://www.google.com/"&gt;Google&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="https://www.amazon.com/"&gt;Amazon&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="https://www.facebook.com/"&gt;Facebook&lt;/a&gt;&lt;/li&gt;
+    &lt;/ol&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    
+    <img src="static0/seletores2.png" alt="Exemplo de seletor de atributo">
+
+    <h3>Pseudo-classes</h3>
+    <p>Podemos usar CSS para mudar a aparência de um elemento sob certas condições. Por exemplo, para mudar a cor de um botão ao passar o mouse por cima (<code>hover</code>), usamos uma pseudo-classe:</p>
+    
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-br"&gt;
+&lt;head&gt;
+    &lt;title&gt;Pseudo-classes&lt;/title&gt;
+    &lt;style&gt;
+        button {
+            background-color: red;
+            width: 200px;
+            height: 50px;
+            font-size: 24px;
+        }
+
+        button:hover {
+            background-color: green;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;button&gt;Botão 1&lt;/button&gt;
+    &lt;button&gt;Botão 2&lt;/button&gt;
+    &lt;button&gt;Botão 3&lt;/button&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    
+    <img src="static0/pseudoclasses.png" alt="Exemplo de pseudo-classe hover">
+
+    <h2>Design Responsivo</h2>
+    <p>Hoje em dia, muitas pessoas acessam sites por meio de dispositivos além de computadores, como smartphones e tablets. É importante garantir que seu site seja legível em todos os dispositivos.</p>
+    <p>Uma forma de conseguir isso é através do conhecimento sobre o <strong>viewport</strong>. O <em>viewport</em> é a parte da tela que está visível para o usuário em um determinado momento. Por padrão, muitas páginas da web assumem que o <em>viewport</em> é o mesmo em qualquer dispositivo, o que faz com que muitos sites (especialmente os mais antigos) sejam difíceis de usar em dispositivos móveis.</p>
+    <p>Uma maneira simples de melhorar a aparência de um site em um dispositivo móvel é adicionar a seguinte linha dentro da <em>head</em> dos arquivos HTML. Essa linha informa ao dispositivo móvel para usar um <em>viewport</em> com a mesma largura do dispositivo que você está usando, em vez de um muito maior:</p>
+    <pre><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code></pre>
+
+    <h3 id="mediaquery">Media Queries</h3>
+    <p>Outra forma de lidar com diferentes dispositivos é por meio de <strong>media queries</strong>. <em>Media queries</em> permitem alterar o estilo de uma página com base em como ela está sendo visualizada.</p>
+    <p>Como exemplo de uma <em>media query</em>, vamos apenas mudar a cor de fundo da tela quando ela for reduzida a um certo tamanho. Indicamos uma <em>media query</em> digitando <code>@media</code> seguido do tipo de consulta entre parênteses:</p>
+    
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-BR"&gt;
+    &lt;head&gt;
+        &lt;title&gt;Tamanho da Tela&lt;/title&gt;
+        &lt;style&gt;
+            @media (min-width: 600px) {
+                body {
+                    background-color: red;
+                }
+            }
+
+            @media (max-width: 599px) {
+                body {
+                    background-color: blue;
+                }
+            }
+        &lt;/style&gt;
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;Bem-vindo à página!&lt;/h1&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    
+    <div class="note">
+        <p>Nota: As imagens abaixo são representações - em um navegador real, você veria a mudança de cor ao redimensionar a janela.</p>
+    </div>
+    
+    <p>Tela grande (acima de 600px):</p>
+    <img src="static0/mediaquery1.png" alt="Exemplo de media query - tela grande">
+    
+    <p>Tela pequena (abaixo de 600px):</p>
+    <img src="static0/mediaquery2.png" alt="Exemplo de media query - tela pequena">
+
+    <h3>Flexbox</h3>
+    <p>Outra maneira de lidar com diferentes tamanhos de tela é usando um novo atributo CSS chamado <strong>flexbox</strong>. Isso nos permite fazer com que os elementos se ajustem para a próxima linha se não couberem horizontalmente. Fazemos isso colocando todos os nossos elementos dentro de uma <code>div</code> que chamaremos de <em>container</em>. Em seguida, adicionamos um estilo a essa <code>div</code> especificando que queremos usar um layout flexível para os elementos dentro dela. Também adicionamos alguns estilos extras às <code>divs</code> internas para ilustrar melhor o ajuste automático que ocorre aqui.</p>
+    
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-BR"&gt;
+    &lt;head&gt;
+        &lt;title&gt;Tamanho da Tela&lt;/title&gt;
+        &lt;style&gt;
+            #container {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            #container &gt; div {
+                background-color: green;
+                font-size: 20px;
+                margin: 20px;
+                padding: 20px;
+                width: 200px;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id="container"&gt;
+            &lt;div&gt;Algum texto 1!&lt;/div&gt;
+            &lt;div&gt;Algum texto 2!&lt;/div&gt;
+            &lt;div&gt;Algum texto 3!&lt;/div&gt;
+            &lt;div&gt;Algum texto 4!&lt;/div&gt;
+            &lt;div&gt;Algum texto 5!&lt;/div&gt;
+            &lt;div&gt;Algum texto 6!&lt;/div&gt;
+            &lt;div&gt;Algum texto 7!&lt;/div&gt;
+            &lt;div&gt;Algum texto 8!&lt;/div&gt;
+            &lt;div&gt;Algum texto 9!&lt;/div&gt;
+            &lt;div&gt;Algum texto 10!&lt;/div&gt;
+            &lt;div&gt;Algum texto 11!&lt;/div&gt;
+            &lt;div&gt;Algum texto 12!&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    
+    <img src="static0/flexbox.gif" alt="Exemplo de flexbox">
+
+    <p>Além de flexbox, temos também o CSS grid, que permite a criação de contêineres e itens que se ajustam de forma parecida. Dominar pelo menos um deles é extremamente útil. Como existem muitos atributos, é bom manter um recurso salvo para ajudar a memória, <a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank">este é um bom guia</a> para flexbox.</p>
+
+    <h2>Bootstrap</h2>
+    <p>Acontece que existem muitas bibliotecas já criadas por outras pessoas que podem tornar a estilização de uma página muito mais simples. Uma biblioteca popular que usaremos ao longo do curso é conhecida como <strong>Bootstrap</strong>.</p>
+    <p>Podemos incluir o Bootstrap em nosso código adicionando uma única linha no <em>head</em> do nosso arquivo HTML:</p>
+    <pre><code>&lt;link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"&gt;</code></pre>
+
+    <p>Em seguida, podemos ver alguns dos recursos do Bootstrap acessando a seção de documentação do site oficial. Nessa página, você encontrará muitos exemplos de classes que podem ser adicionadas aos elementos para que sejam estilizados com Bootstrap.</p>
+    <p>Um recurso popular do Bootstrap é seu <strong>sistema de grid</strong>. O Bootstrap divide automaticamente a página em 12 colunas, e podemos decidir quantas colunas um elemento ocupará adicionando a classe <code>col-x</code>, onde <code>x</code> é um número de 1 a 12. Por exemplo, na página a seguir temos uma linha com colunas de largura igual, e depois uma linha onde a coluna central é maior:</p>
+    
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-BR"&gt;
+    &lt;head&gt;
+        &lt;title&gt;Minha Página!&lt;/title&gt;
+        &lt;link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"&gt;
+        &lt;style&gt;
+            .row &gt; div {
+                padding: 20px;
+                background-color: teal;
+                border: 2px solid black;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div class="container"&gt;
+            &lt;div class="row"&gt;
+                &lt;div class="col-4"&gt;
+                    Esta é uma seção.
+                &lt;/div&gt;
+                &lt;div class="col-4"&gt;
+                    Esta é outra seção.
+                &lt;/div&gt;
+                &lt;div class="col-4"&gt;
+                    Esta é uma terceira seção.
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;br/&gt;
+        &lt;div class="container"&gt;
+            &lt;div class="row"&gt;
+                &lt;div class="col-3"&gt;
+                    Esta é uma seção.
+                &lt;/div&gt;
+                &lt;div class="col-6"&gt;
+                    Esta é outra seção.
+                &lt;/div&gt;
+                &lt;div class="col-3"&gt;
+                    Esta é uma terceira seção.
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <p>Para melhorar a <strong>responsividade em dispositivos móveis</strong>, o Bootstrap também permite que especifiquemos tamanhos de colunas diferentes dependendo do tamanho da tela. No exemplo a seguir, usamos <code>col-lg-3</code> para indicar que um elemento deve ocupar 3 colunas em uma tela grande, e <code>col-sm-6</code> para que ele ocupe 6 colunas em uma tela pequena:</p>
+    
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-BR"&gt;
+    &lt;head&gt;
+        &lt;title&gt;Minha Página!&lt;/title&gt;
+        &lt;link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"&gt;
+        &lt;style&gt;
+            .row &gt; div {
+                padding: 20px;
+                background-color: teal;
+                border: 2px solid black;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div class="container"&gt;
+            &lt;div class="row"&gt;
+                &lt;div class="col-lg-3 col-sm-6"&gt;
+                    Esta é uma seção.
+                &lt;/div&gt;
+                &lt;div class="col-lg-3 col-sm-6"&gt;
+                    Esta é outra seção.
+                &lt;/div&gt;
+                &lt;div class="col-lg-3 col-sm-6"&gt;
+                    Esta é uma terceira seção.
+                &lt;/div&gt;
+                &lt;div class="col-lg-3 col-sm-6"&gt;
+                    Esta é uma quarta seção.
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</body>
+</html>

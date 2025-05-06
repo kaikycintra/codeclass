@@ -127,10 +127,10 @@
     <p>Agora, para realmente começar a usar SQL para interagir com um banco de dados, vamos começar criando uma nova tabela. O <a href="https://www.w3schools.com/sql/sql_create_table.asp">comando para criar uma nova tabela</a> é mais ou menos assim:</p>
     
     <pre><code>CREATE TABLE users(
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-username TEXT UNIQUE NOT NULL,
-email TEXT UNIQUE NOT NULL,
-pass_hash TEXT NOT NULL
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    pass_hash TEXT NOT NULL
 );</code></pre>
 
     <p>No comando acima, estamos criando uma nova tabela que decidimos chamar de <code>users</code>, e adicionamos quatro colunas a esta tabela:</p>
@@ -251,9 +251,9 @@ id  username     email               password_hash
 
     <p>E também podemos usar outra lógica (<a href="https://www.w3schools.com/sql/sql_and_or.asp">AND, OR</a>) como em Python:</p>
     
-    <pre><code>SELECT * FROM users WHERE id > 2 AND email = "alano@codelab.br";</code></pre>
+    <pre><code>SELECT * FROM users WHERE id > 1 AND email = "alano@codelab.br";</code></pre>
 
-    <p><img src="static4/2andemail.png" alt="> 2 e email"></p>
+    <p><img src="static4/2andemail.png" alt="> 1 e email"></p>
 
     <pre><code>SELECT * FROM users WHERE id > 3 OR email = "fulano@codelab.br";</code></pre>
 
@@ -362,9 +362,9 @@ WHERE username = "harry"--" AND password = "12345";</code></pre>
     <p><a href="https://docs.djangoproject.com/en/4.0/topics/db/models/">Django Models</a> são um nível de <a href="https://techterms.com/definition/abstraction">abstração</a> sobre o SQL que nos permite trabalhar com bancos de dados usando classes e objetos Python em vez de consultas SQL diretas.</p>
     <p>Vamos começar a usar models criando um projeto Django para o dev.learn() e criando um app dentro desse projeto.</p>
     
-    <pre><code>django-admin startproject devlearn
-cd devlearn
-python manage.py startapp codeclass</code></pre>
+    <pre><code>>> django-admin startproject devlearn
+>> cd devlearn
+>> python manage.py startapp codeclass</code></pre>
 
     <p>Agora teremos que passar pelo processo de adicionar um app como de costume:</p>
     <ol>
@@ -392,13 +392,13 @@ python manage.py startapp codeclass</code></pre>
     <h2 id="migrations">Migrações</h2>
     <p>Agora, mesmo que tenhamos criado um model, ainda não temos um banco de dados para armazenar essas informações. Para criar um banco de dados a partir de nossos models, navegamos até o diretório principal de nosso projeto e executamos o comando.</p>
     
-    <pre><code>python manage.py makemigrations</code></pre>
+    <pre><code>>> python manage.py makemigrations</code></pre>
 
     <p>Este comando cria alguns arquivos Python que criarão ou editarão nosso banco de dados para poder armazenar o que temos em nossos models. Você deve obter uma saída que se parece mais ou menos com a abaixo, e se navegar até seu diretório <code>migrations</code>, notará que um novo arquivo foi criado para nós</p>
     <p><img src="static4/migrations.png" alt="saída de migrações 0"></p>
     <p>A seguir, para aplicar essas migrações ao nosso banco de dados, executamos o comando</p>
     
-    <pre><code>python manage.py migrate</code></pre>
+    <pre><code>>> python manage.py migrate</code></pre>
 
     <p>Agora, você verá que algumas migrações padrão foram aplicadas junto com as nossas, e também notará que agora temos um arquivo chamado <code>db.sqlite3</code> no diretório do nosso projeto</p>
     <p><img src="static4/migration1.png" alt="saída de migração"></p>
@@ -407,22 +407,22 @@ python manage.py startapp codeclass</code></pre>
     <p>Agora, para começar a adicionar informações e manipular este banco de dados, podemos entrar no shell do Django, onde podemos executar comandos Python dentro de nosso projeto.</p>
     
     <pre><code>python manage.py shell
-Python 3.7.2 (default, Dec 29 2018, 00:00:04)
-Type 'copyright', 'credits' or 'license' for more information
-IPython 6.5.0 -- An enhanced Interactive Python. Type '?' for help.
+Python 3.11.2 (main, Nov 30 2024, 21:22:50) [GCC 12.2.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
 
 # Importar nosso model de curso
-In [1]: from codeclass.models import Course
+>>> from codeclass.models import Course
 
 # Criar um novo curso
-In [2]: c = Course(title="Web-Dev", description="Welcome to webdev course!")
+>>> c = Course(title="Web-Dev", description="Welcome to webdev course!")
 
 # Inserir esse curso em nosso banco de dados
-In [3]: c.save()
+>>> c.save()
 
 # Consultar todos os cursos armazenados no banco de dados
-In [4]: Course.objects.all()
-Out[4]: &lt;QuerySet [&lt;Course: Course object (1)&gt;]&gt;</code></pre>
+>>> Course.objects.all()
+Out: &lt;QuerySet [&lt;Course: Course object (1)&gt;]&gt;</code></pre>
 
     <p>Quando consultamos nosso banco de dados, vemos que obtemos apenas um curso chamado <code>Course object (1)</code>. Este não é um nome muito informativo, mas podemos consertar isso. Dentro de <code>models.py</code>, definiremos uma função <code>__str__</code> que fornece instruções sobre como transformar um objeto Course em uma string:</p>
     
@@ -435,30 +435,30 @@ Out[4]: &lt;QuerySet [&lt;Course: Course object (1)&gt;]&gt;</code></pre>
 
     <p>Agora, quando voltamos ao shell, nossa saída é um pouco mais legível. Obs: talvez seja necessário sair e entrar do shell. Para recuperar o curso, podemos fazer <code>c = Course.objects.get(title="Web-Dev")</code></p>
     <pre><code># Criar uma variável chamada courses para armazenar os resultados de uma consulta
-In [7]: courses = Course.objects.all()
+>>> courses = Course.objects.all()
 
 # Exibindo todos os cursos
-In [8]: courses
-Out[8]: &lt;QuerySet [&lt;Course: Web-Dev&gt;]&gt;
+>>> courses
+Out: &lt;QuerySet [&lt;Course: Web-Dev&gt;]&gt;
 
 # Isolando apenas o primeiro curso
-In [9]: course = courses.first()
+>>> course = courses.first()
 
 # Imprimindo informações do curso
-In [10]: course
-Out[10]: &lt;Course: Web-Dev&gt;
+>>> course
+Out: &lt;Course: Web-Dev&gt;
 
 # Exibir id do curso
-In [11]: course.id
-Out[11]: 1
+>>> course.id
+Out: 1
 
 # Exibir título do curso
-In [12]: course.title
-Out[12]: 'Web-Dev'
+>>> course.title
+Out: 'Web-Dev'
 
 # Exibir descrição do curso
-In [13]: course.description
-Out[13]: 'Welcome to webdev course!''</code></pre>
+>>> course.description
+Out: 'Welcome to webdev course!''</code></pre>
 
     <p>Este é um bom começo. Agora, iremos criar um modelo para as matrículas. Devemos lembrar que a tabela de matrículas descreve uma relação <strong>Many-to-Many</strong> entre usuários e cursos. Para manter simplicidade, iremos também implementar uma tabela de estudantes (que substituirá, por enquanto, a tabela de usuários). Nosso <code>models.py</code> está assim:</p>
 
@@ -498,40 +498,40 @@ class Enrollment(models.Model):
     <p>Toda vez que fazemos alterações em <code>models.py</code>, temos que fazer migrações e depois migrar. Caso tivéssemos modificado algum campo do modelo <code>Course</code>, deveríamos remover as entradas antigas de cursos.</p>
 
     <pre><code># Criar Novas Migrações
-python manage.py makemigrations
+>> python manage.py makemigrations
 
 # Migrar
-python manage.py migrate</code></pre>
+>> python manage.py migrate</code></pre>
 
     <p>Agora, vamos testar esses novos models no shell do Django:</p>
 
     <pre><code># Importar todos os models
-In [1]: from codeclass.models import *
+>>> from codeclass.models import *
 
 # Criar alguns novos estudantes
-In [2]: ful = Student(username="fulano", email="fulano@codelab.br", bio="Hello")
-In [3]: cic = Student(username="ciclano", email="ciclano@codelab.br", bio="Hi")
+>>> ful = Student(username="fulano", email="fulano@codelab.br", bio="Hello")
+>>> cic = Student(username="ciclano", email="ciclano@codelab.br", bio="Hi")
 
 
-# Salvar os aeroportos no banco de dados
-In [4]: ful.save()
-In [5]: cic.save()
+# Salvar os estudantes no banco de dados
+>>> ful.save()
+>>> cic.save()
 
 # Recuperamos um dos cursos com o comando abaixo
-c = Course.objects.get(title="Web-Dev")
+>>> c = Course.objects.get(title="Web-Dev")
 
 # Adicionar uma matrícula e salvá-la no banco de dados
-m = Enrollment(student=ful, course=c)
-m.save()
+>>> m = Enrollment(student=ful, course=c)
+>>> m.save()
 
 # Exibir algumas informações sobre a matrícula
-In [8]: m
-Out[8]: &lt;Enrollment: 1: fulano matriculado em Web-Dev>
+>>> m
+Out: &lt;Enrollment: 1: fulano matriculado em Web-Dev>
 
 # Exemplo de uso do related_name para buscar as matrículas de um estudante específico
-student = Student.objects.get(id=1)
-enrollments = student.course_enrollments.all()
-enrollments
+>>> student = Student.objects.get(id=1)
+>>> enrollments = student.course_enrollments.all()
+>>> enrollments
 Out: &lt;QuerySet [&lt;Enrollment: fulano matriculado em Web-Dev>]>
 </code></pre>
 
@@ -587,8 +587,8 @@ def index(request):
 
     <pre><code>
 # Criando e salvando um novo curso:
-p = Course(title="Python-Intro", description="Welcome to python course!")
-p.save()
+>>> p = Course(title="Python-Intro", description="Welcome to python course!")
+>>> p.save()
         
 </code></pre>
 
@@ -599,7 +599,7 @@ p.save()
 
     <p>Como é muito comum que os desenvolvedores precisem criar novos objetos como fizemos no shell, o Django vem com um <a href="https://docs.djangoproject.com/en/4.0/ref/contrib/admin/">admin interface padrão</a> que nos permite fazer isso mais facilmente. Para começar a usar esta ferramenta, devemos primeiro criar um usuário administrativo:</p>
 
-    <pre><code>> python manage.py createsuperuser
+    <pre><code>>> python manage.py createsuperuser
 Username: user_a
 Email address: a@a.com
 Password:
@@ -775,22 +775,23 @@ admin.site.register(Enrollment)</code></code></pre>
     <p>Outra vantagem de usar o aplicativo admin do Django é que ele é personalizável. Por exemplo, se desejarmos ver todos os aspectos de um curso na interface admin, podemos criar uma nova classe dentro de <code>admin.py</code> e adicioná-la como um argumento ao registrar o model <code>Course</code>:</p>
 
     <pre><code>class CourseAdmin(admin.ModelAdmin):
-    list_display = ("id", "title", "description", "student_count")
-
-    # Contagem simples dos estudantes
-    def student_count(self, obj):
-        return obj.students.count()
-    student_count.short_description = "Estudantes"
+    list_display = ("id", "title", "description", "students_list")
+    
+    # Lista de estudantes
+    def students_list(self, obj):
+        return ", ".join([student.username for student in obj.students.all()])
+    students_list.short_description = "Students"
     
 # Registrar seus models aqui.
 admin.site.register(Course, CourseAdmin)</code></pre>
 
-    <p>Uma coisa a se notar é que não passamos a lista de estudantes como parâmetro. Infelizmente não é possível passar um campo <code>Many-to-many</code> para o Django Admin, mas há algumas abordagens alternativas que não veremos aqui.</p>
+    <p>Uma coisa a se notar é que não passamos a lista de estudantes <code>students</code> diretamente. Como <code>students</code> do model é um campo Many-to-Many, não é suportado pelo <code>list_display</code>, visto que retorna uma QuerySet. Então, para mitigar isto, podemos criar uma função que retorna a lista de estudantes em uma string.
+    Também há outras coisas que podemos definir, como limite de estudantes na string, etc.</p>
 
-    <p>Agora, quando visitamos a página admin para cursos, podemos ver o <code>id</code> também</p>
+    <p>Agora, quando visitamos a página admin para cursos, podemos ver as mudanças:</p>
     <img src="static4/courseadmin.png" alt="tabela admin">
     <p>Confira a <a href="https://docs.djangoproject.com/en/4.0/ref/contrib/admin/">documentação do admin do Django</a> para encontrar mais maneiras de personalizar o aplicativo admin.</p>
-
+ 
     <h2 id="users">Usuários</h2>
 
     <p>A última coisa que discutiremos na aula de hoje é a ideia de autenticação, ou permitir que os usuários façam login e logout de um site. Felizmente, o Django torna isso muito fácil para nós, então vamos passar por um exemplo de como faríamos isso. Começaremos criando um novo app chamado <code>users</code>. Aqui passaremos por todas as etapas normais de criação de um novo app, mas em nosso novo arquivo <code>urls.py</code>, adicionaremos mais algumas rotas:</p>
@@ -887,4 +888,4 @@ return render(request, "users/login.html", {
     <img src="static4/users3.png" alt="Demo3">
     <img src="static4/users4.png" alt="Demo4">
 
-    <p>Isso é tudo para esta aula! Na próxima vez, aprenderemos nossa segunda linguagem de programação do curso: JavaScript.</p>
+    <p>Isso é tudo para esta aula! Na próxima, aprenderemos nossa segunda linguagem de programação do curso: JavaScript.</p>

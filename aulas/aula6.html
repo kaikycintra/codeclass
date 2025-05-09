@@ -123,10 +123,10 @@
     <p>Com isso em mente, considere o seguinte trecho de HTML:</p>
 
     <pre><code class="language-html">&lt;button hx-post="/clicked"
-                hx-trigger="click"
-                hx-target="#parent-div"
-                hx-swap="outerHTML"&gt;
-            Clique Aqui!
+        hx-trigger="click"
+        hx-target="#parent-div"
+        hx-swap="outerHTML"&gt;
+        Clique Aqui!
 &lt;/button&gt;</code></pre>
         
     <p>Isso diz ao HTMX:</p>
@@ -144,16 +144,109 @@
     <p class="note">Observe que quando você está usando HTMX, no lado do servidor você normalmente responde com HTML, não com JSON.</p>
 
     <h2>Requests HTMX</h2>
-    <p>Podemos trocar somente a parte que nos interessa (como no site do codeclass!) hx-get, hx-target, hx-swap, hx-trigger</p>
+    <p>Vamos começar com um exemplo simples, entendendo como usar HTMX para atualizar o conteúdo da tela de forma dinâmica. No exemplo abaixo temos um site mostrando uma página inicial:<p> 
+    <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-br"&gt;
+    &lt;head&gt;
+        &lt;title&gt;Meu Site&lt;/title&gt;
+        &lt;style&gt;...&lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;Meu Site&lt;/h1&gt;
+        &lt;hr&gt;
+        &lt;h2&gt;Página 1&lt;/h2&gt;
+        &lt;p&gt;Conteúdo da página um&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    <p>Antes, quando pensávamos na navegação para outras páginas dentro da lógica de uma MPA (Multi Page Application), pensávamos em adicionar anchor tags com links que recarregariam a tela e nos levariam para uma outra página a partir de uma resposta do servidor contendo um arquivo HTML completo. Com HTMX, entretanto, podemos ser mais eficientes e trocar somente as partes que nos interessam.</p>
+    <p>No exemplo acima, em vez de adicionar uma anchor tag, podemos então adicionar um botão que troca somente o conteúdo após a tag hr</p>
+    <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-br"&gt;
+    &lt;head&gt;
+        &lt;title&gt;Olá&lt;/title&gt;
+        &lt;script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;Meu Site&lt;/h1&gt;
+        &lt;nav&gt;
+            &lt;button hx-get="pagina2"
+                    hx-target="main"&gt;
+                Página 2
+            &lt;/button&gt;
+        &lt;/nav&gt;
+        &lt;hr&gt;
+        &lt;main&gt;
+            &lt;h2&gt;Página 1&lt;/h2&gt;
+            &lt;p&gt;Conteúdo da página um&lt;/p&gt;
+        &lt;/main&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    <p>Perceba que mudamos algumas coisas, importamos o HTMX dentro da head e encapsulamos o conteúdo da página dentro de uma tag main. Esse encapsulamento serve para podermos "mirar" no conteúdo que queremos trocar com o parâmetro hx-target. Além disso, não especificamos o hx-swap que nos diz como a resposta do servidor vai substituir nosso alvo, isso porque o hx-swap padrão é o 'innerHTML'. Isso significa que a resposta do servidor vai entrar entre as tags main. Um exemplo de resposta seria este:</p>
+    <pre><code class="language-html">&lt;h2&gt;Página 2&lt;/h2&gt;
+&lt;p&gt;Conteúdo da página dois&lt;/p&gt;</code></pre>
+    <p>Podemos então adicionar um botão que nos leva de volta à primeira página, assim como um endpoint que resposta com o conteúdo da primeira página:</p>
+    <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-br"&gt;
+    &lt;head&gt;
+        &lt;title&gt;Olá&lt;/title&gt;
+        &lt;script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;Meu Site&lt;/h1&gt;
+        &lt;nav&gt;
+            &lt;button hx-get="pagina1"
+                    hx-target="main"&gt;
+                Página 1
+            &lt;/button&gt;
+            &lt;button hx-get="pagina2"
+                    hx-target="main"&gt;
+                Página 2
+            &lt;/button&gt;
+        &lt;/nav&gt;
+        &lt;hr&gt;
+        &lt;main&gt;
+            &lt;h2&gt;Página 1&lt;/h2&gt;
+            &lt;p&gt;Conteúdo da página um&lt;/p&gt;
+        &lt;/main&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    <pre><code class="language-html">&lt;h2&gt;Página 1&lt;/h2&gt;
+&lt;p&gt;Conteúdo da página um&lt;/p&gt;</code></pre>
+    <p>Como temos todo o código modularizado agora, podemos até mesmo omitir o conteúdo da página um da nossa primeira página. Observe que isso pode ser feito com um block ao trabalhar com templates Django, mas também podemos fazer algo parecido com HTMX para deixar que o cliente peça o conteúdo de outra forma. Uma forma possível é solicitar a página um no momento que a página inicial for carregada.</p>
+    <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-br"&gt;
+    &lt;head&gt;
+        &lt;title&gt;Olá&lt;/title&gt;
+        &lt;script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;Meu Site&lt;/h1&gt;
+        &lt;nav&gt;
+            &lt;button hx-get="pagina1"
+                    hx-target="main"&gt;
+                Página 1
+            &lt;/button&gt;
+            &lt;button hx-get="pagina2"
+                    hx-target="main"&gt;
+                Página 2
+            &lt;/button&gt;
+        &lt;/nav&gt;
+        &lt;hr&gt;
+        &lt;main hx-get="pagina1"
+              hx-target="main"
+              hx-trigger="load"&gt;
+        &lt;/main&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
     <h2>Scroll</h2>
     <p>hx-trigger load e revealed</p>
-    <h3>Scroll Infinito</h3>
+    <h2>Paginação</h2>
+    <p>Mexer no template e botões com hx-get e hx-include</p>
+    <h2>Scroll Infinito</h2>
     <h2>Busca</h2>
     <p>hx-trigger changed e delay</p>    
     <h2>Carregamento</h2>
     <p>Podemos usar o hx-indicator e o bootstrap placeholder</p>
-    <h2>Paginação</h2>
-    <p>Mexer no template e botões com hx-get e hx-include</p>
     <h2>Animações</h2>
     <p>Podemos aplicar animações ao selecionar ou apagar um recurso</p>
     

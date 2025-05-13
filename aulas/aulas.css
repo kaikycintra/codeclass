@@ -58,6 +58,12 @@ a{
     color:rgb(255,78,25);
 }
 
+.plaintext{
+    font-family: 'Courier New', Courier, monospace;
+    font-style: normal;
+    background-color: rgb(232, 232, 232);
+}
+
 /* Vou colocar aqui umas classes de cores para as linhas de código */
 
 /* Cores do HTML */

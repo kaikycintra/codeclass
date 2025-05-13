@@ -57,7 +57,7 @@
                     Até agora, discutimos como construir páginas web simples usando HTML e CSS.
                 </li>
                 <li data-marker="*">
-                    Hoje, vamos trabalhar com o framework do Python chamado <code class="language-plaintext highlighter-rouge">Django</code> para criar aplicações dinâmicas.
+                    Hoje, vamos trabalhar com o framework do Python chamado <code class="plaintext">Django</code> para criar aplicações dinâmicas.
                 </li>
 
             </ul>
@@ -155,7 +155,7 @@
 
             <ul>
                 <li data-marker="*">Para começar, precisamos instalar o Django, o que também exige <a href="https://pip.pypa.io/en/stable/installation/" target="_blank"> instalar o pip</a> caso ainda não o tenha instalado.</li>
-                <li data-marker="*">Uma vez que o pip estiver instalado, você pode executar <code class="language-plaintext highlighter-rouge">pip3 install Django</code> no terminal para instalar o Django.</li>
+                <li data-marker="*">Uma vez que o pip estiver instalado, você pode executar <code class="plaintext">pip3 install Django</code> no terminal para instalar o Django.</li>
             </ul>
 
             <p>
@@ -164,19 +164,19 @@
 
             <ol>
 
-                <li>Execute <code class="language-plaintext highlighter-rouge">django-admin startproject NOME_PROJETO</code> para criar os arquivos iniciais do projeto.</li>
-                <li>Navegue até o diretório do projeto com <code class="language-plaintext highlighter-rouge">cd NOME_PROJETO</code></li>
+                <li>Execute <code class="plaintext">django-admin startproject NOME_PROJETO</code> para criar os arquivos iniciais do projeto.</li>
+                <li>Navegue até o diretório do projeto com <code class="plaintext">cd NOME_PROJETO</code></li>
 
                 <li>Você verá que alguns arquivos foram criados automaticamente. Por enquanto, três deles são mais importantes:
                     <ul>
-                        <li data-marker="*"><code class="language-plaintext highlighter-rouge">manage.py</code>: usado para executar comandos no terminal. Não precisamos editá-lo, mas vamos usá-lo com frequência.</li>
-                        <li data-marker="*"><code class="language-plaintext highlighter-rouge">settings.py</code>: contém configurações importantes do projeto. Podemos alterar algumas delas eventualmente.</li>
-                        <li data-marker="*"><code class="language-plaintext highlighter-rouge">urls.py</code>: define para onde o usuário será direcionado ao acessar certas URLs.</li>
+                        <li data-marker="*"><code class="plaintext">manage.py</code>: usado para executar comandos no terminal. Não precisamos editá-lo, mas vamos usá-lo com frequência.</li>
+                        <li data-marker="*"><code class="plaintext">settings.py</code>: contém configurações importantes do projeto. Podemos alterar algumas delas eventualmente.</li>
+                        <li data-marker="*"><code class="plaintext">urls.py</code>: define para onde o usuário será direcionado ao acessar certas URLs.</li>
                     </ul>
                 </li>
 
                 <li>
-                    Inicie o projeto executando <code class="language-plaintext highlighter-rouge">python manage.py runserver</code>. Isso abrirá um servidor de desenvolvimento, que você pode acessar visitando a URL fornecida. 
+                    Inicie o projeto executando <code class="plaintext">python manage.py runserver</code>. Isso abrirá um servidor de desenvolvimento, que você pode acessar visitando a URL fornecida. 
                     Este servidor de desenvolvimento está sendo executado localmente na sua máquina, o que significa que outras pessoas não podem acessar seu site. Isso deve levá-lo a uma página de destino padrão:
                     <br>
                     <img src="static3/django.png" alt="Página inicial do Django">
@@ -185,11 +185,11 @@
 
                 <li>
                     Agora, precisamos criar uma aplicação. Projetos Django são divididos em uma ou mais <strong>aplicações</strong>. A maioria dos nossos projetos de exemplo terão apenas uma aplicação, mas sites maiores podem usar várias. Para criar uma, execute: 
-                    <code class="language-plaintext highlighter-rouge">python manage.py startapp NOME_APP</code>. Isso criará novos diretórios e arquivos que necessitamos, como o <code class="language-plaintext highlighter-rouge">views.py</code>.
+                    <code class="plaintext">python manage.py startapp NOME_APP</code>. Isso criará novos diretórios e arquivos que necessitamos, como o <code class="plaintext">views.py</code>.
                 </li>
 
                 <li>
-                    Precisamos instalar a nova aplicação. Para isso, edite <code class="language-plaintext highlighter-rouge">settings.py</code>, role até a lista <code class="language-plaintext highlighter-rouge">INSTALLED_APPS</code>, 
+                    Precisamos instalar a nova aplicação. Para isso, edite <code class="plaintext">settings.py</code>, role até a lista <code class="plaintext">INSTALLED_APPS</code>, 
                     e adicione o nome da aplicação na lista.
                     <br>
                     <img src="static3/novo_app.png" alt="Lista INSTALLED_APPS">
@@ -213,11 +213,11 @@
                 <li>
 
                     <p>
-                        No diretório criado para o app, abra o arquivo <code class="language-plaintext highlighter-rouge">views.py</code>. Esse arquivo conterá diferentes views, que podem ser entendidas como páginas que o usuário pode visitar. 
-                        Para criar nossa primeira view, escreveremos uma função que recebe um <code class="language-plaintext highlighter-rouge">request</code>. 
-                        Por enquanto, vamos retornar simplesmente um <code class="language-plaintext highlighter-rouge">HttpResponse</code> 
+                        No diretório criado para o app, abra o arquivo <code class="plaintext">views.py</code>. Esse arquivo conterá diferentes views, que podem ser entendidas como páginas que o usuário pode visitar. 
+                        Para criar nossa primeira view, escreveremos uma função que recebe um <code class="plaintext">request</code>. 
+                        Por enquanto, vamos retornar simplesmente um <code class="plaintext">HttpResponse</code> 
                         (uma forma de resposta muito simples que inclui um código de resposta 200 e uma string de texto que pode ser visualizada em um navegador) 
-                        com “ Oi Usuário!”. Para fazer isso, temos que adicionar ao código <code class="language-plaintext highlighter-rouge">from django.http import HttpResponse</code>. Nosso arquivo está como abaixo:
+                        com “ Oi Usuário!”. Para fazer isso, temos que adicionar ao código <code class="plaintext">from django.http import HttpResponse</code>. Nosso arquivo está como abaixo:
                     </p>
 
 <pre><code>
@@ -234,27 +234,27 @@
                 </li>
 
                 <li>
-                    Agora, precisamos associar essa view a uma URL. Para isso, criaremos um novo arquivo chamado <code class="language-plaintext highlighter-rouge">urls.py</code> 
-                    no mesmo diretório de <code class="language-plaintext highlighter-rouge">views.py</code>. Note que já existe um <code class="language-plaintext highlighter-rouge">urls.py</code> 
+                    Agora, precisamos associar essa view a uma URL. Para isso, criaremos um novo arquivo chamado <code class="plaintext">urls.py</code> 
+                    no mesmo diretório de <code class="plaintext">views.py</code>. Note que já existe um <code class="plaintext">urls.py</code> 
                     do projeto, mas é melhor ter um para cada app separadamente.
                 </li>
 
-                <li>No novo <code class="language-plaintext highlighter-rouge">urls.py</code>, criamos uma lista de padrões de URL que o usuário pode acessar enquanto no nosso site:
+                <li>No novo <code class="plaintext">urls.py</code>, criamos uma lista de padrões de URL que o usuário pode acessar enquanto no nosso site:
 
                     <ol>
 
                         <li>
-                            Temos que fazer mais alguns imports: <code class="language-plaintext highlighter-rouge">from django.urls import path</code> nos dá a habilidade de redirecionar URLs, 
-                            e <code class="language-plaintext highlighter-rouge">from . import views</code> importará quaisquer funções que implementamos em <code class="language-plaintext highlighter-rouge">views.py</code>.
+                            Temos que fazer mais alguns imports: <code class="plaintext">from django.urls import path</code> nos dá a habilidade de redirecionar URLs, 
+                            e <code class="plaintext">from . import views</code> importará quaisquer funções que implementamos em <code class="plaintext">views.py</code>.
                         </li>
 
-                        <li>Crie uma lista chamada <code class="language-plaintext highlighter-rouge">urlpatterns</code></li>
+                        <li>Crie uma lista chamada <code class="plaintext">urlpatterns</code></li>
 
                         <li>
-                            Para cada URL desejada, adicione um item na lista <code class="language-plaintext highlighter-rouge">urlpatterns</code> 
-                            que tenha uma chamada da função <code class="language-plaintext highlighter-rouge">path</code> com dois ou três argumentos: 
-                            Uma string representando o caminho da URL, uma função de <code class="language-plaintext highlighter-rouge">views.py</code> 
-                            que desejamos executar quando aquela URL é visitada, e (opcional) um nome para o caminho, no formato <code class="language-plaintext highlighter-rouge">name="meu_caminho"</code>. Por exemplo, veja como está nosso código agora:
+                            Para cada URL desejada, adicione um item na lista <code class="plaintext">urlpatterns</code> 
+                            que tenha uma chamada da função <code class="plaintext">path</code> com dois ou três argumentos: 
+                            Uma string representando o caminho da URL, uma função de <code class="plaintext">views.py</code> 
+                            que desejamos executar quando aquela URL é visitada, e (opcional) um nome para o caminho, no formato <code class="plaintext">name="meu_caminho"</code>. Por exemplo, veja como está nosso código agora:
                         </li>
 
                     </ol>
@@ -275,13 +275,13 @@
 
                     <p>
 
-                        Assim, criamos um <code class="language-plaintext highlighter-rouge">urls.py</code> para essa aplicação. Agora devemos editar o <code class="language-plaintext highlighter-rouge">urls.py</code> do projeto. 
-                        Quando você abrir esse arquivo, perceberá que já existe um caminho chamado <code class="language-plaintext highlighter-rouge">admin</code>, que será explicado na aula seguinte. 
-                        No momento, desejamos adicionar um caminho para nosso novo app, então adicionamos um item na lista <code class="language-plaintext highlighter-rouge">urlpatterns</code>. 
-                        Isso segue o mesmo padrão dos nossos caminhos anteriores, exceto que, em vez de adicionar uma função de <code class="language-plaintext highlighter-rouge">views.py</code> 
-                        como segundo argumento, queremos incluir <em>todos</em> os caminhos do arquivo <code class="language-plaintext highlighter-rouge">urls.py</code> em nossa aplicação. 
-                        Para fazer isso, escrevemos: <code class="language-plaintext highlighter-rouge">include("NOME_APP.urls")</code>, onde <code class="language-plaintext highlighter-rouge">include</code> 
-                        é uma função à qual obtemos acesso importando <code class="language-plaintext highlighter-rouge">include</code> de <code class="language-plaintext highlighter-rouge">django.urls</code> 
+                        Assim, criamos um <code class="plaintext">urls.py</code> para essa aplicação. Agora devemos editar o <code class="plaintext">urls.py</code> do projeto. 
+                        Quando você abrir esse arquivo, perceberá que já existe um caminho chamado <code class="plaintext">admin</code>, que será explicado na aula seguinte. 
+                        No momento, desejamos adicionar um caminho para nosso novo app, então adicionamos um item na lista <code class="plaintext">urlpatterns</code>. 
+                        Isso segue o mesmo padrão dos nossos caminhos anteriores, exceto que, em vez de adicionar uma função de <code class="plaintext">views.py</code> 
+                        como segundo argumento, queremos incluir <em>todos</em> os caminhos do arquivo <code class="plaintext">urls.py</code> em nossa aplicação. 
+                        Para fazer isso, escrevemos: <code class="plaintext">include("NOME_APP.urls")</code>, onde <code class="plaintext">include</code> 
+                        é uma função à qual obtemos acesso importando <code class="plaintext">include</code> de <code class="plaintext">django.urls</code> 
                         conforme mostrado abaixo:
                     
                     </p>
@@ -300,7 +300,7 @@
                 </li>
                 
                 <li>
-                    Ao fazer isso, especificamos que, quando um usuário visitar nosso site e adicionar  <code class="language-plaintext highlighter-rouge">/user</code> 
+                    Ao fazer isso, especificamos que, quando um usuário visitar nosso site e adicionar  <code class="plaintext">/user</code> 
                     à URL na barra de endereços, ele será redirecionado para os caminhos definidos dentro da nossa nova aplicação.
                 </li>
 
@@ -308,12 +308,12 @@
 
             <p>
 
-                Agora, quando se iniciar a aplicação usando <code class="language-plaintext highlighter-rouge">python manage.py runserver</code> e visitar a URL fornecida, temos seguinte tela:
+                Agora, quando se iniciar a aplicação usando <code class="plaintext">python manage.py runserver</code> e visitar a URL fornecida, temos seguinte tela:
                 <br>
                 <img src="static3/not_found.png" alt="erro 404">
                 <br>
-                Isso ocorre porque definimos apenas a URL <code class="language-plaintext highlighter-rouge">localhost:8000/user</code>, mas não definimos a URL 
-                <code class="language-plaintext highlighter-rouge">localhost:8000</code> sem nada no final. Então, ao adicionar <code class="language-plaintext highlighter-rouge">/user</code> na barra de endereços:
+                Isso ocorre porque definimos apenas a URL <code class="plaintext">localhost:8000/user</code>, mas não definimos a URL 
+                <code class="plaintext">localhost:8000</code> sem nada no final. Então, ao adicionar <code class="plaintext">/user</code> na barra de endereços:
                 <br>
                 <img src="static3/oi_usuario.png" alt="Oi Usuário!">
                 <br>
@@ -323,35 +323,35 @@
 
             <ol>
                 <li>
-                    Quando acessamos a URL <code class="language-plaintext highlighter-rouge">localhost:8000/users/</code>, o Django analisou o que veio após a URL base 
-                    (<code class="language-plaintext highlighter-rouge">localhost:8000/</code>) e procurou no arquivo <code class="language-plaintext highlighter-rouge">urls.py</code> 
-                    do projeto por um padrão que correspondesse a <code class="language-plaintext highlighter-rouge">Users</code>.
+                    Quando acessamos a URL <code class="plaintext">localhost:8000/users/</code>, o Django analisou o que veio após a URL base 
+                    (<code class="plaintext">localhost:8000/</code>) e procurou no arquivo <code class="plaintext">urls.py</code> 
+                    do projeto por um padrão que correspondesse a <code class="plaintext">Users</code>.
                 </li>
 
-                <li>Ele encontrou a extensão que definimos e verificou que, ao encontrá-la, deveria incluir o arquivo <code class="language-plaintext highlighter-rouge">urls.py</code> da nossa aplicação.</li>
+                <li>Ele encontrou a extensão que definimos e verificou que, ao encontrá-la, deveria incluir o arquivo <code class="plaintext">urls.py</code> da nossa aplicação.</li>
 
                 <li>
-                    Em seguida, o Django ignorou as partes da URL já utilizadas no redirecionamento (<code class="language-plaintext highlighter-rouge">localhost:8000/users/</code>, 
-                    ou tudo isso) e procurou no <code class="language-plaintext highlighter-rouge">urls.py</code> da aplicação um padrão que correspondesse ao restante da URL.
+                    Em seguida, o Django ignorou as partes da URL já utilizadas no redirecionamento (<code class="plaintext">localhost:8000/users/</code>, 
+                    ou tudo isso) e procurou no <code class="plaintext">urls.py</code> da aplicação um padrão que correspondesse ao restante da URL.
                 </li>
 
                 <li>
-                    Ele encontrou que o único caminho definido até agora (<code class="language-plaintext highlighter-rouge">""</code>) correspondia ao que restava da URL, e então nos direcionou à função index de 
-                    <code class="language-plaintext highlighter-rouge">views.py</code> associada a esse caminho.
+                    Ele encontrou que o único caminho definido até agora (<code class="plaintext">""</code>) correspondia ao que restava da URL, e então nos direcionou à função index de 
+                    <code class="plaintext">views.py</code> associada a esse caminho.
                 </li>
 
-                <li>Por fim, o Django executou essa função dentro de <code class="language-plaintext highlighter-rouge">views.py</code>, e retornou o resultado (<code class="language-plaintext highlighter-rouge">HttpResponse("Hello, world!")</code>) para o navegador.</li>
+                <li>Por fim, o Django executou essa função dentro de <code class="plaintext">views.py</code>, e retornou o resultado (<code class="plaintext">HttpResponse("Hello, world!")</code>) para o navegador.</li>
 
             </ol>
 
             <p>
-                Agora, se quisermos, podemos alterar a função <code class="language-plaintext highlighter-rouge">index</code> dentro de <code class="language-plaintext highlighter-rouge">views.py</code> 
+                Agora, se quisermos, podemos alterar a função <code class="plaintext">index</code> dentro de <code class="plaintext">views.py</code> 
                 para retornar o que quisermos! Podemos até mesmo manter variáveis e fazer cálculos dentro da função antes de retornar algo.
             </p>
 
             <p>Agora, vamos ver como podemos adicionar mais de uma view à nossa aplicação. Podemos seguir muitos dos mesmos passos para criar páginas que cumprimentam alguns usuários específicos.</p>
 
-            <p>Dentro de <code class="language-plaintext highlighter-rouge">views.py</code>:</p>
+            <p>Dentro de <code class="plaintext">views.py</code>:</p>
 
 <pre><code>
 <span class="func">from</span> <span class="lib">django</span><span>.</span><span class="lib">shortcuts</span> <span class="func">import</span> <span class="nome-func">render</span>
@@ -370,7 +370,7 @@
 
 </code></pre>
 
-            <p>Dentro de <code class="language-plaintext highlighter-rouge">urls.py</code> (na aplicação, não no projeto)</p>
+            <p>Dentro de <code class="plaintext">urls.py</code> (na aplicação, não no projeto)</p>
 
 <pre><code>
 <span class="func">from</span> <span class="lib">django</span><span>.</span><span class="lib">urls</span> <span class="func">import</span> <span class="nome-func">path</span>
@@ -385,8 +385,8 @@
 </code></pre>
 
             <p>
-                Agora, o site permanece igual quando visitamos <code class="language-plaintext highlighter-rouge">localhost:8000/user</code>, 
-                mas temos páginas diferentes quando adicionamos <code class="language-plaintext highlighter-rouge">kaiky</code> ou <code class="language-plaintext highlighter-rouge">rafael</code> no final da URL:
+                Agora, o site permanece igual quando visitamos <code class="plaintext">localhost:8000/user</code>, 
+                mas temos páginas diferentes quando adicionamos <code class="plaintext">kaiky</code> ou <code class="plaintext">rafael</code> no final da URL:
                 <br>
                 <img src="static3/oi_kaiky.png" alt="Kaiky">
                 <br>
@@ -397,13 +397,13 @@
             <p>
                 Muitos sites são parametrizados por itens incluídos na URL. Por exemplo, acessar <a href="https://www.youtube.com/CodeLabBR" target="_blank">www.youtube.com/CodeLabBR</a> 
                 mostrará todos os vídeos publicados pelo CodeLab, e acessar <a href="https://www.instagram.com/uspcodelab/" target="_blank">www.instagram.com/uspcodelab/</a> levará você à página do CodeLab no Instagram. 
-                Você pode até encontrar seu próprio perfil do Instagram navegando até <code class="language-plaintext highlighter-rouge">www.instagram.com/SEU_@/</code>!
+                Você pode até encontrar seu próprio perfil do Instagram navegando até <code class="plaintext">www.instagram.com/SEU_@/</code>!
             </p>
 
             <p>
                 Ao pensar em como isso é implementado, parece impossível que sites como o Youtube e o Instagram tenham um caminho de URL individual para cada usuário. 
-                Então, vamos ver como podemos criar um caminho mais flexível. Vamos começar adicionando uma função mais geral, chamada <code class="language-plaintext highlighter-rouge">usuario</code>, 
-                ao <code class="language-plaintext highlighter-rouge">views.py</code>:
+                Então, vamos ver como podemos criar um caminho mais flexível. Vamos começar adicionando uma função mais geral, chamada <code class="plaintext">usuario</code>, 
+                ao <code class="plaintext">views.py</code>:
             </p>
 
 <pre><code>
@@ -414,7 +414,7 @@
 
             <p>
                 Essa função recebe não apenas a requisição, mas também um argumento adicional com o nome do usuário, e retorna uma resposta HTTP personalizada baseada nesse nome. 
-                Em seguida, precisamos criar um caminho mais flexível em <code class="language-plaintext highlighter-rouge">urls.py</code>:
+                Em seguida, precisamos criar um caminho mais flexível em <code class="plaintext">urls.py</code>:
             </p>
 
 <pre><code>
@@ -432,8 +432,8 @@
             </p>
 
             <p>
-                Podemos até deixar isso um pouco mais bonito, melhorando a função <code class="language-plaintext highlighter-rouge">usuario</code> 
-                com a função <code class="language-plaintext highlighter-rouge">capitalize</code> do Python, que coloca a primeira letra em maiúsculo:
+                Podemos até deixar isso um pouco mais bonito, melhorando a função <code class="plaintext">usuario</code> 
+                com a função <code class="plaintext">capitalize</code> do Python, que coloca a primeira letra em maiúsculo:
             </p>
 
 <pre><code>
@@ -462,7 +462,7 @@
             <p>
                 Até agora, nossas respostas HTTP foram apenas texto, mas podemos incluir qualquer elemento HTML que quisermos! 
                 Por exemplo, eu poderia decidir retornar um cabeçalho azul em vez de apenas texto na nossa função 
-                <code class="language-plaintext highlighter-rouge">index</code>:
+                <code class="plaintext">index</code>:
             </p>
 
 <pre><code>
@@ -478,7 +478,7 @@
             </p>
 
             <p>
-                Escrever uma página HTML inteira dentro do <code class="language-plaintext highlighter-rouge">views.py</code>. 
+                Escrever uma página HTML inteira dentro do <code class="plaintext">views.py</code>. 
                 se tornaria muito tedioso. Além disso, isso é uma prática ruim, já que queremos manter partes separadas do nosso 
                 projeto em arquivos separados sempre que possível.
             </p>
@@ -497,9 +497,9 @@
 
             <p>
                 Agora, precisaremos criar esse template. Para isso, vamos criar uma pasta chamada 
-                <code class="language-plaintext highlighter-rouge">templates</code> dentro do nosso app, depois criar uma pasta chamada 
-                <code class="language-plaintext highlighter-rouge">Users</code> (ou o nome do seu app) 
-                dentro dela, e então adicionar um arquivo chamado <code class="language-plaintext highlighter-rouge">index.html</code>.
+                <code class="plaintext">templates</code> dentro do nosso app, depois criar uma pasta chamada 
+                <code class="plaintext">Users</code> (ou o nome do seu app) 
+                dentro dela, e então adicionar um arquivo chamado <code class="plaintext">index.html</code>.
             </p>
 
             <p>
@@ -540,7 +540,7 @@
             <p>
                 Além de escrever algumas páginas HTML estáticas, também podemos usar a linguagem de templates do Django 
                 para alterar o conteúdo dos nossos arquivos HTML com base na URL visitada. Vamos testar isso alterando nossa função
-                <code class="language-plaintext highlighter-rouge">usuario</code> de antes:
+                <code class="plaintext">usuario</code> de antes:
             </p>
 
 <pre><code>
@@ -550,10 +550,10 @@
 </code></pre>
 
             <p>
-                Observe que passamos um terceiro argumento para a função <code class="language-plaintext highlighter-rouge">render</code> 
+                Observe que passamos um terceiro argumento para a função <code class="plaintext">render</code> 
                 chamado de contexto. Nesse contexto, podemos fornecer informações que queremos que estejam disponíveis dentro dos nossos 
                 arquivos HTML. Esse contexto assume a forma de um dicionário Python. Agora, podemos criar um arquivo 
-                <code class="language-plaintext highlighter-rouge">usuario.html</code> na pasta de templates:
+                <code class="plaintext">usuario.html</code> na pasta de templates:
             </p>
 
 <pre><code>
@@ -602,7 +602,7 @@
             <p>
                 Podemos querer alterar o que é exibido em nosso site dependendo de algumas condições. 
                 Por exemplo, para nossa página de usuários, gostaríamos que algo indicasse que uma certa pessoa é uma administradora do curso.
-                Para fazermos isso, vamos modificar nossa função <code class="language-plaintext highlighter-rouge">usuarios</code> e o arquivo <code class="language-plaintext highlighter-rouge">usuarios.html</code>.
+                Para fazermos isso, vamos modificar nossa função <code class="plaintext">usuarios</code> e o arquivo <code class="plaintext">usuarios.html</code>.
             </p>
 
             <p>
@@ -611,8 +611,8 @@
             </p>
 
             <ul>
-                <li data-marker="*">Podemos usar esse conhecimento para construir uma expressão booleana que será avaliada como True se, e somente se, hoje for o Dia de Ano Novo: <code class="language-plaintext highlighter-rouge">nome in [vetor com nome de adms]</code>
-                <li data-marker="*">Agora que temos uma expressão para verificar se um usuário é administrador, podemos atualizar <code class="language-plaintext highlighter-rouge">views.py</code>:</li>
+                <li data-marker="*">Podemos usar esse conhecimento para construir uma expressão booleana que será avaliada como True se, e somente se, hoje for o Dia de Ano Novo: <code class="plaintext">nome in [vetor com nome de adms]</code>
+                <li data-marker="*">Agora que temos uma expressão para verificar se um usuário é administrador, podemos atualizar <code class="plaintext">views.py</code>:</li>
             </ul>
 
 <pre><code>
@@ -626,7 +626,7 @@
             <p>Note que agora passamos dois "argumentos" para usuarios.html, nome(string) e adm(booleano).</p>
 
             <p>
-                Em seguida, vamos modificar nosso template <code class="language-plaintext highlighter-rouge">usuarios.html</code>.  
+                Em seguida, vamos modificar nosso template <code class="plaintext">usuarios.html</code>.  
                 Dentro desse arquivo, escreveremos algo assim:
             </p>
 
@@ -662,10 +662,10 @@
 
             <p>
                 No código acima, repare que, quando queremos incluir lógica nos nossos arquivos HTML, 
-                usamos <code class="language-plaintext highlighter-rouge">{%</code> e 
-                <code class="language-plaintext highlighter-rouge">%}</code> como tags de abertura e fechamento para declarações lógicas. 
+                usamos <code class="plaintext">{%</code> e 
+                <code class="plaintext">%}</code> como tags de abertura e fechamento para declarações lógicas. 
                 Também note que a linguagem de template do Django exige que incluamos uma tag de encerramento indicando que o bloco  
-                <code class="language-plaintext highlighter-rouge">if-else</code> terminou. 
+                <code class="plaintext">if-else</code> terminou. 
                 Agora, podemos abrir a nossa página para ver o resultado.
             </p>
 
@@ -703,9 +703,9 @@
 
             <p>
                 Se quisermos adicionar um arquivo CSS — que é um arquivo estático, pois não muda — primeiro criaremos uma pasta chamada
-                <code class="language-plaintext highlighter-rouge">static</code> dentro do nosso app <code class="language-plaintext highlighter-rouge">Users</code>, depois uma pasta 
-                <code class="language-plaintext highlighter-rouge">Users</code> dentro dela, e então um arquivo 
-                <code class="language-plaintext highlighter-rouge">styles.css</code> dentro dessa pasta. 
+                <code class="plaintext">static</code> dentro do nosso app <code class="plaintext">Users</code>, depois uma pasta 
+                <code class="plaintext">Users</code> dentro dela, e então um arquivo 
+                <code class="plaintext">styles.css</code> dentro dessa pasta. 
                 Nesse arquivo, podemos adicionar qualquer estilo que quisermos, assim como fizemos na primeira aula:
             </p>
 
@@ -719,8 +719,8 @@
 </code></pre>
 
             <p>
-                Agora, para incluir esse estilo no nosso arquivo HTML, adicionamos a linha <code class="language-plaintext highlighter-rouge">{% load static %}</code> no topo do nosso template HTML, 
-                o que informa ao Django que queremos ter acesso aos arquivos dentro da pasta <code class="language-plaintext highlighter-rouge">static</code>. 
+                Agora, para incluir esse estilo no nosso arquivo HTML, adicionamos a linha <code class="plaintext">{% load static %}</code> no topo do nosso template HTML, 
+                o que informa ao Django que queremos ter acesso aos arquivos dentro da pasta <code class="plaintext">static</code>. 
                 Em vez de escrever manualmente o link para o arquivo de estilo, como fizemos antes, usaremos uma sintaxe específica do Django:
             </p>
 
@@ -779,21 +779,21 @@
 
             <p>
                 Agora, vamos pegar o que aprendemos até aqui e aplicar em um mini-projeto: criar uma lista de cursos. 
-                Vamos começar, mais uma vez, criando um novo app <code class="language-plaintext highlighter-rouge">Cursos</code>:
+                Vamos começar, mais uma vez, criando um novo app <code class="plaintext">Cursos</code>:
             </p>
 
             <ol>
 
-                <li>Execute <code class="language-plaintext highlighter-rouge">python manage.py startapp Cursos</code> no terminal.</li>
+                <li>Execute <code class="plaintext">python manage.py startapp Cursos</code> no terminal.</li>
                 <li>
-                    Edite o arquivo <code class="language-plaintext highlighter-rouge">settings.py</code>, adicionando "Cursos" à lista <code class="language-plaintext highlighter-rouge">INSTALLED_APPS</code>
+                    Edite o arquivo <code class="plaintext">settings.py</code>, adicionando "Cursos" à lista <code class="plaintext">INSTALLED_APPS</code>
                     <br>
                     <img src="static3/novo_app2.png" alt="Novo app cursos">
                     <br>
                 </li>
                 
                 <li>
-                    <p>Edite o arquivo <code class="language-plaintext highlighter-rouge">urls.py</code> do projeto e inclua um path semelhante ao que criamos para o app <code class="language-plaintext highlighter-rouge">Users</code></p>
+                    <p>Edite o arquivo <code class="plaintext">urls.py</code> do projeto e inclua um path semelhante ao que criamos para o app <code class="plaintext">Users</code></p>
 
 <pre><code> 
     <span class="nome-func">path</span><span class="p2">(</span><span class="string">'cursos/'</span><span>,</span> <span class="nome-func">include</span><span class="p3">(</span><span class="string">"Cursos.urls"</span><span class="p3">)</span><span class="p2">)</span>
@@ -804,9 +804,9 @@
 
                 <li>
                     <p>
-                        Crie outro arquivo <code class="language-plaintext highlighter-rouge">urls.py</code> dentro do diretório do 
+                        Crie outro arquivo <code class="plaintext">urls.py</code> dentro do diretório do 
                         novo app e atualize-o para incluir um caminho semelhante ao index do 
-                        <code class="language-plaintext highlighter-rouge">Users</code>:
+                        <code class="plaintext">Users</code>:
                     </p>
 
 <pre><code>
@@ -825,8 +825,8 @@
 
             <p>
                 Agora, vamos começar tentando simplesmente criar uma lista de cursos e exibi-la em uma página. 
-                Vamos criar uma lista Python no topo do arquivo <code class="language-plaintext highlighter-rouge">views.py</code> 
-                onde armazenaremos nossos cursos. Depois, podemos atualizar a função <code class="language-plaintext highlighter-rouge">index</code> 
+                Vamos criar uma lista Python no topo do arquivo <code class="plaintext">views.py</code> 
+                onde armazenaremos nossos cursos. Depois, podemos atualizar a função <code class="plaintext">index</code> 
                 para renderizar um template e fornecer nossa lista recém-criada como contexto.
             </p>
 
@@ -890,7 +890,7 @@
             <p>
                 Agora que conseguimos ver todos os cursos como uma lista, talvez queiramos poder adicionar novos cursos. 
                 Para isso, vamos começar a explorar o uso de forms (formulários) para atualizar uma página da web. 
-                Vamos começar adicionando outra função em <code class="language-plaintext highlighter-rouge">views.py</code> 
+                Vamos começar adicionando outra função em <code class="plaintext">views.py</code> 
                 que irá renderizar uma página com um formulário para adicionar uma novo curso:
             </p>
 
@@ -900,7 +900,7 @@
 
 </code></pre>
 
-            <p>Em seguida, certifique-se de adicionar outro path ao <code class="language-plaintext highlighter-rouge">urls.py</code>:</p>
+            <p>Em seguida, certifique-se de adicionar outro path ao <code class="plaintext">urls.py</code>:</p>
 
 <pre><code>
 <span class="nome-func">path</span><span class="p">(</span><span class="string">"novo"</span><span>,</span> <span class="lib">views</span><span>.</span><span class="nome-func">novo_curso</span><span>,</span> <span class="python">name</span><span class="pComment">=</span><span class="string">"novo_curso"</span><span class="p">)</span>
@@ -908,8 +908,8 @@
 </code></pre>
 
             <p>
-                Agora, vamos criar nosso arquivo <code class="language-plaintext highlighter-rouge">novo_curso.html</code>, 
-                que é bem parecido com o <code class="language-plaintext highlighter-rouge">index.html</code>, 
+                Agora, vamos criar nosso arquivo <code class="plaintext">novo_curso.html</code>, 
+                que é bem parecido com o <code class="plaintext">index.html</code>, 
                 exceto que, no corpo, incluiremos um formulário em vez de uma lista:
             </p>
 
@@ -942,7 +942,7 @@
                 No entanto, o que acabamos de fazer não é necessariamente o melhor design, pois repetimos a maior parte do HTML 
                 em dois arquivos diferentes. A linguagem de template do Django nos oferece uma forma de eliminar esse design ruim: 
                 <a href="https://tutorial.djangogirls.org/en/template_extending/" target="_blank">herança de template</a>. 
-                Isso nos permite criar um arquivo <code class="language-plaintext highlighter-rouge">layout.html</code> na pasta de templates
+                Isso nos permite criar um arquivo <code class="plaintext">layout.html</code> na pasta de templates
                 que conterá a estrutura geral da nossa página:
             </p>
 
@@ -964,12 +964,12 @@
 </code></pre>
 
             <p>
-                Repare que novamente usamos <code class="language-plaintext highlighter-rouge">{%...%}</code> para indicar algum 
+                Repare que novamente usamos <code class="plaintext">{%...%}</code> para indicar algum 
                 tipo de lógica não-HTML e, nesse caso, estamos dizendo ao Django para preencher esse "bloco" com algum conteúdo 
                 vindo de outro arquivo. Agora, podemos alterar nossos outros dois arquivos HTML para ficarem assim:
             </p>
 
-            <p><code class="language-plaintext highlighter-rouge">index.html</code>:</p>
+            <p><code class="plaintext">index.html</code>:</p>
 
 <pre><code>
 <span class="p">{%</span> <span class="func">extends</span> <span class="classe">"Cursos/layout.html"</span> <span class="p">%}</span>
@@ -992,7 +992,7 @@
 
 </code></pre>
 
-            <p><code class="language-plaintext highlighter-rouge">novo_curso.html</code>:</p>
+            <p><code class="plaintext">novo_curso.html</code>:</p>
 
 <pre><code>
 <span class="p">{%</span> <span class="func">extends</span> <span class="classe">"Cursos/layout.html"</span> <span class="p">%}</span>
@@ -1026,8 +1026,8 @@
             <p>
                 Em seguida, não é ideal ter que digitar "/novo" na URL toda vez que quisermos adicionar uma novo curso, 
                 então provavelmente vamos querer adicionar alguns links entre as páginas. Em vez de codificar os links diretamente, 
-                agora podemos usar a variável <code class="language-plaintext highlighter-rouge">name</code> que atribuímos a cada rota no 
-                <code class="language-plaintext highlighter-rouge">urls.py</code> e criar um link assim:
+                agora podemos usar a variável <code class="plaintext">name</code> que atribuímos a cada rota no 
+                <code class="plaintext">urls.py</code> e criar um link assim:
             </p>
 
 <pre><code>
@@ -1035,7 +1035,7 @@
 
 </code></pre>
 
-            <p>Onde 'novo_curso' é o nome daquela rota. Podemos fazer algo semelhante em nosso <code class="language-plaintext highlighter-rouge">novo_curso.html</code>:</p>
+            <p>Onde 'novo_curso' é o nome daquela rota. Podemos fazer algo semelhante em nosso <code class="plaintext">novo_curso.html</code>:</p>
 
 <pre class="highlight"><code>
 <span class="tag">&lt;a</span> <span class="innertag">href=</span><span class="classe">"</span><span class="func">{% url</span> <span class="classe">'index'</span> <span class="func">%}</span><span class="classe">"</span><span class="tag">&gt;</span>Adicionar novo curso<span class="tag">&lt;/a&gt;</span>
@@ -1044,9 +1044,9 @@
 
             <p>
                 Isso, no entanto, pode criar um problema, já que temos algumas rotas chamadas 
-                <code class="language-plaintext highlighter-rouge">index</code> em diferentes apps. Podemos resolver isso indo em cada 
-                um dos arquivos <code class="language-plaintext highlighter-rouge">urls.py</code> dos nossos apps e adicionando uma variável 
-                <code class="language-plaintext highlighter-rouge">app_name</code> para que os arquivos agora fiquem parecidos com isto:
+                <code class="plaintext">index</code> em diferentes apps. Podemos resolver isso indo em cada 
+                um dos arquivos <code class="plaintext">urls.py</code> dos nossos apps e adicionando uma variável 
+                <code class="plaintext">app_name</code> para que os arquivos agora fiquem parecidos com isto:
             </p>
 
 <pre><code>
@@ -1063,10 +1063,10 @@
 </code></pre>
 
             <p>
-                Com isso, podemos mudar nossos links de simplesmente <code class="language-plaintext highlighter-rouge">index</code> e 
-                <code class="language-plaintext highlighter-rouge">novo_curso</code> para 
-                <code class="language-plaintext highlighter-rouge">Cursos:index</code> e 
-                <code class="language-plaintext highlighter-rouge">Cursos:novo_curso</code>
+                Com isso, podemos mudar nossos links de simplesmente <code class="plaintext">index</code> e 
+                <code class="plaintext">novo_curso</code> para 
+                <code class="plaintext">Cursos:index</code> e 
+                <code class="plaintext">Cursos:novo_curso</code>
             </p>
 
 <pre><code>
@@ -1086,8 +1086,8 @@
 
             <p>
                 Agora, vamos trabalhar para garantir que o formulário realmente faça algo quando o usuário o submeter. 
-                Podemos fazer isso adicionando um <code class="language-plaintext highlighter-rouge">action</code> no formulário que criamos em 
-                <code class="language-plaintext highlighter-rouge">novo_curso.html</code>:
+                Podemos fazer isso adicionando um <code class="plaintext">action</code> no formulário que criamos em 
+                <code class="plaintext">novo_curso.html</code>:
             </p>
 
 <pre><code>
@@ -1097,7 +1097,7 @@
 
             <p>
                 Isso significa que, ao submeter o formulário, seremos redirecionados novamente à URL 
-                <code class="language-plaintext highlighter-rouge">/novo</code>. Aqui, especificamos que usaremos o método 
+                <code class="plaintext">/novo</code>. Aqui, especificamos que usaremos o método 
                 <em>post</em> em vez do método <em>get</em> que é o mais apropriado sempre que um formulário pode alterar o estado da página.
             </p>
 
@@ -1121,8 +1121,8 @@
             </p>
 
             <p>
-                Para incorporar essa proteção no nosso código, devemos adicionar a linha <code class="language-plaintext highlighter-rouge">{% csrf_token %}</code> ao nosso formulário em 
-                <code class="language-plaintext highlighter-rouge">novo_curso.html</code>.
+                Para incorporar essa proteção no nosso código, devemos adicionar a linha <code class="plaintext">{% csrf_token %}</code> ao nosso formulário em 
+                <code class="plaintext">novo_curso.html</code>.
             </p>
 
 <pre><code>
@@ -1162,8 +1162,8 @@
             <p>
                 Embora possamos criar formulários escrevendo HTML puro, como acabamos de fazer, o Django fornece uma maneira ainda mais 
                 fácil de coletar informações de um usuário: os <a href="https://docs.djangoproject.com/en/4.0/ref/forms/api/" target="_blank">Formulários do Django</a>. 
-                Para usar esse método, adicionaremos o seguinte no topo do <code class="language-plaintext highlighter-rouge">views.py</code> 
-                para importar o módulo <code class="language-plaintext highlighter-rouge">forms</code>:
+                Para usar esse método, adicionaremos o seguinte no topo do <code class="plaintext">views.py</code> 
+                para importar o módulo <code class="plaintext">forms</code>:
             </p>
 
 <pre class="highlight"><code>
@@ -1172,8 +1172,8 @@
 </code></pre>
 
             <p>
-                Agora, podemos criar um novo formulário dentro de <code class="language-plaintext highlighter-rouge">views.py</code> 
-                criando uma classe Python chamada <code class="language-plaintext highlighter-rouge">NewTaskForm</code>:
+                Agora, podemos criar um novo formulário dentro de <code class="plaintext">views.py</code> 
+                criando uma classe Python chamada <code class="plaintext">NewTaskForm</code>:
             </p>
 
 <pre><code>
@@ -1187,13 +1187,13 @@
             <ul>
 
                 <li data-marker="*">
-                    Dentro dos parênteses após <code class="language-plaintext highlighter-rouge">NewTaskForm</code>, 
-                    vemos que temos <code class="language-plaintext highlighter-rouge">forms.Form</code>. 
+                    Dentro dos parênteses após <code class="plaintext">NewTaskForm</code>, 
+                    vemos que temos <code class="plaintext">forms.Form</code>. 
                     Isso acontece porque nosso novo formulário herda de uma classe chamada 
-                    <code class="language-plaintext highlighter-rouge">Form</code> que está incluída no módulo <code class="language-plaintext highlighter-rouge">forms</code>. 
+                    <code class="plaintext">Form</code> que está incluída no módulo <code class="plaintext">forms</code>. 
                     Já vimos como a herança pode ser usada na linguagem de templates do Django. 
                     Este é mais um exemplo de como a herança é usada para partir de uma descrição mais geral 
-                    (a classe <code class="language-plaintext highlighter-rouge">forms.Form</code>) e refiná-la para o que desejamos 
+                    (a classe <code class="plaintext">forms.Form</code>) e refiná-la para o que desejamos 
                     (nosso novo formulário). A herança é uma parte fundamental da Programação Orientada a Objetos, que não discutiremos 
                     em profundidade neste curso, mas existem <a href="https://www.w3schools.com/python/python_inheritance.asp" target="_blank">muitos recursos online</a> 
                     disponíveis para quem quiser aprender mais sobre o assunto!
@@ -1202,15 +1202,15 @@
                 <li data-marker="*">Dentro dessa classe, podemos especificar quais informações gostaríamos de coletar do usuário — neste caso, o nome de um curso.</li>
            
                 <li data-marker="*">
-                    Especificamos que isso deve ser um campo de texto usando <code class="language-plaintext highlighter-rouge">forms.CharField</code>, 
+                    Especificamos que isso deve ser um campo de texto usando <code class="plaintext">forms.CharField</code>, 
                     mas há <a href="https://docs.djangoproject.com/en/4.0/ref/forms/fields/#built-in-field-classes" target="_blank">muitos outros tipos de campos</a> 
                     disponíveis no módulo de formulários do Django que podemos usar.
                 </li>
 
                 <li data-marker="*">
-                    Dentro desse <code class="language-plaintext highlighter-rouge">CharField</code>, 
-                    especificamos um <code class="language-plaintext highlighter-rouge">label</code>, que será exibido para o usuário 
-                    quando ele carregar a página. Um <code class="language-plaintext highlighter-rouge">label</code> é apenas um dos 
+                    Dentro desse <code class="plaintext">CharField</code>, 
+                    especificamos um <code class="plaintext">label</code>, que será exibido para o usuário 
+                    quando ele carregar a página. Um <code class="plaintext">label</code> é apenas um dos 
                     <a href="https://docs.djangoproject.com/en/4.0/ref/forms/fields/#core-field-arguments" target="_blank">muitos argumentos</a> 
                     que podemos passar para um campo de formulário.
                 </li>
@@ -1218,8 +1218,8 @@
             </ul>
 
             <p>
-                Agora que criamos a classe <code class="language-plaintext highlighter-rouge">NewTaskForm</code>, 
-                podemos incluí-la no contexto ao renderizar a página <code class="language-plaintext highlighter-rouge">novo_curso</code>
+                Agora que criamos a classe <code class="plaintext">NewTaskForm</code>, 
+                podemos incluí-la no contexto ao renderizar a página <code class="plaintext">novo_curso</code>
             </p>
 
 <pre><code>
@@ -1229,7 +1229,7 @@
 </code></pre>
 
             <p>
-                Agora, dentro do <code class="language-plaintext highlighter-rouge">novo_curso.html</code>, 
+                Agora, dentro do <code class="plaintext">novo_curso.html</code>, 
                 podemos substituir nosso campo de entrada (input) pelo formulário que acabamos de criar:
             </p>
 
@@ -1255,12 +1255,12 @@
 </code></pre>
 
             <p>
-                Existem várias vantagens em usar o módulo <code class="language-plaintext highlighter-rouge">forms</code> 
+                Existem várias vantagens em usar o módulo <code class="plaintext">forms</code> 
                 em vez de escrever manualmente um formulário HTML:
             </p>
        
             <ul>
-                <li data-marker="*">Se quisermos adicionar novos campos ao formulário, podemos simplesmente adicioná-los em <code class="language-plaintext highlighter-rouge">views.py</code> sem precisar escrever HTML adicional.</li>
+                <li data-marker="*">Se quisermos adicionar novos campos ao formulário, podemos simplesmente adicioná-los em <code class="plaintext">views.py</code> sem precisar escrever HTML adicional.</li>
                 <li data-marker="*">
                     O Django executa automaticamente a <a href="https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation" target="_blank">validação no lado do cliente</a>, 
                     ou seja, no próprio navegador do usuário. Isso significa que ele não permitirá que o usuário envie o formulário se ele estiver incompleto.
@@ -1275,12 +1275,12 @@
             <p>
                 Agora que temos um formulário configurado, vamos trabalhar no que acontece quando um usuário clica no botão de envio. 
                 Quando um usuário acessa a página de adição clicando em um link ou digitando a URL, ele envia uma requisição  
-                <code class="language-plaintext highlighter-rouge">GET</code> para o servidor, que já tratamos na nossa função 
-                <code class="language-plaintext highlighter-rouge">novo_curso</code>. No entanto, quando ele envia um formulário, ele faz uma requisição 
-                <code class="language-plaintext highlighter-rouge">POST</code> para o servidor, que no momento ainda não está sendo tratada na função 
-                <code class="language-plaintext highlighter-rouge">novo_curso</code>. Podemos tratar o método 
-                <code class="language-plaintext highlighter-rouge">POST</code> adicionando uma condição baseada no argumento 
-                <code class="language-plaintext highlighter-rouge">request</code> que nossa função recebe. Os comentários no código 
+                <code class="plaintext">GET</code> para o servidor, que já tratamos na nossa função 
+                <code class="plaintext">novo_curso</code>. No entanto, quando ele envia um formulário, ele faz uma requisição 
+                <code class="plaintext">POST</code> para o servidor, que no momento ainda não está sendo tratada na função 
+                <code class="plaintext">novo_curso</code>. Podemos tratar o método 
+                <code class="plaintext">POST</code> adicionando uma condição baseada no argumento 
+                <code class="plaintext">request</code> que nossa função recebe. Os comentários no código 
                 abaixo explicam o propósito de cada linha:
             </p>
 
@@ -1347,10 +1347,10 @@
             <p>Sessões são uma maneira de armazenar dados únicos no lado do servidor para cada nova visita a um site.</p>
 
             <p>
-                Para usar sessões em nossa aplicação, primeiro vamos deletar a variável global <code class="language-plaintext highlighter-rouge">cursos</code>, 
-                depois alterar nossa função <code class="language-plaintext highlighter-rouge">index</code>, e por fim, garantir que em 
-                todos os lugares onde usamos a variável <code class="language-plaintext highlighter-rouge">cursos</code> ela seja substituida por 
-                <code class="language-plaintext highlighter-rouge">request.session["cursos"]</code>
+                Para usar sessões em nossa aplicação, primeiro vamos deletar a variável global <code class="plaintext">cursos</code>, 
+                depois alterar nossa função <code class="plaintext">index</code>, e por fim, garantir que em 
+                todos os lugares onde usamos a variável <code class="plaintext">cursos</code> ela seja substituida por 
+                <code class="plaintext">request.session["cursos"]</code>
             </p>
 
 <pre><code>
@@ -1405,7 +1405,7 @@
 
             <p>
                 Por fim, antes que o Django possa armazenar esses dados, devemos executar o seguinte comando no terminal: 
-                <code class="language-plaintext highlighter-rouge">python manage.py migrate</code> in the terminal. 
+                <code class="plaintext">python manage.py migrate</code> in the terminal. 
                 Na próxima semana falaremos mais sobre o que é uma migration (migração), mas por enquanto, basta saber que esse comando permite que o Django armazene sessões.
             </p>
 

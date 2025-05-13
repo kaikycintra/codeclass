@@ -19,11 +19,11 @@
     <style>
         :root,
             [data-bs-theme=light] {
-            --bs-primary: #ff8337;
+            --bs-primary: #ff9900;
             --bs-primary-darker: #d46b29;
             --bs-primary-rgb: 255, 105, 10;
             --bs-primary-text-emphasis: #9b3f07;;
-            --bs-primary-bg-subtle: #f88944;
+            --bs-primary-bg-subtle: #ff8335;
             --bs-primary-border-subtle: #f88944;
             --bs-link-color: #fd7e14;
             --bs-link-color-rgb: 255, 105, 10;
@@ -68,6 +68,15 @@
         p {
             margin-bottom: 0.5rem;
         }
+
+        /* Efeito de hover para cards de curso, que nem o Rafa fez*/
+        .card-hover {
+          transition: transform 0.3s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .card-hover:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
     </style>
     <body>
         <div class="offcanvas offcanvas-start w-100" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasExampleLabel">
@@ -104,15 +113,17 @@
             </div>
           </div>
         
-        <nav class="navbar navbar-expand-md bg-primary-subtle w-100">
+        <nav class="navbar navbar-expand-md w-100" style="background: linear-gradient(135deg,#cc5200, #ff9900);">
           <div class="container-fluid" id="navbar-content">
             <div class="d-flex">
               <a class="navbar-brand fs-5 d-flex align-items-center"
                   hx-get="class.html"
                   hx-target="next main"
                   hx-swap="outerHTML">
-                  <img src="static/student.svg" width="50px" height="50px">
-                  <h4 class="mb-0 ms-1">CodeClass</h4>
+                  <img class="rounded-5" src="static/ucl.svg" width="50" alt="codelab logo">
+                  <h4 class="mb-0 m-1 text-white">
+                    <span class="ms-2 text-dark">code</span><span class="text-white">Class</span>
+                  </h4>
               </a>
             </div>
             <a class="d-md-none" data-bs-toggle="offcanvas" href="#offcanvas" role="button" aria-controls="offcanvasExample">
@@ -122,15 +133,15 @@
             <div class="collapse navbar-collapse justify-content-md-end mt-3 mt-md-0" id="navbar-nav-dropdown">
               <ul class="navbar-nav nav-underline">
                 <li class="nav-item">
-                  <a class="nav-link fs-5"
+                  <a class="nav-link fs-5 text-white"
                      hx-get="cursos.html"
                      hx-target="next main"
                      hx-swap="outerHTML">
                      Cursos
                   </a>
                 </li>
-                <li class="nav-item fs-5">
-                  <a class="nav-link"
+                <li class="nav-item">
+                  <a class="nav-link fs-5 text-white"
                      hx-get="user.html"
                      hx-target="next main"
                      hx-swap="outerHTML">

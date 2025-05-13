@@ -8,68 +8,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                line-height: 1.6;
-                max-width: 900px;
-                margin: 0 auto;
-                padding: 20px;
-            }
-            code {
-                padding: 2px 4px;
-                border-radius: 4px;
-                font-family: monospace;
-            }
-            pre {
-                background-color: #f8f9fa;
-                padding: 10px;
-                border-radius: 4px;
-                overflow-x: auto;
-            }
-            .note {
-                background-color: #e7f5ff;
-                border-left: 4px solid #4dabf7;
-                padding: 10px;
-                margin: 10px 0;
-            }
-            table {
-                border-collapse: collapse;
-                width: 100%;
-                margin: 20px 0;
-            }
-            th, td {
-                border: 1px solid #ddd;
-                padding: 8px;
-                text-align: left;
-            }
-            th {
-                background-color: #f2f2f2;
-            }
-            img {
-                max-width: 100%;
-                height: auto;
-                display: block;
-                margin-left: auto;
-                margin-right: auto;
-                box-shadow: 0px 0px 1px rgb(18, 18, 18);
-            }
-            p{
-                text-align: justify;
-            }
-            tbody > tr:nth-of-type(even) {
-                background-color: rgb(237 238 242);
-            }
-            thead{
-                background-color: rgb(160, 160, 160);
-            }
-            table{
-                text-align: right;
-            }
-            td,th{
-                text-align: center;
-            }
-        </style>
+        <link rel="stylesheet" href="aulas.css">
 
     </head>
 
@@ -281,15 +220,16 @@
                         com “ Oi Usuário!”. Para fazer isso, temos que adicionar ao código <code class="language-plaintext highlighter-rouge">from django.http import HttpResponse</code>. Nosso arquivo está como abaixo:
                     </p>
 
-                    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 
-                        <span class="kn">from</span> <span class="n">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span>
-                        <span class="kn">from</span> <span class="n">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+<pre><code>
+<span class="func">from</span> <span class="lib">django</span><span>.</span><span class="lib">shortcuts</span> <span class="func">import</span> <span class="nome-func">render</span>
+<span class="func">from</span> <span class="lib">django</span><span>.</span><span class="lib">http</span> <span class="func">import</span> <span class="lib">HttpResponse</span>
 
-                        <span class="c1"># Crie suas views aqui.</span>
+<span class="pComment"># Crie suas views aqui.</span>
 
-                        <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-                            <span class="k">return</span> <span class="nc">HttpResponse</span><span class="p">(</span><span class="sh">"</span><span class="s">Oi Usuário!</span><span class="sh">"</span><span class="p">)</span>
-                    </code></pre></div></div>
+<span class="func">def</span> <span class="nome-func">index</span><span class="p">(</span><span class="python">request</span><span class="p">)</span><span>:</span>
+    <span class="func">return</span> <span class="lib">HttpResponse</span><span class="p">(</span><span class="string">"Oi Usuário!"</span><span class="p">)</span>
+
+</code></pre>
 
                 </li>
 
@@ -319,14 +259,15 @@
 
                     </ol>
 
-                    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 
-                        <span class="kn">from</span> <span class="n">django.urls</span> <span class="kn">import</span> <span class="n">path</span>
-                        <span class="kn">from</span> <span class="n">.</span> <span class="kn">import</span> <span class="n">views</span>
+<pre><code>
+<span class="func">from</span> <span class="lib">django</span><span>.</span><span class="lib">urls</span> <span class="func">import</span> <span class="nome-func">path</span>
+<span class="func">from</span> <span>.</span> <span class="func">import</span> <span class="lib">views</span>
 
-                        <span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
-                            <span class="nf">path</span><span class="p">(</span><span class="sh">""</span><span class="p">,</span> <span class="n">views</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sh">"</span><span class="s">index</span><span class="sh">"</span><span class="p">)</span>
-                            <span class="p">]</span>
-                    </code></pre></div></div>
+<span class="python">urlpatterns</span> <span class="pComment">=</span> <span class="p">[</span>
+    <span class="nome-func">path</span><span class="p2">(</span><span class="string">""</span><span>,</span> <span class="lib">views</span><span>.</span><span class="nome-func">index</span><span>,</span> <span class="python">name</span><span class="pComment">=</span><span class="string">"index"</span><span class="p2">)</span>
+<span class="p">]</span>
+
+</code></pre>
 
                 </li>
 
@@ -345,15 +286,16 @@
                     
                     </p>
 
-                    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                        <span class="kn">from</span> <span class="n">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
-                        <span class="kn">from</span> <span class="n">django.urls</span> <span class="kn">import</span> <span class="n">path</span><span class="p">,</span> <span class="n">include</span>
+<pre><code>
+<span class="func">from</span> <span class="lib">django</span><span>.</span><span class="lib">contrib</span> <span class="func">import</span> <span class="lib">admin</span>
+<span class="func">from</span> <span class="lib">django</span><span>.</span><span class="lib">urls</span> <span class="func">import</span> <span class="nome-func">path</span><span>,</span> <span class="nome-func">include</span>
 
-                        <span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
-                            <span class="nf">path</span><span class="p">(</span><span class="sh">'</span><span class="s">admin/</span><span class="sh">'</span><span class="p">,</span> <span class="n">admin</span><span class="p">.</span><span class="n">site</span><span class="p">.</span><span class="n">urls</span><span class="p">),</span>
-                            <span class="nf">path</span><span class="p">(</span><span class="sh">'</span><span class="s">user/</span><span class="sh">'</span><span class="p">,</span> <span class="nf">include</span><span class="p">(</span><span class="sh">"</span><span class="s">Users.urls</span><span class="sh">"</span><span class="p">))</span>
-                            <span class="p">]</span>
-                    </code></pre></div></div>
+<span class="python">urlpatterns</span> <span class="pComment">=</span> <span class="p">[</span>
+    <span class="nome-func">path</span><span class="p2">(</span><span class="string">'admin/'</span><span>,</span> <span class="lib">admin</span><span>.</span><span class="func">site</span><span>.</span><span class="func">urls</span><span class="p2">)</span><span>,</span>
+    <span class="nome-func">path</span><span class="p2">(</span><span class="string">'user/'</span><span>,</span> <span class="nome-func">include</span><span class="p3">(</span><span class="string">"Users.urls"</span><span class="p3">)</span><span class="p2">)</span>
+<span class="p">]</span>
+
+</code></pre>
 
                 </li>
                 
@@ -411,34 +353,36 @@
 
             <p>Dentro de <code class="language-plaintext highlighter-rouge">views.py</code>:</p>
 
-            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="kn">from</span> <span class="n">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span>
-                <span class="kn">from</span> <span class="n">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+<pre><code>
+<span class="func">from</span> <span class="lib">django</span><span>.</span><span class="lib">shortcuts</span> <span class="func">import</span> <span class="nome-func">render</span>
+<span class="func">from</span> <span class="lib">django</span><span>.</span><span class="lib">http</span> <span class="func">import</span> <span class="lib">HttpResponse</span>
 
-                <span class="c1"># Crie suas views aqui.</span>
+<span class="pComment"># Crie suas views aqui.</span>
 
-                <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-                    <span class="k">return</span> <span class="nc">HttpResponse</span><span class="p">(</span><span class="sh">"</span><span class="s">Oi Usuário!</span><span class="sh">"</span><span class="p">)</span>
+<span class="func">def</span> <span class="nome-func">index</span><span class="p">(</span><span class="python">request</span><span class="p">)</span><span>:</span>
+    <span class="func">return</span> <span class="lib">HttpResponse</span><span class="p">(</span><span class="string">"Oi Usuário!"</span><span class="p">)</span>
 
-                <span class="k">def</span> <span class="nf">kaiky</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-                    <span class="k">return</span> <span class="nc">HttpResponse</span><span class="p">(</span><span class="sh">"</span><span class="s">Oi Kaiky!</span><span class="sh">"</span><span class="p">)</span>
+<span class="func">def</span> <span class="nome-func">kaiky</span><span class="p">(</span><span class="python">request</span><span class="p">)</span><span>:</span>
+    <span class="func">return</span> <span class="lib">HttpResponse</span><span class="p">(</span><span class="string">"Oi Kaiky!"</span><span class="p">)</span>
 
-                <span class="k">def</span> <span class="nf">rafael</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-                    <span class="k">return</span> <span class="nc">HttpResponse</span><span class="p">(</span><span class="sh">"</span><span class="s">Oi Rafael!</span><span class="sh">"</span><span class="p">)</span>
-            </code></pre></div></div>
+<span class="func">def</span> <span class="nome-func">rafael</span><span class="p">(</span><span class="python">request</span><span class="p">)</span><span>:</span>
+    <span class="func">return</span> <span class="lib">HttpResponse</span><span class="p">(</span><span class="string">"Oi Rafael!"</span><span class="p">)</span>
+
+</code></pre>
 
             <p>Dentro de <code class="language-plaintext highlighter-rouge">urls.py</code> (na aplicação, não no projeto)</p>
 
-            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="kn">from</span> <span class="n">django.urls</span> <span class="kn">import</span> <span class="n">path</span>
-                <span class="kn">from</span> <span class="n">.</span> <span class="kn">import</span> <span class="n">views</span>
+<pre><code>
+<span class="func">from</span> <span class="lib">django</span><span>.</span><span class="lib">urls</span> <span class="func">import</span> <span class="nome-func">path</span>
+<span class="func">from</span> <span>.</span> <span class="func">import</span> <span class="lib">views</span>
 
-                <span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
-                    <span class="nf">path</span><span class="p">(</span><span class="sh">""</span><span class="p">,</span> <span class="n">views</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sh">"</span><span class="s">index</span><span class="sh">"</span><span class="p">),</span>
-                    <span class="nf">path</span><span class="p">(</span><span class="sh">"</span><span class="s">kaiky</span><span class="sh">"</span><span class="p">,</span> <span class="n">views</span><span class="p">.</span><span class="n">kaiky</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sh">"</span><span class="s">kaiky</span><span class="sh">"</span><span class="p">),</span>
-                    <span class="nf">path</span><span class="p">(</span><span class="sh">"</span><span class="s">rafael</span><span class="sh">"</span><span class="p">,</span> <span class="n">views</span><span class="p">.</span><span class="n">rafael</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sh">"</span><span class="s">rafael</span><span class="sh">"</span><span class="p">)</span>
-                    <span class="p">]</span>
-            </code></pre></div></div>
+<span class="python">urlpatterns</span> <span class="pComment">=</span> <span class="p">[</span>
+    <span class="nome-func">path</span><span class="p2">(</span><span class="string">""</span><span>,</span> <span class="lib">views</span><span>.</span><span class="nome-func">index</span><span>,</span> <span class="python">name</span><span class="pComment">=</span><span class="string">"index"</span><span class="p2">)</span><span>,</span>
+    <span class="nome-func">path</span><span class="p2">(</span><span class="string">"kaiky"</span><span>,</span> <span class="lib">views</span><span>.</span><span class="nome-func">kaiky</span><span>,</span> <span class="python">name</span><span class="pComment">=</span><span class="string">"kaiky"</span><span class="p2">)</span><span>,</span>
+    <span class="nome-func">path</span><span class="p2">(</span><span class="string">"rafael"</span><span>,</span> <span class="lib">views</span><span>.</span><span class="nome-func">rafael</span><span>,</span> <span class="python">name</span><span class="pComment">=</span><span class="string">"rafael"</span><span class="p2">)</span>
+<span class="p">]</span>
+
+</code></pre>
 
             <p>
                 Agora, o site permanece igual quando visitamos <code class="language-plaintext highlighter-rouge">localhost:8000/user</code>, 
@@ -462,19 +406,21 @@
                 ao <code class="language-plaintext highlighter-rouge">views.py</code>:
             </p>
 
-            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="k">def</span> <span class="nf">usuario</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">nome</span><span class="p">):</span>
-                    <span class="k">return</span> <span class="nc">HttpResponse</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Oi </span><span class="si">{</span><span class="n">nome</span><span class="si">}</span><span class="s">!</span><span class="sh">"</span><span class="p">)</span>
-            </code></pre></div></div>
+<pre><code>
+<span class="func">def</span> <span class="nome-func">usuario</span><span class="p">(</span><span class="python">request</span><span>,</span> <span class="python">nome</span><span class="p">)</span><span>:</span>
+    <span class="func">return</span> <span class="lib">HttpResponse</span><span class="p">(</span><span class="func">f</span><span class="string">"Oi </span><span class="p2">{</span><span class="python">nome</span><span class="p2">}</span><span class="string">!"</span><span class="p">)</span>
+
+</code></pre>
 
             <p>
                 Essa função recebe não apenas a requisição, mas também um argumento adicional com o nome do usuário, e retorna uma resposta HTTP personalizada baseada nesse nome. 
                 Em seguida, precisamos criar um caminho mais flexível em <code class="language-plaintext highlighter-rouge">urls.py</code>:
             </p>
 
-            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="nf">path</span><span class="p">(</span><span class="sh">"</span><span class="s">&lt;str:nome&gt;</span><span class="sh">"</span><span class="p">,</span> <span class="n">views</span><span class="p">.</span><span class="n">usuario</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sh">"</span><span class="s">usuario</span><span class="sh">"</span><span class="p">)</span>
-            </code></pre></div></div>
+<pre><code>
+<span class="nome-func">path</span><span class="p">(</span><span class="string">"&lt;str:nome&gt;"</span><span>,</span> <span class="lib">views</span><span>.</span><span class="nome-func">usuario</span><span>,</span> <span class="python">name</span><span class="pComment">=</span><span class="string">"usuario"</span><span class="p2">)</span>
+
+</code></pre>
 
             <p>
                 Essa é uma nova sintaxe, mas, essencialmente, estamos dizendo que não estamos mais procurando uma palavra ou nome específico na URL, mas qualquer string que o usuário possa digitar. Agora, podemos testar o site com algumas URLs diferentes:
@@ -490,10 +436,11 @@
                 com a função <code class="language-plaintext highlighter-rouge">capitalize</code> do Python, que coloca a primeira letra em maiúsculo:
             </p>
 
-            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="k">def</span> <span class="nf">usuario</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">nome</span><span class="p">):</span>
-                    <span class="k">return</span> <span class="nc">HttpResponse</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Oi </span><span class="si">{</span><span class="n">nome</span><span class="p">.</span><span class="nf">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s">!</span><span class="sh">"</span><span class="p">)</span>
-            </code></pre></div></div>
+<pre><code>
+<span class="func">def</span> <span class="nome-func">usuario</span><span class="p">(</span><span class="python">request</span><span>,</span> <span class="python">nome</span><span class="p">):</span>
+    <span class="func">return</span> <span class="lib">HttpResponse</span><span class="p">(</span><span class="func">f</span><span class="string">"Oi </span><span class="p2">{</span><span class="python">nome</span><span>.</span><span class="nome-func">capitalize</span><span class="p3">()</span><span class="p2">}</span><span class="string">!"</span><span class="p">)</span>
+
+</code></pre>
 
             <p>
                 <br>
@@ -518,10 +465,11 @@
                 <code class="language-plaintext highlighter-rouge">index</code>:
             </p>
 
-            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-                    <span class="k">return</span> <span class="nc">HttpResponse</span><span class="p">(</span><span class="sh">"</span><span class="s">&lt;h1 style=</span><span class="se">\"</span><span class="s">color:blue</span><span class="se">\"</span><span class="s">&gt;Oi Usuário!&lt;/h1&gt;</span><span class="sh">"</span><span class="p">)</span>
-            </code></pre></div></div>
+<pre><code>
+<span class="func">def</span> <span class="nome-func">index</span><span class="p">(</span><span class="python">request</span><span class="p">)</span><span>:</span>
+    <span class="func">return</span> <span class="lib">HttpResponse</span><span class="p">(</span><span class="string">"&lt;h1 style=</span><span class="escape">\"</span><span class="string">color:blue</span><span class="escape">\"</span><span class="string">&gt;Oi Usuário!&lt;/h1&gt;"</span><span class="p">)</span>
+
+</code></pre>
 
             <p>
                 <br>
@@ -541,10 +489,11 @@
                 A sintaxe que usaremos para renderizar um template é a seguinte:
             </p>
 
-            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-                    <span class="k">return</span> <span class="nf">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="sh">"</span><span class="s">Users/index.html</span><span class="sh">"</span><span class="p">)</span>
-            </code></pre></div></div>
+<pre><code>
+<span class="func">def</span> <span class="nome-func">index</span><span class="p">(</span><span class="python">request</span><span class="p">)</span><span>:</span>
+    <span class="func">return</span> <span class="nome-func">render</span><span class="p">(</span><span class="python">request</span><span>,</span> <span class="string">"Users/index.html"</span><span class="p">)</span>
+
+</code></pre>
 
             <p>
                 Agora, precisaremos criar esse template. Para isso, vamos criar uma pasta chamada 
@@ -561,24 +510,25 @@
 
             <p>Em seguida, adicionaremos o que quisermos nesse novo arquivo:</p>
 
-            <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="cp">&lt;!DOCTYPE html&gt;</span>
-                <span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"pt-br"</span><span class="nt">&gt;</span>
+<pre><code>
+<span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="innertag">lang=</span><span class="classe">"pt-br"</span><span class="tag">&gt;</span>
 
-                    <span class="nt">&lt;head&gt;</span>
-                        <span class="nt">&lt;title&gt;</span>Usuário<span class="nt">&lt;/title&gt;</span>
-                    <span class="nt">&lt;/head&gt;</span>
+    <span class="tag">&lt;head&gt;</span>
+        <span class="tag">&lt;title&gt;</span>Usuário<span class="tag">&lt;/title&gt;</span>
+    <span class="tag">&lt;/head&gt;</span>
 
-                    <span class="nt">&lt;body&gt;</span>
+    <span class="tag">&lt;body&gt;</span>
 
-                        <span class="nt">&lt;h1&gt;</span>Oi Usuário!<span class="nt">&lt;/h1&gt;</span>
+        <span class="tag">&lt;h1&gt;</span>Oi Usuário!<span class="tag">&lt;/h1&gt;</span>
 
-                        <span class="nt">&lt;p&gt;</span>Isso é uma página de usuário.<span class="nt">&lt;/p&gt;</span>
+        <span class="tag">&lt;p&gt;</span>Isso é uma página de usuário.<span class="tag">&lt;/p&gt;</span>
 
-                    <span class="nt">&lt;/body&gt;</span>
+    <span class="tag">&lt;/body&gt;</span>
 
-                <span class="nt">&lt;/html&gt;</span>
-            </code></pre></div></div>
+<span class="tag">&lt;/html&gt;</span>
+
+</code></pre>
 
             <p>
                 Agora, quando visitarmos a página principal da nossa aplicação, veremos que o cabeçalho e o título foram atualizados:
@@ -593,10 +543,11 @@
                 <code class="language-plaintext highlighter-rouge">usuario</code> de antes:
             </p>
 
-            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="k">def</span> <span class="nf">usuario</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">nome</span><span class="p">):</span>
-                    <span class="k">return</span> <span class="nf">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="sh">"</span><span class="s">Users/usuario.html</span><span class="sh">"</span><span class="p">,</span> <span class="p">{</span><span class="sh">"</span><span class="s">nome</span><span class="sh">"</span><span class="p">:</span> <span class="n">nome</span><span class="p">.</span><span class="nf">capitalize</span><span class="p">()</span><span class="p">})</span>
-            </code></pre></div></div>
+<pre><code>
+<span class="func">def</span> <span class="nome-func">usuario</span><span class="p">(</span><span class="python">request</span><span>,</span> <span class="python">nome</span><span class="p">)</span><span>:</span>
+    <span class="func">return</span> <span class="nome-func">render</span><span class="p">(</span><span class="python">request</span><span>,</span> <span class="string">"Users/usuario.html"</span><span>,</span> <span class="p2">{</span><span class="string">"nome"</span><span>:</span> <span class="python">nome</span><span>.</span><span class="nome-func">capitalize</span><span class="p3">()</span><span class="p2">}</span><span class="p">)</span>
+
+</code></pre>
 
             <p>
                 Observe que passamos um terceiro argumento para a função <code class="language-plaintext highlighter-rouge">render</code> 
@@ -605,24 +556,25 @@
                 <code class="language-plaintext highlighter-rouge">usuario.html</code> na pasta de templates:
             </p>
 
-            <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="cp">&lt;!DOCTYPE html&gt;</span>
-                <span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"pt-br"</span><span class="nt">&gt;</span>
+<pre><code>
+<span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="innertag">lang=</span><span class="classe">"pt-br"</span><span class="tag">&gt;</span>
 
-                    <span class="nt">&lt;head&gt;</span>
-                        <span class="nt">&lt;title&gt;</span>{{ nome }}<span class="nt">&lt;/title&gt;</span>
-                    <span class="nt">&lt;/head&gt;</span>
+    <span class="tag">&lt;head&gt;</span>
+        <span class="tag">&lt;title&gt;</span></span><span class="p">{{</span> </span><span class="classe">nome</span> </span><span class="p">}}</span><span class="tag">&lt;/title&gt;</span>
+    <span class="tag">&lt;/head&gt;</span>
 
-                    <span class="nt">&lt;body&gt;</span>
+    <span class="tag">&lt;body&gt;</span>
 
-                        <span class="nt">&lt;h1&gt;</span>Oi {{ nome }}!<span class="nt">&lt;/h1&gt;</span>
+        <span class="tag">&lt;h1&gt;</span>Oi </span><span class="p">{{</span> </span><span class="classe">nome</span> </span><span class="p">}}</span><span class="tag">&lt;/h1&gt;</span>
 
-                        <span class="nt">&lt;p&gt;</span>Essa é a página de {{ nome }}.<span class="nt">&lt;/p&gt;</span>
+        <span class="tag">&lt;p&gt;</span>Essa é a página de </span><span class="p">{{</span> </span><span class="classe">nome</span> </span><span class="p">}}</span><span>.</span><span class="tag">&lt;/p&gt;</span>
 
-                    <span class="nt">&lt;/body&gt;</span>
+    <span class="tag">&lt;/body&gt;</span>
 
-                <span class="nt">&lt;/html&gt;</span>
-            </code></pre></div></div>
+<span class="tag">&lt;/html&gt;</span>
+
+</code></pre>
 
             <p>
                 Você deve ter notado que usamos uma nova sintaxe: chaves duplas. 
@@ -645,7 +597,7 @@
             <!-- Condicionais -->
             <div id="conditionals">
 
-            <h3>Condicionais</h3>
+            <h2>Condicionais</h2>
 
             <p>
                 Podemos querer alterar o que é exibido em nosso site dependendo de algumas condições. 
@@ -663,12 +615,13 @@
                 <li data-marker="*">Agora que temos uma expressão para verificar se um usuário é administrador, podemos atualizar <code class="language-plaintext highlighter-rouge">views.py</code>:</li>
             </ul>
 
-            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="k">def</span> <span class="nf">usuario</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">nome</span><span class="p">):</span>
-                    <span class="n">nome</span> <span class="o">=</span> <span class="n">nome</span><span class="p">.</span><span class="nf">capitalize</span><span class="p">()</span>
-                    <span class="n">administradores</span> <span class="o">=</span> <span class="p">[</span><span class="sh">"</span><span class="s">Kaiky</span><span class="sh">"</span><span class="p">,</span><span class="sh">"</span><span class="s">Rafael</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Ryan</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Vitor</span><span class="sh">"<span class="p">]</span>
-                    <span class="k">return</span> <span class="nf">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="sh">"</span><span class="s">Users/usuario.html</span><span class="sh">"</span><span class="p">,</span> <span class="p">{</span><span class="sh">"</span><span class="s">nome</span><span class="sh">"</span><span class="p">:</span> <span class="n">nome</span><span class="p">,</span> <span class="sh">"</span><span class="s">adm</span><span class="sh">"</span><span class="p">:</span> <span class="n">nome</span> <span class="k">in</span> <span class="n">administradores</span><span class="p">})</span>
-            </code></pre></div></div>
+<pre><code>
+<span class="func">def</span> <span class="nome-func">usuario</span><span class="p">(</span><span class="python">request</span><span>,</span> <span class="python">nome</span><span class="p">)</span><span>:</span>
+    <span class="python">nome</span> <span class="pComment">=</span> <span class="python">nome</span><span>.</span><span class="nome-func">capitalize</span><span class="p">()</span>
+    <span class="python">administradores</span> <span class="pComment">=</span> <span class="p">[</span><span class="string">"Kaiky"</span><span>,</span><span class="string">"Rafael"</span><span>,</span> <span class="string">"Ryan"</span><span>,</span> <span class="string">"Vitor"<span class="p">]</span>
+    <span class="func">return</span> <span class="nome-func">render</span><span class="p">(</span><span class="python">request</span><span>,</span> <span class="string">"Users/usuario.html"</span><span>,</span> <span class="p2">{</span><span class="string">"nome"</span><span>:</span> <span class="python">nome</span><span>,</span> <span class="string">"adm"</span><span>:</span> <span class="python">nome</span> <span class="func">in</span> <span class="python">administradores</span><span class="p2">}</span><span class="p">)</span>
+
+</code></pre>
 
             <p>Note que agora passamos dois "argumentos" para usuarios.html, nome(string) e adm(booleano).</p>
 
@@ -677,34 +630,35 @@
                 Dentro desse arquivo, escreveremos algo assim:
             </p>
 
-            <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="cp">&lt;!DOCTYPE html&gt;</span>
-                <span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"pt-br"</span><span class="nt">&gt;</span>
+<pre><code>
+<span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="innertag">lang=</span><span class="classe">"pt-br"</span><span class="tag">&gt;</span>
 
-                    <span class="nt">&lt;head&gt;</span>
-                        <span class="nt">&lt;title&gt;</span>{{ nome }}<span class="nt">&lt;/title&gt;</span>
-                    <span class="nt">&lt;/head&gt;</span>
+    <span class="tag">&lt;head&gt;</span>
+        <span class="tag">&lt;title&gt;</span><span class="p">{{</span> </span><span class="classe">nome</span> </span><span class="p">}}</span><span class="tag">&lt;/title&gt;</span>
+    <span class="tag">&lt;/head&gt;</span>
 
-                    <span class="nt">&lt;body&gt;</span>
+    <span class="tag">&lt;body&gt;</span>
 
-                        <span class="nt">&lt;h1&gt;</span>Oi {{ nome }}!<span class="nt">&lt;/h1&gt;</span>
+        <span class="tag">&lt;h1&gt;</span>Oi <span class="p">{{</span> </span><span class="classe">nome</span> </span><span class="p">}}</span><span>!</span><span class="tag">&lt;/h1&gt;</span>
 
-                        <span class="nt">&lt;p&gt;</span>Essa é a página de {{ nome }}.<span class="nt">&lt;/p&gt;</span>
+        <span class="tag">&lt;p&gt;</span>Essa é a página de <span class="p">{{</span> </span><span class="classe">nome</span> </span><span class="p">}}</span><span>.</span><span class="tag">&lt;/p&gt;</span>
 
-                        {% if adm %}
+        <span class="p">{%</span> <span class="func">if</span> <span class="classe">adm</span> <span class="p">%}</span>
 
-                            <span class="nt">&lt;p&gt;</span>{{ nome }} é um administrador.<span class="nt">&lt;/p&gt;</span>
+        <span class="tag">&lt;p&gt;</span><span class="p">{{</span> </span><span class="classe">nome</span> </span><span class="p">}}</span><span> é um administrador.</span><span class="tag">&lt;/p&gt;</span>
 
-                        {% else %}
+        <span class="p">{%</span> <span class="func">else</span> <span class="p">%}</span>
 
-                            <span class="nt">&lt;p&gt;</span>{{ nome }} não é um administrador.<span class="nt">&lt;/p&gt;</span>
+        <span class="tag">&lt;p&gt;</span><span class="p">{{</span> </span><span class="classe">nome</span> </span><span class="p">}}</span><span> não é um administrador.</span><span class="tag">&lt;/p&gt;</span>
                         
-                        {% endif %}
+        <span class="p">{%</span> <span class="func">endif</span> <span class="p">%}</span>
 
-                    <span class="nt">&lt;/body&gt;</span>
+    <span class="tag">&lt;/body&gt;</span>
 
-                <span class="nt">&lt;/html&gt;</span>
-            </code></pre></div></div>
+<span class="tag">&lt;/html&gt;</span>
+
+</code></pre>
 
             <p>
                 No código acima, repare que, quando queremos incluir lógica nos nossos arquivos HTML, 
@@ -745,7 +699,7 @@
             <!-- Estilização -->
             <div id="styling">
 
-            <h3>Estilização</h3>
+            <h2>Estilização</h2>
 
             <p>
                 Se quisermos adicionar um arquivo CSS — que é um arquivo estático, pois não muda — primeiro criaremos uma pasta chamada
@@ -755,13 +709,14 @@
                 Nesse arquivo, podemos adicionar qualquer estilo que quisermos, assim como fizemos na primeira aula:
             </p>
 
-            <div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="nt">h1</span> <span class="p">{</span>
-                    <span class="nl">font-family</span><span class="p">:</span> <span class="nb">sans-serif</span><span class="p">;</span>
-                    <span class="nl">font-size</span><span class="p">:</span> <span class="m">50px</span><span class="p">;</span>
-                    <span class="nl">color</span><span class="p">:</span> <span class="nb">orange</span><span class="p">;</span>
-                <span class="p">}</span>
-            </code></pre></div></div>
+<pre><code>
+<span class="tag">h1</span> <span class="p">{</span>
+    <span class="css">font-family</span><span>:</span> <span class="css-option">sans-serif</span><span>;</span>
+    <span class="css">font-size</span><span>:</span> <span class="python">50</span><span class="css">px</span><span>;</span>
+    <span class="css">color</span><span>:</span> <span class="css-option">orange</span><span>;</span>
+<span class="p">}</span>
+
+</code></pre>
 
             <p>
                 Agora, para incluir esse estilo no nosso arquivo HTML, adicionamos a linha <code class="language-plaintext highlighter-rouge">{% load static %}</code> no topo do nosso template HTML, 
@@ -769,43 +724,45 @@
                 Em vez de escrever manualmente o link para o arquivo de estilo, como fizemos antes, usaremos uma sintaxe específica do Django:
             </p>
 
-            <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"{% static 'Users/styles.css' %}"</span><span class="nt">&gt;</span>
-            </code></pre></div></div>
+<pre><code>
+<span class="tag">&lt;link</span> <span class="innertag">rel=</span><span class="classe">"stylesheet"</span> <span class="innertag">href=</span><span class="classe">"<span class="func">{%</span> <span class="escape">static</span> <span>'Users/styles.css'</span> <span class="func">%}</span><span class="classe">"</span> </span><span class="tag">&gt;</span>
+
+</code></pre>
 
             <p>De forma que nosso HTML tenha forma:</p>
 
-            <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                {% load static %}
+<pre><code>
+<span class="p">{%</span> <span class="func">load</span> <span class="escape">static</span> <span class="p">%}</span>
 
-                <span class="cp">&lt;!DOCTYPE html&gt;</span>
-                <span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"pt-br"</span><span class="nt">&gt;</span>
+<span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="innertag">lang=</span><span class="classe">"pt-br"</span><span class="tag">&gt;</span>
 
-                    <span class="nt">&lt;head&gt;</span>
-                        <span class="nt">&lt;title&gt;</span>{{ nome }}<span class="nt">&lt;/title&gt;</span>
-                        <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"{% static 'Users/styles.css' %}"</span><span class="nt">&gt;</span>
-                    <span class="nt">&lt;/head&gt;</span>
+    <span class="tag">&lt;head&gt;</span>
+        <span class="tag">&lt;title&gt;</span><span class="p">{{</span> </span><span class="classe">nome</span> </span><span class="p">}}</span><span class="tag">&lt;/title&gt;</span>
+        <span class="tag">&lt;link</span> <span class="innertag">rel=</span><span class="classe">"stylesheet"</span> <span class="innertag">href=</span><span class="classe">"<span class="func">{%</span> <span class="escape">static</span> <span>'Users/styles.css'</span> <span class="func">%}</span><span class="classe">"</span> </span><span class="tag">&gt;</span>
+    <span class="tag">&lt;/head&gt;</span>
 
-                    <span class="nt">&lt;body&gt;</span>
+    <span class="tag">&lt;body&gt;</span>
 
-                        <span class="nt">&lt;h1&gt;</span>Oi {{ nome }}!<span class="nt">&lt;/h1&gt;</span>
+        <span class="tag">&lt;h1&gt;</span>Oi <span class="p">{{</span> </span><span class="classe">nome</span> </span><span class="p">}}</span><span>!</span><span class="tag">&lt;/h1&gt;</span>
 
-                        <span class="nt">&lt;p&gt;</span>Essa é a página de {{ nome }}.<span class="nt">&lt;/p&gt;</span>
+        <span class="tag">&lt;p&gt;</span>Essa é a página de <span class="p">{{</span> </span><span class="classe">nome</span> </span><span class="p">}}</span><span>.</span><span class="tag">&lt;/p&gt;</span>
 
-                        {% if adm %}
+        <span class="p">{%</span> <span class="func">if</span> <span class="classe">adm</span> <span class="p">%}</span>
 
-                            <span class="nt">&lt;p&gt;</span>{{ nome }} é um administrador.<span class="nt">&lt;/p&gt;</span>
+        <span class="tag">&lt;p&gt;</span><span class="p">{{</span> </span><span class="classe">nome</span> </span><span class="p">}}</span><span> é um administrador.</span><span class="tag">&lt;/p&gt;</span>
 
-                        {% else %}
+        <span class="p">{%</span> <span class="func">else</span> <span class="p">%}</span>
 
-                            <span class="nt">&lt;p&gt;</span>{{ nome }} não é um administrador.<span class="nt">&lt;/p&gt;</span>
+        <span class="tag">&lt;p&gt;</span><span class="p">{{</span> </span><span class="classe">nome</span> </span><span class="p">}}</span><span> não é um administrador.</span><span class="tag">&lt;/p&gt;</span>
                         
-                        {% endif %}
+        <span class="p">{%</span> <span class="func">endif</span> <span class="p">%}</span>
 
-                    <span class="nt">&lt;/body&gt;</span>
+    <span class="tag">&lt;/body&gt;</span>
 
-                <span class="nt">&lt;/html&gt;</span>
-            </code></pre></div></div>
+<span class="tag">&lt;/html&gt;</span>
+
+</code></pre>
 
             <p>
                 Agora, se reiniciarmos o servidor, veremos que as mudanças de estilo foram aplicadas de fato:
@@ -818,7 +775,7 @@
 
             <!-- Tarefas -->
              <div id="tasks">
-            <h2 id="tasks">Tarefas</h2>
+            <h2>Tarefas</h2>
 
             <p>
                 Agora, vamos pegar o que aprendemos até aqui e aplicar em um mini-projeto: criar uma lista de cursos. 
@@ -838,9 +795,10 @@
                 <li>
                     <p>Edite o arquivo <code class="language-plaintext highlighter-rouge">urls.py</code> do projeto e inclua um path semelhante ao que criamos para o app <code class="language-plaintext highlighter-rouge">Users</code></p>
 
-                    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 
-                        <span class="nf">path</span><span class="p">(</span><span class="sh">'</span><span class="s">cursos/</span><span class="sh">'</span><span class="p">,</span> <span class="nf">include</span><span class="p">(</span><span class="sh">"</span><span class="s">Cursos.urls</span><span class="sh">"</span><span class="p">))</span>
-                    </code></pre></div></div>
+<pre><code> 
+    <span class="nome-func">path</span><span class="p2">(</span><span class="string">'cursos/'</span><span>,</span> <span class="nome-func">include</span><span class="p3">(</span><span class="string">"Cursos.urls"</span><span class="p3">)</span><span class="p2">)</span>
+
+</code></pre>
 
                 </li>
 
@@ -851,14 +809,15 @@
                         <code class="language-plaintext highlighter-rouge">Users</code>:
                     </p>
 
-                    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                        <span class="kn">from</span> <span class="n">django.urls</span> <span class="kn">import</span> <span class="n">path</span>
-                        <span class="kn">from</span> <span class="n">.</span> <span class="kn">import</span> <span class="n">views</span>
+<pre><code>
+<span class="func">from</span> <span class="lib">django</span><span>.</span><span class="lib">urls</span> <span class="func">import</span> <span class="nome-func">path</span>
+<span class="func">from</span> <span>.</span> <span class="func">import</span> <span class="lib">views</span>
 
-                        <span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
-                                <span class="nf">path</span><span class="p">(</span><span class="sh">""</span><span class="p">,</span> <span class="n">views</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sh">"</span><span class="s">index</span><span class="sh">"</span><span class="p">),</span>
-                                <span class="p">]</span>
-                    </code></pre></div></div>
+<span class="python">urlpatterns</span> <span class="pComment">=</span> <span class="p">[</span>
+    <span class="nome-func">path</span><span class="p2">(</span><span class="string">""</span><span>,</span> <span class="lib">views</span><span>.</span><span class="nome-func">index</span><span>,</span> <span class="python">name</span><span class="pComment">=</span><span class="string">"index"</span><span class="p2">)</span>
+<span class="p">]</span>
+
+</code></pre>
 
                 </li>
 
@@ -871,45 +830,47 @@
                 para renderizar um template e fornecer nossa lista recém-criada como contexto.
             </p>
 
-            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="kn">from</span> <span class="n">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span>
+<pre><code>
+<span class="func">from</span> <span class="lib">django</span><span>.</span><span class="lib">shortcuts</span> <span class="func">import</span> <span class="nome-func">render</span>
 
-                <span class="n">cursos</span> <span class="o">=</span> <span class="p">[</span><span class="sh">"</span><span class="s">dev.learn</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">dev.hire</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">hackfools</span><span class="sh">"</span><span class="p">]</span>
+<span class="python">cursos</span> <span class="pComment">=</span> <span class="p">[</span><span class="string">"dev.learn"</span><span>,</span> <span class="string">"dev.hire"</span><span>,</span> <span class="string">"hackfools"</span><span class="p">]</span>
 
-                <span class="c1"># Create your views here.
+<span class="pComment"># Create your views here.</span>
 
-                </span><span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-                    <span class="k">return</span> <span class="nf">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="sh">"</span><span class="s">Cursos/index.html</span><span class="sh">"</span><span class="p">,</span> <span class="p">{</span><span class="sh">"</span><span class="s">cursos</span><span class="sh">"</span><span class="p">:</span> <span class="n">cursos</span><span class="p">})</span>
-            </code></pre></div></div>
+<span class="func">def</span> <span class="nome-func">index</span><span class="p">(</span><span class="python">request</span><span class="p">)</span><span>:</span>
+    <span class="func">return</span> <span class="nome-func">render</span><span class="p">(</span><span class="python">request</span><span>,</span> <span class="string">"Cursos/index.html"</span><span>,</span> <span class="p2">{</span><span class="string">"cursos"</span><span>:</span> <span class="python">cursos</span><span class="p2">}</span><span class="p">)</span>
+            
+</code></pre>
 
             <p>Agora, vamos trabalhar na criação do nosso arquivo HTML de template:</p>
 
-            <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="cp">&lt;!DOCTYPE html&gt;</span>
-                <span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"pt-br"</span><span class="nt">&gt;</span>
+<pre><code>
+<span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="innertag">lang=</span><span class="classe">"pt-br"</span><span class="tag">&gt;</span>
 
-                    <span class="nt">&lt;head&gt;</span>
-                        <span class="nt">&lt;title&gt;</span>Cursos<span class="nt">&lt;/title&gt;</span>
-                    <span class="nt">&lt;/head&gt;</span>
+    <span class="tag">&lt;head&gt;</span>
+        <span class="tag">&lt;title&gt;</span>Cursos<span class="tag">&lt;/title&gt;</span>
+    <span class="tag">&lt;/head&gt;</span>
 
-                    <span class="nt">&lt;body&gt;</span>
+    <span class="tag">&lt;body&gt;</span>
 
-                        <span class="nt">&lt;h1&gt;</span>Cursos<span class="nt">&lt;/h1&gt;</span>
+        <span class="tag">&lt;h1&gt;</span>Cursos<span class="tag">&lt;/h1&gt;</span>
 
-                        <span class="nt">&lt;ul&gt;</span>
+        <span class="tag">&lt;ul&gt;</span>
 
-                            {% for curso in cursos %}
+            <span class="p">{%</span> <span class="func">for</span> <span class="classe">curso</span> <span class="func">in</span> <span class="classe">cursos</span> <span class="p">%}</span>
 
-                                <span class="nt">&lt;li&gt;</span>{{ curso }}<span class="nt">&lt;/li&gt;</span>
+                <span class="tag">&lt;li&gt;</span><span class="p">{{</span> </span><span class="classe">curso</span> </span><span class="p">}}</span><span class="tag">&lt;/li&gt;</span>
 
-                            {% endfor %}
+            <span class="p">{%</span> <span class="func">endfor</span> <span class="p">%}</span>
 
-                        <span class="nt">&lt;/ul&gt;</span>
+        <span class="tag">&lt;/ul&gt;</span>
 
-                    <span class="nt">&lt;/body&gt;</span>
+    <span class="tag">&lt;/body&gt;</span>
 
-                <span class="nt">&lt;/html&gt;</span>
-            </code></pre></div></div>
+<span class="tag">&lt;/html&gt;</span>
+
+</code></pre>
 
             <p>
                 Repare que conseguimos iterar sobre nossas tarefas usando uma sintaxe semelhante às condicionais que vimos anteriormente, 
@@ -933,17 +894,18 @@
                 que irá renderizar uma página com um formulário para adicionar uma novo curso:
             </p>
 
-            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="c1"># Add a new task:
-                </span><span class="k">def</span> <span class="nf">novo_curso</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-                    <span class="k">return</span> <span class="nf">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="sh">"</span><span class="s">Cursos/novo_curso.html</span><span class="sh">"</span><span class="p">)</span>
-            </code></pre></div></div>
+<pre><code>
+</span><span class="func">def</span> <span class="nome-func">novo_curso</span><span class="p">(</span><span class="python">request</span><span class="p">)</span><span>:</span>
+    <span class="func">return</span> <span class="nome-func">render</span><span class="p">(</span><span class="python">request</span><span>,</span> <span class="string">"Cursos/novo_curso.html"</span><span class="p">)</span>
+
+</code></pre>
 
             <p>Em seguida, certifique-se de adicionar outro path ao <code class="language-plaintext highlighter-rouge">urls.py</code>:</p>
 
-            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="nf">path</span><span class="p">(</span><span class="sh">"</span><span class="s">novo</span><span class="sh">"</span><span class="p">,</span> <span class="n">views</span><span class="p">.</span><span class="n">novo_curso</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sh">"</span><span class="s">novo_curso</span><span class="sh">"</span><span class="p">)</span>
-            </code></pre></div></div>
+<pre><code>
+<span class="nome-func">path</span><span class="p">(</span><span class="string">"novo"</span><span>,</span> <span class="lib">views</span><span>.</span><span class="nome-func">novo_curso</span><span>,</span> <span class="python">name</span><span class="pComment">=</span><span class="string">"novo_curso"</span><span class="p">)</span>
+
+</code></pre>
 
             <p>
                 Agora, vamos criar nosso arquivo <code class="language-plaintext highlighter-rouge">novo_curso.html</code>, 
@@ -951,29 +913,30 @@
                 exceto que, no corpo, incluiremos um formulário em vez de uma lista:
             </p>
 
-            <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="cp">&lt;!DOCTYPE html&gt;</span>
-                <span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"pt-br"</span><span class="nt">&gt;</span>
+<pre><code>
+<span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="innertag">lang=</span><span class="classe">"pt-br"</span><span class="tag">&gt;</span>
 
-                    <span class="nt">&lt;head&gt;</span>
-                        <span class="nt">&lt;title&gt;</span>Cursos<span class="nt">&lt;/title&gt;</span>
-                    <span class="nt">&lt;/head&gt;</span>
+    <span class="tag">&lt;head&gt;</span>
+        <span class="tag">&lt;title&gt;</span>Cursos<span class="tag">&lt;/title&gt;</span>
+    <span class="tag">&lt;/head&gt;</span>
 
-                    <span class="nt">&lt;body&gt;</span>
+    <span class="tag">&lt;body&gt;</span>
 
-                        <span class="nt">&lt;h1&gt;</span>Adicionar Curso:<span class="nt">&lt;/h1&gt;</span>
+        <span class="tag">&lt;h1&gt;</span>Adicionar Curso:<span class="tag">&lt;/h1&gt;</span>
 
-                        <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">""</span><span class="nt">&gt;</span>
+        <span class="tag">&lt;form</span> <span class="innertag">action=</span><span class="classe">""</span><span class="tag">&gt;</span>
 
-                            <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"curso"</span><span class="nt">&gt;</span>
-                            <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span><span class="nt">&gt;</span>
+            <span class="tag">&lt;input</span> <span class="innertag">type=</span><span class="classe">"text"</span> <span class="innertag">name=</span><span class="classe">"curso"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;input</span> <span class="innertag">type=</span><span class="classe">"submit"</span><span class="tag">&gt;</span>
 
-                        <span class="nt">&lt;/form&gt;</span>
+        <span class="tag">&lt;/form&gt;</span>
 
-                    <span class="nt">&lt;/body&gt;</span>
+    <span class="tag">&lt;/body&gt;</span>
 
-                <span class="nt">&lt;/html&gt;</span>
-            </code></pre></div></div>
+<span class="tag">&lt;/html&gt;</span>
+
+</code></pre>
 
             <p>
                 No entanto, o que acabamos de fazer não é necessariamente o melhor design, pois repetimos a maior parte do HTML 
@@ -983,21 +946,22 @@
                 que conterá a estrutura geral da nossa página:
             </p>
 
-            <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="cp">&lt;!DOCTYPE html&gt;</span>
-                <span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"pt-br"</span><span class="nt">&gt;</span>
+<pre><code>
+<span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="innertag">lang=</span><span class="classe">"pt-br"</span><span class="tag">&gt;</span>
 
-                    <span class="nt">&lt;head&gt;</span>
-                        <span class="nt">&lt;title&gt;</span>Cursos<span class="nt">&lt;/title&gt;</span>
-                    <span class="nt">&lt;/head&gt;</span>
+    <span class="tag">&lt;head&gt;</span>
+        <span class="tag">&lt;title&gt;</span>Cursos<span class="tag">&lt;/title&gt;</span>
+    <span class="tag">&lt;/head&gt;</span>
 
-                    <span class="nt">&lt;body&gt;</span>
-                        {% block body %}
-                        {% endblock %}
-                    <span class="nt">&lt;/body&gt;</span>
+    <span class="tag">&lt;body&gt;</span>
+        <span class="p">{%</span> <span class="func">block</span> <span class="classe">body</span> <span class="p">%}</span>
+        <span class="p">{%</span> <span class="func">endblock</span> <span class="p">%}</span>
+    <span class="tag">&lt;/body&gt;</span>
 
-                <span class="nt">&lt;/html&gt;</span>
-            </code></pre></div></div>
+<span class="tag">&lt;/html&gt;</span>
+
+</code></pre>
 
             <p>
                 Repare que novamente usamos <code class="language-plaintext highlighter-rouge">{%...%}</code> para indicar algum 
@@ -1007,44 +971,46 @@
 
             <p><code class="language-plaintext highlighter-rouge">index.html</code>:</p>
 
-            <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                {% extends "tasks/layout.html" %}
+<pre><code>
+<span class="p">{%</span> <span class="func">extends</span> <span class="classe">"Cursos/layout.html"</span> <span class="p">%}</span>
 
-                {% block body %}
+<span class="p">{%</span> <span class="func">block</span> <span class="classe">body</span> <span class="p">%}</span>
 
-                    <span class="nt">&lt;h1&gt;</span>Cursos<span class="nt">&lt;/h1&gt;</span>
+    <span class="tag">&lt;h1&gt;</span>Cursos<span class="tag">&lt;/h1&gt;</span>
 
-                    <span class="nt">&lt;ul&gt;</span>
+    <span class="tag">&lt;ul&gt;</span>
 
-                    {% for curso in cursos %}
+        <span class="p">{%</span> <span class="func">for</span> <span class="classe">curso</span> <span class="func">in</span> <span class="classe">cursos</span> <span class="p">%}</span>
 
-                        <span class="nt">&lt;li&gt;</span>{{ curso }}<span class="nt">&lt;/li&gt;</span>
+            <span class="tag">&lt;li&gt;</span><span class="p">{{</span> </span><span class="classe">curso</span> </span><span class="p">}}</span><span class="tag">&lt;/li&gt;</span>
 
-                    {% endfor %}
+        <span class="p">{%</span> <span class="func">endfor</span> <span class="p">%}</span>
 
-                    <span class="nt">&lt;/ul&gt;</span>
+    <span class="tag">&lt;/ul&gt;</span>
 
-                {% endblock %}
-            </code></pre></div></div>
+<span class="p">{%</span> <span class="func">endblock</span> <span class="p">%}</span>
+
+</code></pre>
 
             <p><code class="language-plaintext highlighter-rouge">novo_curso.html</code>:</p>
 
-            <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                {% extends "tasks/layout.html" %}
+<pre><code>
+<span class="p">{%</span> <span class="func">extends</span> <span class="classe">"Cursos/layout.html"</span> <span class="p">%}</span>
 
-                {% block body %}
+<span class="p">{%</span> <span class="func">block</span> <span class="classe">body</span> <span class="p">%}</span>
 
-                    <span class="nt">&lt;h1&gt;</span>Adicionar Curso:<span class="nt">&lt;/h1&gt;</span>
+    <span class="tag">&lt;h1&gt;</span>Adicionar Curso:<span class="tag">&lt;/h1&gt;</span>
 
-                    <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">""</span><span class="nt">&gt;</span>
+    <span class="tag">&lt;form</span> <span class="innertag">action=</span><span class="classe">""</span><span class="tag">&gt;</span>
 
-                        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"curso"</span><span class="nt">&gt;</span>
-                        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span><span class="nt">&gt;</span>
+        <span class="tag">&lt;input</span> <span class="innertag">type=</span><span class="classe">"text"</span> <span class="innertag">name=</span><span class="classe">"curso"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;input</span> <span class="innertag">type=</span><span class="classe">"submit"</span><span class="tag">&gt;</span>
 
-                    <span class="nt">&lt;/form&gt;</span>
+    <span class="tag">&lt;/form&gt;</span>
 
-                {% endblock %}
-            </code></pre></div></div>
+<span class="p">{%</span> <span class="func">endblock</span> <span class="p">%}</span>
+
+</code></pre>
 
             <p>
                 Perceba como agora conseguimos eliminar grande parte do código repetido ao estender nosso arquivo de layout. 
@@ -1064,15 +1030,17 @@
                 <code class="language-plaintext highlighter-rouge">urls.py</code> e criar um link assim:
             </p>
 
-            <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"{% url 'novo_curso' %}"</span><span class="nt">&gt;</span>Adicionar novo curso<span class="nt">&lt;/a&gt;</span>
-            </code></pre></div></div>
+<pre><code>
+<span class="tag">&lt;a</span> <span class="innertag">href=</span><span class="classe">"</span><span class="func">{% url</span> <span class="classe">'novo_curso'</span> <span class="func">%}</span><span class="classe">"</span><span class="tag">&gt;</span>Adicionar novo curso<span class="tag">&lt;/a&gt;</span>
+
+</code></pre>
 
             <p>Onde 'novo_curso' é o nome daquela rota. Podemos fazer algo semelhante em nosso <code class="language-plaintext highlighter-rouge">novo_curso.html</code>:</p>
 
-            <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"{% url 'index' %}"</span><span class="nt">&gt;</span>Ver cursos<span class="nt">&lt;/a&gt;</span>
-            </code></pre></div></div>
+<pre class="highlight"><code>
+<span class="tag">&lt;a</span> <span class="innertag">href=</span><span class="classe">"</span><span class="func">{% url</span> <span class="classe">'index'</span> <span class="func">%}</span><span class="classe">"</span><span class="tag">&gt;</span>Adicionar novo curso<span class="tag">&lt;/a&gt;</span>
+            
+</code></pre>
 
             <p>
                 Isso, no entanto, pode criar um problema, já que temos algumas rotas chamadas 
@@ -1081,17 +1049,18 @@
                 <code class="language-plaintext highlighter-rouge">app_name</code> para que os arquivos agora fiquem parecidos com isto:
             </p>
 
-            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="kn">from</span> <span class="n">django.urls</span> <span class="kn">import</span> <span class="n">path</span>
-                <span class="kn">from</span> <span class="n">.</span> <span class="kn">import</span> <span class="n">views</span>
+<pre><code>
+<span class="func">from</span> <span class="lib">django</span><span>.</span><span class="lib">urls</span> <span class="func">import</span> <span class="nome-func">path</span>
+<span class="func">from</span> <span>.</span> <span class="func">import</span> <span class="lib">views</span>
 
-                <span class="n">app_name</span> <span class="o">=</span> <span class="sh">"</span><span class="s">Cursos</span><span class="sh">"</span>
+<span class="python">app_name</span> <span class="pComment">=</span> <span class="string">"Cursos"</span>
 
-                <span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
-                    <span class="nf">path</span><span class="p">(</span><span class="sh">""</span><span class="p">,</span> <span class="n">views</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sh">"</span><span class="s">index</span><span class="sh">"</span><span class="p">),</span>
-                    <span class="nf">path</span><span class="p">(</span><span class="sh">"</span><span class="s">novo</span><span class="sh">"</span><span class="p">,</span> <span class="n">views</span><span class="p">.</span><span class="n">novo_curso</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sh">"</span><span class="s">novo_curso</span><span class="sh">"</span><span class="p">)</span>
-                    <span class="p">]</span>
-            </code></pre></div></div>
+<span class="python">urlpatterns</span> <span class="pComment">=</span> <span class="p">[</span>
+    <span class="nome-func">path</span><span class="p2">(</span><span class="string">""</span><span>,</span> <span class="lib">views</span><span>.</span><span class="nome-func">index</span><span>,</span> <span class="python">name</span><span class="pComment">=</span><span class="string">"index"</span><span class="p2">)</span><span>,</span>
+    <span class="nome-func">path</span><span class="p2">(</span><span class="string">"novo"</span><span>,</span> <span class="lib">views</span><span>.</span><span class="nome-func">novo_curso</span><span>,</span> <span class="python">name</span><span class="pComment">=</span><span class="string">"novo_curso"</span><span class="p2">)</span>
+<span class="p">]</span>
+
+</code></pre>
 
             <p>
                 Com isso, podemos mudar nossos links de simplesmente <code class="language-plaintext highlighter-rouge">index</code> e 
@@ -1100,11 +1069,12 @@
                 <code class="language-plaintext highlighter-rouge">Cursos:novo_curso</code>
             </p>
 
-            <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"{% url 'Cursos:index' %}"</span><span class="nt">&gt;</span>Ver cursos<span class="nt">&lt;/a&gt;</span>
+<pre><code>
+<span class="tag">&lt;a</span> <span class="innertag">href=</span><span class="classe">"</span><span class="func">{% url</span> <span class="classe">'Cursos:index'</span> <span class="func">%}</span><span class="classe">"</span><span class="tag">&gt;</span>Adicionar novo curso<span class="tag">&lt;/a&gt;</span>
 
-                <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"{% url 'Cursos:novo_curso' %}"</span><span class="nt">&gt;</span>Adicionar novo curso<span class="nt">&lt;/a&gt;</span>
-            </code></pre></div></div>
+<span class="tag">&lt;a</span> <span class="innertag">href=</span><span class="classe">"</span><span class="func">{% url</span> <span class="classe">'Cursos:novo_curso'</span> <span class="func">%}</span><span class="classe">"</span><span class="tag">&gt;</span>Adicionar novo curso<span class="tag">&lt;/a&gt;</span>
+            
+</code></pre>
 
             <p>
                 <br>
@@ -1120,9 +1090,10 @@
                 <code class="language-plaintext highlighter-rouge">novo_curso.html</code>:
             </p>
 
-            <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"{% url 'Cursos:novo_curso' %}"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
-            </code></pre></div></div>
+<pre><code>
+    <span class="tag">&lt;form</span> <span class="innertag">action=</span><span class="classe">"</span><span class="func">{% url</span> <span class="classe">'Cursos:novo_curso'</span> <span class="func">%}</span><span class="classe">"</span> <span class="innertag">method=</span><span class="classe">"post"</span><span class="tag">&gt;</span>
+
+</code></pre>
 
             <p>
                 Isso significa que, ao submeter o formulário, seremos redirecionados novamente à URL 
@@ -1154,23 +1125,24 @@
                 <code class="language-plaintext highlighter-rouge">novo_curso.html</code>.
             </p>
 
-            <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                {% extends "tasks/layout.html" %}
+<pre><code>
+<span class="p">{%</span> <span class="func">extends</span> <span class="classe">"Cursos/layout.html"</span> <span class="p">%}</span>
 
-                {% block body %}
+<span class="p">{%</span> <span class="func">block</span> <span class="classe">body</span> <span class="p">%}</span>
 
-                    <span class="nt">&lt;h1&gt;</span>Adicionar Curso:<span class="nt">&lt;/h1&gt;</span>
+    <span class="tag">&lt;h1&gt;</span>Adicionar Curso:<span class="tag">&lt;/h1&gt;</span>
 
-                    <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"{% url 'Cursos:novo_curso' %}"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
-                        {% csrf_token %}
+    <span class="tag">&lt;form</span> <span class="innertag">action=</span><span class="classe">"</span><span class="p">{% url</span> <span class="classe">'Cursos:novo_curso'</span> <span class="p">%}</span><span class="classe">"</span> <span class="innertag">method=</span><span class="classe">"post"</span><span class="tag">&gt;</span>
+        <span class="p">{%</span> <span class="func">csfr_token</span> <span class="p">%}</span>
 
-                        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"curso"</span><span class="nt">&gt;</span>
-                        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span><span class="nt">&gt;</span>
+        <span class="tag">&lt;input</span> <span class="innertag">type=</span><span class="classe">"text"</span> <span class="innertag">name=</span><span class="classe">"curso"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;input</span> <span class="innertag">type=</span><span class="classe">"submit"</span><span class="tag">&gt;</span>
 
-                    <span class="nt">&lt;/form&gt;</span>
+        <span class="tag">&lt;/form&gt;</span>
 
-                {% endblock %}
-            </code></pre></div></div>
+<span class="p">{%</span> <span class="func">endblock</span> <span class="p">%}</span>
+
+</code></pre>
 
             <p>
                 Essa linha adiciona um campo oculto com o token CSRF fornecido pelo Django, de forma que, ao recarregarmos a página, 
@@ -1185,7 +1157,7 @@
             <!-- Formulários do Django -->
             <div id="django-forms">
 
-            <h3>Formulários do Django</h3>
+            <h2>Formulários do Django</h2>
 
             <p>
                 Embora possamos criar formulários escrevendo HTML puro, como acabamos de fazer, o Django fornece uma maneira ainda mais 
@@ -1194,19 +1166,21 @@
                 para importar o módulo <code class="language-plaintext highlighter-rouge">forms</code>:
             </p>
 
-            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="kn">from</span> <span class="n">django</span> <span class="kn">import</span> <span class="n">forms</span>
-            </code></pre></div></div>
+<pre class="highlight"><code>
+<span class="func">from</span> <span class="lib">django</span> <span class="func">import</span> <span class="lib">forms</span>
+
+</code></pre>
 
             <p>
                 Agora, podemos criar um novo formulário dentro de <code class="language-plaintext highlighter-rouge">views.py</code> 
                 criando uma classe Python chamada <code class="language-plaintext highlighter-rouge">NewTaskForm</code>:
             </p>
 
-            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="k">class</span> <span class="nc">NewTaskForm</span><span class="p">(</span><span class="n">forms</span><span class="p">.</span><span class="n">Form</span><span class="p">):</span>
-                    <span class="n">curso</span> <span class="o">=</span> <span class="n">forms</span><span class="p">.</span><span class="nc">CharField</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="sh">"</span><span class="s">Novo curso</span><span class="sh">"</span><span class="p">)</span>
-            </code></pre></div></div>
+<pre><code>
+<span class="func">class</span> <span class="lib">NewTaskForm</span><span class="p">(</span><span class="lib">forms</span><span>.</span><span class="lib">Form</span><span class="p">)</span><span>:</span>
+    <span class="func">curso</span> <span class="pComment">=</span> <span class="lib">forms</span><span>.</span><span class="lib">CharField</span><span class="p">(</span><span class="python">label</span><span class="pComment">=</span><span class="string">"Novo Curso"</span><span class="p">)</span>
+            
+</code></pre>
 
             <p>Agora, vamos entender o que está acontecendo dentro dessa classe:</p>
 
@@ -1248,34 +1222,37 @@
                 podemos incluí-la no contexto ao renderizar a página <code class="language-plaintext highlighter-rouge">novo_curso</code>
             </p>
 
-            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="c1"># Add a new task:
-                </span><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-                    <span class="k">return</span> <span class="nf">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="sh">"</span><span class="s">Cursos/novo_curso.html</span><span class="sh">"</span><span class="p">,</span> <span class="p">{</span><span class="sh">"</span><span class="s">form</span><span class="sh">"</span><span class="p">:</span> <span class="nc">NewTaskForm</span><span class="p">()</span><span class="p">})</span>
-            </code></pre></div></div>
+<pre><code>
+</span><span class="func">def</span> <span class="nome-func">novo_curso</span><span class="p">(</span><span class="python">request</span><span class="p">)</span><span>:</span>
+    <span class="func">return</span> <span class="nome-func">render</span><span class="p">(</span><span class="python">request</span><span>,</span> <span class="string">"Cursos/novo_curso.html"</span><span>,</span> <span class="p2">{</span><span class="string">"form"</span><span>:</span> <span class="lib">NewTaskForm</span><span class="p3">()</span><span class="p2">}</span><span class="p">)</span>
+
+</code></pre>
 
             <p>
                 Agora, dentro do <code class="language-plaintext highlighter-rouge">novo_curso.html</code>, 
                 podemos substituir nosso campo de entrada (input) pelo formulário que acabamos de criar:
             </p>
 
-            <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                {% extends "tasks/layout.html" %}
+<pre><code>
+<span class="p">{%</span> <span class="func">extends</span> <span class="classe">"Cursos/layout.html"</span> <span class="p">%}</span>
 
-                {% block body %}
+<span class="p">{%</span> <span class="func">block</span> <span class="classe">body</span> <span class="p">%}</span>
 
-                    <span class="nt">&lt;h1&gt;</span>Adicionar Curso:<span class="nt">&lt;/h1&gt;</span>
+    <span class="tag">&lt;h1&gt;</span>Adicionar Curso:<span class="tag">&lt;/h1&gt;</span>
 
-                    <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"{% url 'Cursos:novo_curso' %}"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
-                        {% csrf_token %}
+    <span class="tag">&lt;form</span> <span class="innertag">action=</span><span class="classe">"</span><span class="p">{% url</span> <span class="classe">'Cursos:novo_curso'</span> <span class="p">%}</span><span class="classe">"</span> <span class="innertag">method=</span><span class="classe">"post"</span><span class="tag">&gt;</span>
+        <span class="p">{%</span> <span class="func">csfr_token</span> <span class="p">%}</span>
 
-                        {{ form }}
-                        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span><span class="nt">&gt;</span>
+        <span class="p">{%</span> <span class="classe">form</span> <span class="p">%}</span>
+        <span class="tag">&lt;input</span> <span class="innertag">type=</span><span class="classe">"submit"</span><span class="tag">&gt;</span>
 
-                    <span class="nt">&lt;/form&gt;</span>
+    <span class="tag">&lt;/form&gt;</span>
 
-                {% endblock %}
-            </code></pre></div></div>
+    <span class="tag">&lt;a</span> <span class="innertag">href=</span><span class="classe">"</span><span class="p2">{% url</span> <span class="classe">'Cursos:index'</span> <span class="p2">%}</span><span class="classe">"</span><span class="tag">&gt;</span><span>Ver cursos</span><span class="tag">&lt;/a&gt;</span>
+
+<span class="p">{%</span> <span class="func">endblock</span> <span class="p">%}</span>
+
+</code></pre>
 
             <p>
                 Existem várias vantagens em usar o módulo <code class="language-plaintext highlighter-rouge">forms</code> 
@@ -1307,41 +1284,42 @@
                 abaixo explicam o propósito de cada linha:
             </p>
 
-            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                </span><span class="k">def</span> <span class="nf">novo_curso</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<pre><code>
+<span class="func">def</span> <span class="nome-func">novo_curso</span><span class="p">(</span><span class="python">request</span><span class="p">)</span><span>:</span>
 
-                    <span class="c1"># Checa se a requisição é POST</span>
-                    <span class="k">if</span> <span class="n">request</span><span class="p">.</span><span class="n">method</span> <span class="o">==</span> <span class="sh">"</span><span class="s">POST</span><span class="sh">"</span><span class="p">:</span>
+    <span class="func">if</span> <span class="p">(</span><span class="python">request</span><span>.</span><span class="func">method</span> <span class="pComment">==</span> <span class="string">"POST"</span><span class="p">)</span><span>:</span>
 
-                        <span class="c1"># Salva em um form os dados submetidos pelo usuário</span>
-                        <span class="n">form</span> <span class="o">=</span> <span class="nc">NewTaskForm</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="pComment"># Salva em um form os dados submetidos pelo usuário</span>
+        <span class="python">form</span> <span class="pComment">=</span> <span class="lib">NewTaskForm</span><span class="p">(</span><span class="python">request</span><span>.</span><span class="escape">POST</span><span class="p">)</span>
 
-                        <span class="c1"># Checa se os dados do form são válidos (server-side)</span>
-                        <span class="k">if</span> <span class="n">form</span><span class="p">.</span><span class="nf">is_valid</span><span class="p">():</span>
+        <span class="pComment"># Checa se os dados do form são válidos (server-side)</span>
+        <span class="func">if</span> <span class="p">(</span><span class="python">form</span><span>.</span><span class="nome-func">is_valid</span><span class="p2">()</span><span class="p">)</span><span>:</span>
 
-                            <span class="c1">#Isola o curso da versão 'limpa' dos dados do form</span>
-                            <span class="n">curso</span> <span class="o">=</span> <span class="n">form</span><span class="p">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="sh">"</span><span class="s">curso</span><span class="sh">"</span><span class="p">]</span>
+            <span class="pComment">#Isola o curso da versão 'limpa' dos dados do form</span>
+            <span class="python">curso</span> <span class="pComment">=</span> <span class="python">form</span><span>.</span><span class="func">cleaned_data</span><span class="p">[</span><span class="string">"curso"</span><span class="p">]</span>
 
-                            <span class="c1"># Adiciona o novo curso na lista de cursos</span>
-                            <span class="n">cursos</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">curso</span><span class="p">)</span>
+            <span class="pComment"># Adiciona o novo curso na lista de cursos</span>
+            <span class="python">cursos</span><span>.</span><span class="nome-func">append</span><span class="p">(</span><span class="python">curso</span><span class="p">)</span>
 
-                            <span class="c1"># Redireciona o usuário para a lista de cursos</span>
-                            <span class="k">return</span> <span class="nc">HttpResponseRedirect</span><span class="p">(</span><span class="nf">reverse</span><span class="p">(</span><span class="sh">"</span><span class="s">Cursos:index</span><span class="sh">"</span><span class="p">))</span>
+            <span class="pComment"># Redireciona o usuário para a lista de cursos</span>
+            <span class="func">return</span> <span class="lib">HttpResponseRedirect</span><span class="p">(</span><span class="nome-func">reverse</span><span class="p2">(</span><span class="string">"</span><span class="classe">Cursos:index</span><span class="string">"</span><span class="p2">)</span><span class="p">)</span>
 
-                    <span class="k">else</span><span class="p">:</span>
+        <span class="func">else</span><span>:</span>
 
-                        <span class="c1"># Se o formulário é inválido, re-renderiza a página com informações existentes.</span>
-                        <span class="k">return</span> <span class="nf">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="sh">"</span><span class="s">Cursos/novo_curso.html</span><span class="sh">"</span><span class="p">,</span> <span class="p">{</span><span class="sh">"</span><span class="s">form</span><span class="sh">"</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span>
+            <span class="pComment"># Se o formulário é inválido, re-renderiza a página com informações existentes.</span>
+            <span class="func">return</span> <span class="nome-func">render</span><span class="p">(</span><span class="python">request</span><span>,</span> <span class="string">"Cursos/novo_curso.html"</span><span>,</span> <span class="p2">{</span><span class="string">"form"</span><span class="p">:</span> <span class="python">form</span><span class="p2">}</span><span class="p">)</span>
 
-                    <span class="k">return</span> <span class="nf">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="sh">"</span><span class="s">Cursos/novo_curso.html</span><span class="sh">"</span><span class="p">,</span> <span class="p">{</span><span class="sh">"</span><span class="s">form</span><span class="sh">"</span><span class="p">:</span> <span class="nc">NewTaskForm</span><span class="p">()</span><span class="p">})</span>
-            </code></pre></div></div>
+        <span class="func">return</span> <span class="nome-func">render</span><span class="p">(</span><span class="python">request</span><span>,</span> <span class="string">"Cursos/novo_curso.html"</span><span>,</span> <span class="p2">{</span><span class="string">"form"</span><span>:</span> <span class="lib">NewTaskForm</span><span class="p3">()</span><span class="p2">}</span><span class="p">)</span>
+
+</code></pre>
 
             <p>Observação - para redirecionar o usuário após um envio bem-sucedido, precisaremos de mais alguns imports:</p>
 
-            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                <span class="kn">from</span> <span class="n">django.urls</span> <span class="kn">import</span> <span class="n">reverse</span>
-                <span class="kn">from</span> <span class="n">django.http</span> <span class="kn">import</span> <span class="n">HttpResponseRedirect</span>
-            </code></pre></div></div>
+<pre><code>
+<span class="func">from</span> <span class="lib">django</span><span>.</span><span class="lib">urls</span> <span class="func">import</span> <span class="nome-func">reverse</span>
+<span class="func">from</span> <span class="lib">django</span><span>.</span><span class="lib">http</span> <span class="func">import</span> <span class="lib">HttpResponseRedirect</span>
+
+</code></pre>
 
             <p>
                 Finalmente, podemos adicionar um curso:
@@ -1375,43 +1353,44 @@
                 <code class="language-plaintext highlighter-rouge">request.session["cursos"]</code>
             </p>
 
-            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-            <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<pre><code>
+<span class="func">def</span> <span class="nome-func">index</span><span class="p">(</span><span class="python">request</span><span class="p">)</span><span>:</span>
 
-                <span class="c1"># Verifica se já existe uma chave "cursos" na sessão atual</span>
-                <span class="k">if</span> <span class="sh">"</span><span class="s">cursos</span><span class="sh">"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">request</span><span class="p">.</span><span class="n">session</span><span class="p">:</span>
+    <span class="pComment"># Verifica se já existe uma chave "cursos" na sessão atual</span>
+    <span class="func">if</span> <span class="p">(</span><span class="string">"cursos"</span> <span class="escape">not</span> <span class="func">in</span> <span class="python">request</span><span>.</span><span class="func">session</span><span class="p">)</span><span>:</span>
 
-                    <span class="c1"># Se não estiver, cria uma lista nova</span>
-                    <span class="n">request</span><span class="p">.</span><span class="n">session</span><span class="p">[</span><span class="sh">"</span><span class="s">cursos</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="pComment"># Se não estiver, cria uma lista nova</span>
+        <span class="python">request</span><span>.</span><span class="func">session</span><span class="p">[</span><span class="string">"cursos"</span><span class="p">]</span> <span class="pComment">=</span> <span class="p">[]</span>
 
-            <span class="k">return</span> <span class="nf">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="sh">"</span><span class="s">Cursos/index.html</span><span class="sh">"</span><span class="p">,</span> <span class="p">{</span><span class="sh">"</span><span class="s">cursos</span><span class="sh">"</span><span class="p">:</span> <span class="n">request</span><span class="p">.</span><span class="n">session</span><span class="p">[</span><span class="sh">"</span><span class="s">cursos</span><span class="sh">"</span><span class="p">]</span><span class="p">})</span>
+    <span class="func">return</span> <span class="nome-func">render</span><span class="p">(</span><span class="python">request</span><span>,</span> <span class="string">"Cursos/index.html"</span><span>,</span> <span class="p2">{</span><span class="string">"cursos"</span><span>:</span> <span class="python">request</span><span class="p">.</span><span class="func">session</span><span class="p3">[</span><span class="string">"cursos"</span><span class="p3">]</span><span class="p2">}</span><span class="p">)</span>
 
-            <span class="k">def</span> <span class="nf">novo_curso</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="func">def</span> <span class="nome-func">novo_curso</span><span class="p">(</span><span class="python">request</span><span class="p">)</span><span>:</span>
 
-                <span class="k">if</span> <span class="n">request</span><span class="p">.</span><span class="n">method</span> <span class="o">==</span> <span class="sh">"</span><span class="s">POST</span><span class="sh">"</span><span class="p">:</span>
+    <span class="func">if</span> <span class="p">(</span><span class="python">request</span><span>.</span><span class="func">method</span> <span class="pComment">==</span> <span class="string">"POST"</span><span class="p">)</span><span>:</span>
 
-                    <span class="c1"># Salva em um form os dados submetidos pelo usuário</span>
-                    <span class="n">form</span> <span class="o">=</span> <span class="nc">NewTaskForm</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="pComment"># Salva em um form os dados submetidos pelo usuário</span>
+        <span class="python">form</span> <span class="pComment">=</span> <span class="lib">NewTaskForm</span><span class="p">(</span><span class="python">request</span><span>.</span><span class="escape">POST</span><span class="p">)</span>
 
-                    <span class="c1"># Checa se os dados do form são válidos (server-side)</span>
-                    <span class="k">if</span> <span class="n">form</span><span class="p">.</span><span class="nf">is_valid</span><span class="p">():</span>
+        <span class="pComment"># Checa se os dados do form são válidos (server-side)</span>
+        <span class="func">if</span> <span class="p">(</span><span class="python">form</span><span>.</span><span class="nome-func">is_valid</span><span class="p2">()</span><span class="p">)</span><span>:</span>
 
-                        <span class="c1">#Isola o curso da versão 'limpa' dos dados do form</span>
-                        <span class="n">curso</span> <span class="o">=</span> <span class="n">form</span><span class="p">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="sh">"</span><span class="s">curso</span><span class="sh">"</span><span class="p">]</span>
+            <span class="pComment">#Isola o curso da versão 'limpa' dos dados do form</span>
+            <span class="python">curso</span> <span class="pComment">=</span> <span class="python">form</span><span>.</span><span class="func">cleaned_data</span><span class="p">[</span><span class="string">"curso"</span><span class="p">]</span>
 
-                        <span class="c1"># Adiciona o novo curso na lista de cursos</span>
-                        <span class="n">request</span><span class="p">.</span><span class="n">session</span><span class="p">[</span><span class="sh">"</span><span class="s">cursos</span><span class="sh">"</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">curso</span><span class="p">]</span>
+            <span class="pComment"># Adiciona o novo curso na lista de cursos</span>
+            <span class="python">request</span><span>.</span><span class="func">session</span><span class="p">[</span><span class="string">"cursos"</span><span class="p">]</span> <span class="pComment">+=</span> <span class="p">[</span><span class="python">curso</span><span class="p">]</span>
 
-                        <span class="c1"># Redireciona o usuário para a lista de cursos</span>
-                        <span class="k">return</span> <span class="nc">HttpResponseRedirect</span><span class="p">(</span><span class="nf">reverse</span><span class="p">(</span><span class="sh">"</span><span class="s">Cursos:index</span><span class="sh">"</span><span class="p">))</span>
+            <span class="pComment"># Redireciona o usuário para a lista de cursos</span>
+            <span class="func">return</span> <span class="lib">HttpResponseRedirect</span><span class="p">(</span><span class="nome-func">reverse</span><span class="p2">(</span><span class="string">"Cursos:index"</span><span class="p2">)</span><span class="p">)</span>
 
-                    <span class="k">else</span><span class="p">:</span>
+        <span class="func">else</span><span>:</span>
 
-                        <span class="c1"># Se o formulário é inválido, re-renderiza a página com informações existentes.</span>
-                        <span class="k">return</span> <span class="nf">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="sh">"</span><span class="s">Cursos/novo_curso.html</span><span class="sh">"</span><span class="p">,</span> <span class="p">{</span><span class="sh">"</span><span class="s">form</span><span class="sh">"</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span>
+            <span class="pComment"># Se o formulário é inválido, re-renderiza a página com informações existentes.</span>
+            <span class="func">return</span> <span class="nome-func">render</span><span class="p">(</span><span class="python">request</span><span>,</span> <span class="string">"Cursos/novo_curso.html"</span><span>,</span> <span class="p2">{</span><span class="string">"form"</span><span>:</span> <span class="python">form</span><span class="p2">}</span><span class="p">)</span>
 
-                    <span class="k">return</span> <span class="nf">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="sh">"</span><span class="s">Cursos/novo_curso.html</span><span class="sh">"</span><span class="p">,</span> <span class="p">{</span><span class="sh">"</span><span class="s">form</span><span class="sh">"</span><span class="p">:</span> <span class="nc">NewTaskForm</span><span class="p">()</span><span class="p">})</span>
-            </code></pre></div></div>
+    <span class="func">return</span> <span class="nome-func">render</span><span class="p">(</span><span class="python">request</span><span>,</span> <span class="string">"Cursos/novo_curso.html"</span><span>,</span> <span class="p2">{</span><span class="string">"form"</span><span>:</span> <span class="lib">NewTaskForm</span><span class="p3">()</span><span class="p2">}</span><span class="p">)</span>
+
+</code></pre>
 
             <p>
                 Assim, temos que as telas por sessão serão:

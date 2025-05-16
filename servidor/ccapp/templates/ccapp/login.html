@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tela de Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+        background-color: #121212;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #f1f1f1;
+    }
+    .login-form {
+        max-width: 400px;
+        width: 100%;
+        padding: 2rem;
+        background: #1e1e1e;
+        border-radius: 0.5rem;
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.3);
+    }
+    .form-control {
+        background-color: #2c2c2c;
+        color: #f1f1f1;
+        border: 1px solid #444;
+    }
+    .form-control::placeholder {
+        color: #ccc;
+        opacity: 1;
+    }
+    .form-control:focus {
+        background-color: #2c2c2c;
+        color: #fff;
+        border-color: #ff690a;
+        box-shadow: 0 0 0 0.2rem rgba(255, 105, 10, 0.25);
+    }
+    .btn-orange {
+        background-color: #ff690a;
+        border: none;
+    }
+    .btn-orange:hover {
+        background-color: #e65e09;
+    }
+    .icon-container {
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+    .icon-container img {
+        width: 200px;
+        height: auto;
+    }
+    a {
+        color: #ff690a;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-form">
+    <div class="icon-container">
+      <img src="{% static 'ccapp/codelab.png' %}" style="height: 150px; width: auto;" alt="CodeLab Logo">
+    </div>
+    <h2 class="text-center mb-4">Login</h2>
+    <form>
+      <div class="mb-3">
+        <label for="email" class="form-label">E-mail</label>
+        <input type="email" class="form-control" id="email" placeholder="Digite seu e-mail">
+      </div>
+      <div class="mb-3">
+        <label for="senha" class="form-label">Senha</label>
+        <input type="password" class="form-control" id="senha" placeholder="Digite sua senha">
+      </div>
+      <div class="d-grid">
+        <button type="submit" class="btn btn-orange">Entrar</button>
+      </div>
+    </form>
+    <div class="mt-3 text-center">
+      <a href="#">Esqueceu a senha?</a>
+    </div>
+    <div class="mt-3 text-center">
+        Não tem conta? 
+        <a href="cadastro.html"> Cadastre-se</a>
+      </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("loginForm");
+  
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+  
+        const emailDigitado = document.getElementById("email").value;
+        const senhaDigitada = document.getElementById("senha").value;
+  
+        const usuarioSalvo = JSON.parse(localStorage.getItem("usuarioCadastrado"));
+  
+        if (!usuarioSalvo) {
+          alert("Nenhum usuário cadastrado!");
+          return;
+        }
+  
+        if (
+          emailDigitado === usuarioSalvo.email &&
+          senhaDigitada === usuarioSalvo.senha
+        ) {
+          alert("Login bem-sucedido!");
+        } else {
+          alert("E-mail ou senha incorretos.");
+        }
+      });
+    });
+  </script>
+</body>
+</html>

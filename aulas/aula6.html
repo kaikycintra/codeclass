@@ -236,19 +236,256 @@
               hx-target="main"
               hx-trigger="load"&gt;
         &lt;/main&gt;
-    &lt;/body&gt;
+    &lt;/body&gt; 
 &lt;/html&gt;</code></pre>
-    <h2>Scroll</h2>
-    <p>hx-trigger load e revealed</p>
     <h2>Paginação</h2>
-    <p>Mexer no template e botões com hx-get e hx-include</p>
+    <p>
+        Paginação é uma técnica de bancos de dados que permite retornar as linhas de uma tabela em páginas.
+        Isso é útil para quando temos conteúdo demais em uma tabela e queremos mostrá-lo em partes para os usuários.
+    </p>
+    <p>
+        Para experimentar com paginação usando Django e HTMX podemos usar o modelo padrão de usuários:
+    </p>
+    <ul>
+        <li>python manage.py migrate</li>
+        <li>python manage.py createsuperuser</li>
+        <li>ir para http://localhost:8000/admin</li>
+        <li>criar usuários na página de admin</li>
+    </ul>
+    <p>views.py:</p>
+    <pre><code class="language-python">from django.shortcuts import render
+from django.core.paginator import Paginator
+from django.contrib.auth.models import User
+from django.views.decorators.http import require_http_methods
+
+@require_http_methods(["GET"])
+def index(request):
+    return render(request, "ccapp/index.html")
+
+@require_http_methods(["GET"])
+def usuarios(request):
+    usuarios = User.objects.all().order_by('id')
+    paginator = Paginator(usuarios, 2)
+    pagina = request.GET.get('pagina', 1)
+    usuarios = paginator.page(pagina)
+    ultima_pagina = not usuarios.has_next()
+
+    return render(request, "ccapp/usuarios.html", {
+        "usuarios": usuarios,
+        "ultima_pagina": ultima_pagina,
+        "pagina": pagina,
+    })</code></pre>
+    <p>index.html:</p>
+    <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-br"&gt;
+    &lt;head&gt;
+        &lt;title&gt;CodeClass&lt;/title&gt;
+        &lt;script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;CodeClass&lt;/h1&gt;
+        &lt;nav&gt;
+            &lt;button hx-get="cursos"
+                    hx-target="main"&gt;
+                Cursos
+            &lt;/button&gt;
+            &lt;button hx-get="usuarios"
+                    hx-target="main"&gt;
+                Usuários
+            &lt;/button&gt;
+        &lt;/nav&gt;
+        &lt;hr&gt;
+        &lt;main hx-get="usuarios"
+              hx-target="main"
+              hx-trigger="load"&gt;
+        &lt;/main&gt;
+    &lt;/body&gt; 
+&lt;/html&gt;</code></pre>
+    <p>usuarios.html:</p>
+    <pre><code class="language-html">&lt;div&gt;
+    {% for usuario in usuarios %}
+    &lt;h3&gt;{{ usuario }}&lt;/h3&gt;
+    {% endfor %}
+    &lt;p&gt;&lt;strong&gt;Página {{ pagina }}&lt;/strong&gt;&lt;/p&gt;
+    &lt;button hx-get="usuarios?pagina={{ pagina|add:'-1' }}"
+            hx-target="closest main"
+            {% if pagina == 1 %} disabled {% endif %}&gt;
+        Anterior
+    &lt;/button&gt;
+    &lt;button hx-get="usuarios?pagina={{ pagina|add:'1' }}"
+            hx-target="closest main"
+            {% if ultima_pagina %} disabled {% endif %}&gt;
+        Próximo
+    &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+
     <h2>Scroll Infinito</h2>
+    <p>usuarios.html:</p>
+    <pre><code class="language-html">&lt;div&gt;
+    {% if ultima_pagina is not True %}
+    &lt;div hx-get="usuarios?pagina={{ pagina|add:'1'}}"
+         hx-trigger="intersect"
+         hx-target="closest main"
+         hx-swap="beforeend"&gt;
+    &lt;/div&gt;
+    {% else %}
+    &lt;!--Loop nas páginas partindo do começo--&gt;
+    &lt;div hx-get="usuarios?pagina=1"
+         hx-trigger="intersect"
+         hx-target="closest main"
+         hx-swap="beforeend"&gt;
+    &lt;/div&gt;
+    {% endif %}
+    {% for usuario in usuarios %}
+    &lt;div style="background-color: green; height: 300px; width: 300px;"&gt;
+        &lt;h3&gt;{{ usuario }}&lt;/h3&gt;
+    &lt;/div&gt;
+    {% endfor %}
+&lt;/div&gt;</code></pre>
     <h2>Busca</h2>
-    <p>hx-trigger changed e delay</p>    
+    <p>usuarios.html:</p>
+    <pre><code class="language-html">&lt;input type="text" 
+       name="busca"
+       style="margin-top: 10px;"
+       hx-get="usuarios"
+       hx-trigger="input changed delay:500ms"
+       hx-target="#div-usuarios"
+       hx-select="#div-usuarios"&gt;
+&lt;div id="div-usuarios"&gt;
+    {% for usuario in usuarios %}
+        &lt;h3&gt;{{ usuario }}&lt;/h3&gt;
+    {% empty %}
+        &lt;h3&gt;Nenhum usuário encontrado&lt;/h3&gt;
+    {% endfor %}
+&lt;/div&gt;</code></pre>
     <h2>Carregamento</h2>
-    <p>Podemos usar o hx-indicator e o bootstrap placeholder</p>
+    <p>
+        É importante saber lidar com tempos de carregamento maiores para que os usuários não se sintam frustrados.
+        Podemos simular uma resposta mais demorado usando o time.sleep no nosso views.py
+    </p>
+    <p>views.py:</p>
+    <pre><code class="language-python">from django.shortcuts import render
+from django.core.paginator import Paginator
+from django.contrib.auth.models import User
+from django.views.decorators.http import require_http_methods
+import time
+
+@require_http_methods(["GET"])
+def index(request):
+    return render(request, "ccapp/index.html")
+
+@require_http_methods(["GET"])
+def usuarios(request):
+    busca = request.GET.get('busca')
+    if busca:
+        usuarios = User.objects.filter(username__icontains=busca)
+    else:
+        usuarios = User.objects.all()
+
+    time.sleep(2)
+    return render(request, "ccapp/usuarios.html", {
+        "usuarios": usuarios,
+    })</code></pre>
+    
+    <p>
+        Já no nosso usuarios.html, usamos o atributo hx-indicator com uma classe própria definida no index.
+        Também usamos o hx-on para fazer o resultado atual sumir e o novo aparecer. Usamos o bootstrap para placeholder.
+    </p>
+    <p>usuarios.html:</p>
+    <pre><code class="language-html">&lt;input type="text" 
+        name="busca"
+        style="margin-top: 10px;"
+        hx-get="usuarios"
+        hx-trigger="input changed delay:500ms"
+        hx-target="#div-usuarios"
+        hx-select="#div-usuarios"
+        hx-indicator="#loading"
+        hx-on::before-request="document.getElementById('div-usuarios').style.display = 'none';"
+        hx-on::after-request="document.getElementById('div-usuarios').style.display = 'block';"&gt;
+ 
+ &lt;p id="loading" class="placeholder-glow my-indicator"&gt;
+     &lt;span class="placeholder w-100"&gt;&lt;/span&gt;
+ &lt;/p&gt;
+ 
+ &lt;div id="div-usuarios"&gt;
+     {% for usuario in usuarios %}
+         &lt;h3&gt;{{ usuario }}&lt;/h3&gt;
+     {% empty %}
+         &lt;h3&gt;Nenhum usuário encontrado&lt;/h3&gt;
+     {% endfor %}
+ &lt;/div&gt;</code></pre> 
+
+    <p>Importamos o bootstrap e definimos a classe my-indicator no index.html:</p>
+    <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-br"&gt;
+    &lt;head&gt;
+        &lt;title&gt;CodeClass&lt;/title&gt;
+        &lt;script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"&gt;&lt;/script&gt;
+        &lt;script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"&gt;&lt;/script&gt;
+        &lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous"&gt;
+    &lt;/head&gt;
+    &lt;style&gt;
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .my-indicator{
+            display: none;
+        }
+        .htmx-request .my-indicator{
+            display: inline;
+        }
+        .htmx-request.my-indicator{
+            display: inline;
+        }
+    &lt;/style&gt;
+    &lt;body&gt;
+        &lt;h1&gt;CodeClass&lt;/h1&gt;
+        &lt;nav&gt;
+            &lt;button hx-get="cursos"
+                    hx-target="main"&gt;
+                Cursos
+            &lt;/button&gt;
+            &lt;button hx-get="usuarios"
+                    hx-target="main"&gt;
+                Usuários
+            &lt;/button&gt;
+        &lt;/nav&gt;
+        &lt;hr class="w-50"&gt;
+        &lt;main hx-get="usuarios"
+              hx-target="main"
+              hx-trigger="load"&gt;
+        &lt;/main&gt;
+    &lt;/body&gt; 
+&lt;/html&gt;</code></pre>
     <h2>Animações</h2>
-    <p>Podemos aplicar animações ao selecionar ou apagar um recurso</p>
+    <p>
+        Existem várias formas de animar elementos, uma delas é usar a propriedade <code class="language-css">transition</code> de CSS.
+        Como um exemplo, vamos animar o clique em um usuário para que apareça um fundo laranja temporariamente.
+    </p>
+    <p>dentro da tag style do index.html:</p>
+    <pre><code class="language-css">h3 {
+    transition: background-color 0.2s ease-in-out;
+}
+.highlight {
+    background-color: rgb(207, 166, 90);
+}</code></pre> 
+    <p>div-usuarios no usuarios.html:</p>
+    <pre><code class="language-html">&lt;div id="div-usuarios"&gt;
+    {% for usuario in usuarios %}
+        &lt;h3 hx-on:click="
+                this.classList.add('highlight');
+                setTimeout(() =&gt; this.classList.remove('highlight'), 500)"&gt;
+            {{ usuario }}
+        &lt;/h3&gt;
+    {% empty %}
+        &lt;h3&gt;Nenhum usuário encontrado&lt;/h3&gt;
+    {% endfor %}
+&lt;/div&gt;</code></pre>
+    <p>Também podemos animar usando keyframes CSS ou a View Transitions API.</p>
     
     <!-- Prism.js JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

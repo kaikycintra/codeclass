@@ -1,0 +1,273 @@
+/* Fonte */
+.fredoka{
+    font-family: "Fredoka", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-variation-settings:
+        "wdth" 100;
+}
+
+/* Fonte */
+.bungee-regular {
+    font-family: "Bungee", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Fonte */
+.varela-round-regular {
+    font-family: "Varela Round", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Fonte */
+.jost {
+    font-family: "Jost", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.navbar{
+    background: linear-gradient(to bottom, #ffff99 0%, #ffcc66 100%);
+    box-shadow: 0px 0px 3px rgb(24, 24, 24);
+    height: 10vh;
+    padding-right: 2vw;
+}
+
+.zoom{
+    transition: all .2s ease-in-out;
+}
+
+.zoom:hover{
+    transform: scale(1.2);
+}
+    
+.icone-tamanho{
+    height: 8vh;
+    width: 8vh;
+}
+
+.texto-navbar{
+    font-size: 4vh;
+}
+
+.texto-grande{
+    font-size: 4vh;
+}
+
+.nav-link{
+    font-size: 40px;
+    color: rgb(74, 74, 74);
+}
+
+.nav-link:hover{
+    color: rgb(255, 78, 25);
+}
+
+.nav-link.active{
+    color: rgba(255, 78, 25, 0.32) !important;
+}
+
+.perfil{
+    height:5vh;
+    width: 5vh;
+}
+
+.cartao{
+    padding: 10px;
+    box-shadow: 1px 1px 12px black;
+    margin-bottom: 3em;
+    transition: all .2s ease-in-out;
+}
+
+.cartao.aula{
+    color: black;
+    background-color: rgb(255, 255, 174);
+}
+
+.cartao.prox-aula{
+    color: black;
+    background-color: rgb(255, 111, 39);
+}
+
+.cartao:hover{
+    transform: scale(1.03);
+}
+
+.cartao.aula:hover{
+    transform: scale(1.03);
+    box-shadow: 1px 1px 12px black, 1px 1px 12px rgb(210, 210, 94);
+}
+
+.cartao.prox-aula:hover{
+    transform: scale(1.03);
+    box-shadow: 1px 1px 12px rgb(146, 91, 14), 1px 1px 12px rgb(149, 65, 23);
+}
+
+.progress{
+    height: 2vh;
+    color: white;
+    background-color: rgb(87, 87, 87);
+    font-size: 1.5vh;
+    border-radius: 50px;
+}
+
+.progresso-curso{
+    height: 1.5vh;
+    color: white;
+    background-color: rgb(87, 87, 87);
+    font-size: 1vh;
+    border-radius: 0px;
+}
+
+.progresso-curso .progress-bar{
+    background-color: rgb(255, 128, 0);
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+li{
+    list-style-type: none;
+}
+
+body{
+    background: rgb(255, 240, 144);
+    background: linear-gradient(0deg,rgba(255, 234, 99, 0.211) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+.texto-laranja{
+    color: rgb(255,78,25)
+}
+
+.img-responsiva{
+    width: auto;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 16/9;
+}
+
+.overflow {
+    max-height: 100vh;
+    overflow-y: scroll;
+}
+
+.cards-aulas{
+    flex-direction: column;
+}
+
+.botao{
+    min-width: 40px;
+    height: 4vh;
+    padding-left: 3%;
+    padding-right: 3%;
+    margin-right: 1vw;
+    margin-top: 1vh;
+    border-radius: 8px;
+    font-size: 1.5vh;
+    border-color: rgb(255, 232, 100);
+    background-color: rgba(156, 156, 156, 0.212);
+}
+
+.botao:hover{
+    color: rgb(46, 46, 46);
+    background: linear-gradient(to bottom, #ffff99 0%, #ffcc66 100%);
+}
+
+@media(max-width:1500px){
+
+    .texto-navbar{
+        font-size: 4vw;
+    }
+
+    .nav-link{
+        font-size: 2.5vw;
+    }
+
+    .texto-grande{
+        font-size: 3.5vh;
+    }
+
+}
+
+@media(max-width:767px){
+
+    .texto-navbar{
+        display: none;
+    }
+
+    .card-text{
+        display: none;
+    }
+
+    .nav-link{
+        font-size: 3vh;
+    }
+
+    .cards-aulas{
+        justify-content: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .img-responsiva{
+        width: 100%;
+        max-height: 200px;
+    }
+
+    .cartao.aula{
+        max-width: 45%;
+        max-height: 30%;
+        margin-bottom: 1vh;
+        margin-left: 1vw;
+        margin-right: 1vw;
+    }
+
+}
+
+@media(max-width:575px){
+
+    .offcanvas{
+        background: rgb(255, 240, 144);
+        background: linear-gradient(to bottom, #ffff99 0%, #ffcc66 100%);
+        width: 70% !important;
+    }
+
+    .nav-link{
+        font-size: 6vw;
+    }
+
+    .perfil{
+        height: 10vw;
+        width: 10vw;
+    }
+
+    .img-responsiva{
+        width: 100%;
+        max-height: 10vh;
+    }
+
+    .offcanvas-header{
+        padding-bottom: 0px;
+    }
+
+    .offcanvas-body{
+        padding-top: 0px;
+    }
+
+    .progresso-curso{
+        width: 60vw;
+        height: 2vh;
+        font-size: 1.5vh;
+    }
+
+    .cartao.prox-aula{
+        margin:1vw;
+    }
+
+}

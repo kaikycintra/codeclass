@@ -1,3 +1,4 @@
 .venv
 .python-version
 servidor/db.sqlite3
+servidor/staticfiles

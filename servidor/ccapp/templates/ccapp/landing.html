@@ -1,0 +1,304 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>codeClass</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!--HTMX -->
+    <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+    <link rel="shortcut icon" href="favicon_io/favicon.ico">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    
+    <style>
+        :root,
+            [data-bs-theme=light] {
+            --bs-primary: #ff9900;
+            --bs-primary-darker: #d46b29;
+            --bs-primary-rgb: 255, 105, 10;
+            --bs-primary-text-emphasis: #9b3f07;;
+            --bs-primary-bg-subtle: #ff8335;
+            --bs-primary-border-subtle: #f88944;
+            --bs-link-color: #fd7e14;
+            --bs-link-color-rgb: 255, 105, 10;
+            --bs-link-hover-color: #b65a0f;
+            --bs-link-hover-color-rgb: 182, 90, 15;
+        }
+
+        html {
+            overflow-y: scroll;
+        }
+
+        html, body {
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        body {
+            font-family: 'Poppins';
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        a:hover {
+            cursor: pointer;
+        }
+
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        #navbar-content {
+            max-width: 1200px;
+            padding: 0px 20px 0px 20px;
+        } 
+
+        p {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Custom stuff for svg effect part*/
+        /* Hero */
+        #heroSection {
+            position: relative;
+            background: linear-gradient(135deg,#cc5200, #ff9900);
+            overflow: hidden;
+        }
+
+        #wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            mix-blend-mode: overlay;
+            opacity: 0.5;
+            z-index: 0;
+
+            transform: translateZ(0);
+            will-change: transform;
+
+            pointer-events: none;
+            user-select: none;
+        }
+
+        /* Call to action */
+        .cta {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg,#cc5200, #ff9900);
+            height: 50vh;
+        }
+
+        #wave-cta {
+            position:absolute;
+            width: 100%;
+            bottom: 0;
+            left:0;
+            height:100%;
+            object-fit: cover;
+            mix-blend-mode: overlay;
+            opacity: 0.5;
+            transform: translateZ(0);
+            will-change: transform;
+            z-index: 0;
+
+            pointer-events: none;
+            user-select: none;
+            
+        }
+    </style>
+
+</head>
+<body>
+    <!-- Separate navbar for landing page -->
+    <nav class="navbar w-100" id="navbar" style="background: linear-gradient(135deg,#cc5200, #ff9900); z-index:100;">
+        <div class="container-fluid" id="navbar-content">
+            <!--Easter Egg, also used to see how dark mode is-->
+            <a class="toggle navbar-brand p-2 d-flex align-items-center" id="toggleTheme" onclick="toggleTheme()">
+                <img class="rounded-5" src="{% static 'ccapp/ucl.svg' %}" width="50" alt="codelab logo">
+                <h4 class="mb-0 m-1 text-white">
+                    <span class="ms-2 text-dark">code</span><span class="text-white">Class</span>
+                </h4>
+            </a>
+
+            <!-- Access button -->
+            <div class="d-flex align-items-end">
+                <ul class="navbar-nav nav-underline">
+                    <li class="nav-item">
+                    <a class="nav-link fs-5 text-white">
+                        Acessar
+                    </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div id="heroSection" class="w-100">
+        <div style="z-index: 0;">
+            <!-- Add SVG waves for custom background-->
+            <img src="{% static 'ccapp/stacked-waves-haikei.svg' %}" id="wave">
+        </div>
+
+        <div class="hero d-flex justify-content-center align-items-center" style="height: 100vh;">
+            <div class="container" style="z-index: 1;">
+                <div class="text-center text-white">
+                    <h1 class="display-1 mb-5">
+                        <span class="text-dark">code</span><span class="text-white">Class</span>
+                    </h1>
+                    <p class="mb-5 fs-5">Uma iniciativa dev.learn()</p>
+                </div>
+
+                <div class="d-flex justify-content-center align-items-center">
+                    <a href="#" class="m-2 btn btn-lg rounded-5 btn-light">Começar</a>
+                    <a href="#about" class="m-2 btn btn-light btn-lg rounded-5">Saiba mais</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About us -->
+    <section class="py-5" id="about" style="min-height:50vh;">
+        <div class="container">
+            <div class="d-inline-block rounded-5 text-white p-3 mb-3 bg-primary">
+                <h1 class="text-center mb-0">Sobre nós</h1>
+            </div> 
+            <div class="row">
+                <div class="m-2 p-3">
+                    <p><span class="text-muted">Desenvolvido por estudantes, para estudantes.</span> Aprenda novas tecnologias e habilidades a partir de um aprendizado prático, em colaboração com outros estudantes.</p>
+                    <p>Esta é uma plataforma desenvolvida por <a href="https://codelab.ime.usp.br" class="text-decoration-none" style="color:rgb(212, 138, 0);">USPCodeLab</a>, como parte da iniciativa dev.learn().</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+     <!-- Features section -->
+    <section class="py-5" id="features" style="min-height: 50vh;">
+        <div class="container w-100">
+            <div class="d-inline-block rounded-5 text-white p-3 mb-3 bg-primary">
+                <h1 class="text-center mb-0">Vantagens</h1>
+            </div> 
+            
+            <div class="card-deck mt-4">
+                <div class="card m-2 rounded-2 border-primary d-flex flex-row shadow">
+                    <div class="d-flex align-items-center justify-content-center bg-primary text-white" 
+                        style="min-width: 80px; font-size: 2rem;">
+                        <i class="bi bi-terminal"></i>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Projetos reais</h5>
+                        <p class="card-text">Desenvolva diferentes projetos nos nossos cursos e na plataforma.</p>
+                    </div>
+                </div>
+
+                <div class="card m-2 rounded-2 border-success d-flex flex-row shadow">
+                    <div class="d-flex align-items-center justify-content-center bg-success text-white" 
+                        style="min-width: 80px; font-size: 2rem;">
+                        <i class="bi bi-currency-dollar"></i>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Sem custos</h5>
+                        <p class="card-text">Aprenda novas tecnologias, de forma totalmente gratuita.</p>
+                    </div>
+                </div>
+
+                <div class="card m-2 rounded-2 border-danger d-flex flex-row shadow">
+                    <div class="d-flex align-items-center justify-content-center bg-danger text-white" 
+                        style="min-width: 80px; font-size: 2rem;">
+                        <i class="bi bi-award"></i>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Certificação</h5>
+                        <p class="card-text">Ganhe certificados aplicáveis para AAC's e AEX's.</p>
+                    </div>
+                </div>
+
+                <div class="card m-2 rounded-2 border-warning d-flex flex-row shadow">
+                    <div class="d-flex align-items-center justify-content-center bg-warning text-white" 
+                        style="min-width: 80px; font-size: 2rem;">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Aprendizado colaborativo</h5>
+                        <p class="card-text">Aprenda junto com colegas, por fórums e por colaboração com instrutores e alunos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    <!-- Call to action-->
+    <section class="cta d-flex justify-content-center align-items-center w-100">
+        <div style>
+            <!-- Add SVG waves for custom background-->
+            <img src="{% static 'ccapp/stacked-waves-haikei.svg' %}" id="wave-cta">
+        </div>
+
+        <div class="container" style="z-index: 1;">
+            <div class="row align-items-center">
+                <div class="col-12 text-center text-white">
+                    <h2 class="mb-3">Pronto para começar?</h2>
+                    <p class="mb-4">Se junte a nós para dar o próximo passo aos seus objetivos!</p>
+                    <a href="#" class="btn btn-light btn-lg rounded-5">Começar</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!--Footer -->
+    <div class="d-flex justify-content-center w-100">
+        <footer class="my-4 w-100" style="padding: 10px 20px; max-width: 1200px;">
+            <hr class="opacity-50 my-1">
+            <p class="fs-6 text-body-secondary mb-0 text-center">© 2025 Codelab IME-USP</p>
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    </script>
+
+    <script>
+        // Script para dar um efeito de depth no background do site
+        window.addEventListener('scroll', function() {
+            const scrollY = window.scrollY;
+            document.getElementById('wave').style.transform = `translateY(${scrollY * 0.3}px)`;
+            
+        });
+
+        // Script de tema
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute("data-bs-theme");
+            const newTheme = current === "dark" ? "light" : "dark";
+            html.setAttribute("data-bs-theme", newTheme);
+        }
+
+    </script>
+
+</body>
+</html>

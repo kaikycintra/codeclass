@@ -1,0 +1,105 @@
+:root,
+    [data-bs-theme=light] {
+    --bs-primary: #ff9900;
+    --bs-primary-darker: #d46b29;
+    --bs-primary-rgb: 255, 105, 10;
+    --bs-primary-text-emphasis: #9b3f07;;
+    --bs-primary-bg-subtle: #ff8335;
+    --bs-primary-border-subtle: #f88944;
+    --bs-link-color: #ffffff;
+    --bs-link-color-rgb: 255, 255, 255;
+    --bs-link-hover-color-rgb: 182, 90, 15;
+}
+        
+html {
+    overflow-y: scroll;
+}
+
+html, body {
+    margin: 0;
+    min-height: 100vh;
+}
+
+body {
+    font-family: 'Poppins';
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+main {
+    padding: 20px;
+    max-width: 1200px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+#navbar-content {
+    max-width: 1200px;
+    padding: 0px 20px 0px 20px;
+} 
+
+p {
+    margin-bottom: 0.5rem;
+}
+
+.offcanvas{
+    background: #ff9900;
+    background: linear-gradient(to left, #ff9900 0%, #d46b29 100%);
+    width: 70%;
+}
+
+.list-group-item{
+    background-color: rgba(0, 0, 0, 0);
+}
+/* Efeito de hover para cards de curso, que nem o Rafa fez*/
+.card-hover {
+    transition: transform 0.3s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card-hover:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.img-responsiva{
+    width: auto;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 16/9;
+}
+
+@media(max-width:767px){
+
+    .img-responsiva{
+        width: 100%;
+        max-height: 200px;
+    }
+
+}
+
+@media(max-width:575px){
+
+    .offcanvas{
+        width: 70% !important;
+    }
+
+    .img-responsiva{
+        width: 100%;
+        max-height: 10vh;
+    }
+
+}
+
+@media(max-width:475px){
+
+    .offcanvas{
+        width: 100% !important;
+    }
+}

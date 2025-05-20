@@ -11,3 +11,16 @@ def login(request):
     if request.method == "POST":
         pass
     return render(request, "ccapp/login.html")
+
+@require_http_methods(["GET"])
+def cursos(request):
+    return render(request, "ccapp/cursos.html")
+
+@require_http_methods(["GET"])
+def aulas(request):
+    return render(request, "ccapp/aulas.html")
+
+@require_http_methods(["GET"])
+def user(request):
+    pass
+    return render(request, "ccapp/user.html")

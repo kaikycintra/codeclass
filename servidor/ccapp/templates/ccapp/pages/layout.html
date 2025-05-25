@@ -75,7 +75,8 @@
               <ul class="navbar-nav nav-underline">
                 <li class="nav-item">
                   <a class="nav-link fs-5 text-white"
-                     hx-get="cursos.html"
+                     hx-get="/cursos"
+                     hx-push-url="/cursos"
                      hx-target="next main"
                      hx-swap="outerHTML">
                      Cursos
@@ -83,10 +84,11 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link fs-5 text-white"
-                     hx-get="user.html"
+                     hx-get="/user/{{ username }}"
+                     hx-push-url="/user/{{username}}"
                      hx-target="next main"
                      hx-swap="outerHTML">
-                     kainky_cintra
+                     {{ username }}
                   </a>
                 </li>
               </ul>
@@ -94,15 +96,8 @@
           </div>
         </nav>
 
-        <main class="main-transition">
-            {% block body %}
-            {% endblock%}
-            <div hx-get="class.html"
-                 hx-target="closest main"
-                 hx-swap="outerHTML"
-                 hx-trigger="load">
-            </div>
-        </main>
+        {% block body %}
+        {% endblock %}
 
 
         <footer class="my-4 w-100" style="padding: 10px 20px; max-width: 1200px;">

@@ -59,24 +59,33 @@
   </style>
 </head>
 <body>
+  
   <div class="login-form">
     <div class="icon-container">
       <img src="{% static 'ccapp/codelab.png' %}" style="height: 150px; width: auto;" alt="CodeLab Logo">
     </div>
     <h2 class="text-center mb-4">Login</h2>
-    <form>
+    {% if message %}
+    <div class="alert alert-primary" role="alert">
+      {{ message }}
+    </div>
+    {% endif %}
+
+    <form action="{% url 'ccapp:login' %}" method="POST">
+      {% csrf_token %}
       <div class="mb-3">
         <label for="email" class="form-label">E-mail</label>
-        <input type="email" class="form-control" id="email" placeholder="Digite seu e-mail">
+        <input type="email" name="email" class="form-control" id="email" placeholder="Digite seu e-mail">
       </div>
       <div class="mb-3">
         <label for="senha" class="form-label">Senha</label>
-        <input type="password" class="form-control" id="senha" placeholder="Digite sua senha">
+        <input type="password" name="password" class="form-control" id="senha" placeholder="Digite sua senha">
       </div>
       <div class="d-grid">
         <button type="submit" class="btn btn-orange">Entrar</button>
       </div>
     </form>
+
     <div class="mt-3 text-center">
       <a href="#">Esqueceu a senha?</a>
     </div>
@@ -85,34 +94,5 @@
         <a href="cadastro.html"> Cadastre-se</a>
       </div>
   </div>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const form = document.getElementById("loginForm");
-  
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-  
-        const emailDigitado = document.getElementById("email").value;
-        const senhaDigitada = document.getElementById("senha").value;
-  
-        const usuarioSalvo = JSON.parse(localStorage.getItem("usuarioCadastrado"));
-  
-        if (!usuarioSalvo) {
-          alert("Nenhum usuário cadastrado!");
-          return;
-        }
-  
-        if (
-          emailDigitado === usuarioSalvo.email &&
-          senhaDigitada === usuarioSalvo.senha
-        ) {
-          alert("Login bem-sucedido!");
-        } else {
-          alert("E-mail ou senha incorretos.");
-        }
-      });
-    });
-  </script>
 </body>
 </html>

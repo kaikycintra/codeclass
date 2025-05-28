@@ -6,8 +6,9 @@ app_name = "ccapp"
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("login/", views.login, name="login"),
+    path("login/", views.login_view, name="login"),
+    path("logout/", views.logout_view, name="logout"),
     path("cursos/", views.cursos, name="cursos"),
-    path("aulas/", views.aulas, name="aulas"),
+    path("cursos/aulas/", views.aulas, name="aulas"),
     path("user/<str:username>", views.user, name="user")
 ]

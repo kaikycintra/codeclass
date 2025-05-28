@@ -1,4 +1,4 @@
-{% extends layout %}
+{% extends layout %} <!--Por algum motivo esse partial precisa dessa linha-->
 {% load static %}
 
 {% block body %}
@@ -17,10 +17,11 @@
     <!--Cursos -->
     <section class="d-flex flex-column">
         <!--Primeiro curso-->
-        <a
+        <a href="aulas/"
            hx-get="{% url 'ccapp:aulas' %}"
            hx-target="closest main"
            hx-swap="outerHTML" 
+           hx-push-url="true"
            class="card text-decoration-none mb-3 card-hover">
             <div class="row g-0">
                 <div class="col-md-4">
@@ -42,9 +43,10 @@
 
         <!--Segundo curso-->
         <a href="aulas/"
-           hx-get="aulas/"
+           hx-get="{% url 'ccapp:aulas' %}"
            hx-target="closest main"
-           hx-swap="outerHTML" 
+           hx-swap="outerHTML"
+           hx-push-url="true"
            class="card text-decoration-none mb-3 card-hover">
             <div class="row g-0">
                 <div class="col-md-4">

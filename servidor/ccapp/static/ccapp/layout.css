@@ -86,10 +86,6 @@ p {
 
 @media(max-width:575px){
 
-    .offcanvas{
-        width: 70% !important;
-    }
-
     .img-responsiva{
         width: 100%;
         max-height: 10vh;

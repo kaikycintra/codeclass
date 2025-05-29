@@ -20,35 +20,40 @@
     </head>
 
     <body>
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasExampleLabel">
             <div class="offcanvas-header justify-content-between">
-              <h1 class="offcanvas-title" id="offcanvasExampleLabel">Navegação</h1>
+              <h1 class="offcanvas-title fs-1" id="offcanvasExampleLabel">Navegação</h1>
               <svg data-bs-dismiss="offcanvas" aria-label="Close" viewBox="0 0 1024 1024" width="50px" height="50px" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill="#000000" d="M195.2 195.2a64 64 0 0 1 90.496 0L512 421.504 738.304 195.2a64 64 0 0 1 90.496 90.496L602.496 512 828.8 738.304a64 64 0 0 1-90.496 90.496L512 602.496 285.696 828.8a64 64 0 0 1-90.496-90.496L421.504 512 195.2 285.696a64 64 0 0 1 0-90.496z"></path></g></svg>
             </div>
             <div class="offcanvas-body">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                      <a class="fs-5 text-decoration-none">
+                      <p class="fs-2"
+                         style="color: white;">
                          Explorar
-                      </a>
+                      </p>
                     </li>
                     <li class="list-group-item">
-                      <a class="fs-5 text-decoration-none w-100"
-                         hx-get="class.html"
+                      <p class="fs-2"
+                         hx-get="/cursos/"
+                         hx-push-url="/cursos/"
                          hx-target="next main"
                          hx-swap="outerHTML transition:true"
-                         data-bs-toggle="offcanvas" href="#offcanvas">
-                         <p class="mb-0">Meus Cursos</p>
-                      </a>
+                         data-bs-toggle="offcanvas" href="#offcanvas"
+                         style="color: white;">
+                         Cursos
+                    </p>
                     </li>
                     <li class="list-group-item">
-                      <a class="fs-5 text-decoration-none w-100"
-                         hx-get="user.html"
+                      <p class="fs-2"
+                         hx-get="/user/{{ username }}"
+                         hx-push-url="/user/{{ username }}"
                          hx-target="next main"
                          hx-swap="outerHTML transition:true"
-                         data-bs-toggle="offcanvas" href="#offcanvas">
-                         <p class="mb-0">kaiky_cintra</p>
-                      </a>
+                         data-bs-toggle="offcanvas" href="#offcanvas"
+                         style="color: white;">
+                         {{ username }}
+                    </p>
                     </li>
                 </ul>
             </div>

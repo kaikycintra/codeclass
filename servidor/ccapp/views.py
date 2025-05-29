@@ -36,6 +36,15 @@ def login_view(request):
     return render(request, "ccapp/pages/login.html", {
         "message": None,
     })
+    
+@require_http_methods(["GET", "POST"])
+def register_view(request):
+    
+    if request.method == "POST":
+        pass
+
+    return render(request, "ccapp/pages/cadastro.html")
+
 
 @require_http_methods(["POST"])
 def logout_view(request):

@@ -1,0 +1,129 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: justify;
+}
+
+code {
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
+pre {
+    background-color: rgb(30, 30, 30);
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+.note {
+    background-color: #e7f5ff;
+    border-left: 4px solid #4dabf7;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+tbody > tr:nth-of-type(even) {
+    background-color: rgb(237 238 242);
+}
+
+thead{
+    background-color: rgb(186, 186, 186);
+}
+
+table{
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0;
+    text-align: right;
+}
+
+td,th{
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+a{
+    color:rgb(255,78,25);
+}
+
+.plaintext{
+    font-family: 'Courier New', Courier, monospace;
+    font-style: normal;
+    background-color: rgb(232, 232, 232);
+}
+
+/* Vou colocar aqui umas classes de cores para as linhas de código */
+
+/* Cores do HTML */
+.tag{
+    color: #4B89B4;
+}
+
+.innertag{
+    color: #D0B33C;
+}
+
+.classe{
+    color: #8AA83A;
+}
+
+.css{
+    color: #676867;
+}
+
+.css-option{
+    color: #C74440;
+}
+
+/* Cores do python */
+.func{
+    color: #9872A2;
+}
+
+.lib{
+    color: #b40c17;
+}
+
+.python{
+    color: #548dbf;
+}
+
+.pComment{
+    color: #9A9A9A;
+}
+
+.nome-func{
+    color: #CE6700;
+}
+
+.p{
+    color: #FFD70A;
+}
+
+.p2{
+    color: #DA70B3;
+}
+
+.p3{
+    color: #179FDB;
+}
+
+.string{
+    color: #9AA82E;
+}
+
+.escape{
+    color: #8080FF;
+}

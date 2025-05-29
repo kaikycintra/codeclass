@@ -24,31 +24,43 @@
     </section>
   
     <!-- Todas as aulas -->
-    <section class="my-5">
+    <section class="my-3">
       <h2 class="fs-4">Todas as Aulas</h2>
       <hr class="my-3 border-2 opacity-50">
   
-      <div class="d-flex flex-column gap-3">
-        <!-- Aula -->
-        <a href="#"
-           class="card text-decoration-none card-hover">
-          <div class="row g-0">
-            <div class="col-12">
-              <div class="card-body d-flex flex-column" style="height: 100%;">
-                <h3 class="card-title">Nome da Aula</h3>
-                <p class="card-text flex-grow-1">Descrição da aula</p>
-                <p class="card-text"><small>Realizada dia: 01/01/2025</small></p>
-                <div class="progress w-100">
-                  <div class="progress-bar bg-success" role="progressbar" style="width: 100%;">Concluída</div>
+      {% for aula in aulas %}
+
+        <div class="d-flex flex-column">
+          <!-- Aula -->
+          <a href="/curso/{{ aula.curso_pra_url }}/{{ aula.nome_pra_url }}"
+            hx-get="/curso/{{ aula.curso_pra_url }}/{{ aula.nome_pra_url }}"
+            hx-target="closest main"
+            hx-swap="outerHTML" 
+            hx-push-url="/curso/{{ aula.curso_pra_url }}/{{ aula.nome_pra_url }}"
+            class="card text-decoration-none card-hover">
+            <div class="row g-0">
+              <div class="col-12">
+                <div class="card-body d-flex flex-column" style="height: 100%;">
+                  <h3 class="card-title">{{ aula.nome }}</h3>
+                  <p class="card-text flex-grow-1">{{ aula.resumo }}</p>
+                  <p class="card-text"><small>Realizada dia: {{ aula.data|date:"d/m/Y" }}</small></p>
+                  <div class="progress w-100">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%;">Concluída</div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </a>
-  
-        <!-- Cards repetidos aqui embaixo -->
-  
-      </div>
+          </a>
+          <br>
+        </div>
+
+      {% empty %}
+      
+      <p>Esse curso não posuí aulas.<p>
+
+      {% endfor %}
+
     </section>
+
 </main>
 {% endblock %}

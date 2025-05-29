@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.cache import never_cache
 
+from .models import Curso, Aula
+
 @require_http_methods(["GET"])
 def index(request):
     if request.user.is_authenticated:
@@ -63,16 +65,33 @@ def cursos(request, user):
     return render(request, "ccapp/partials/cursos.html", {
         "layout": layout, 
         "username": user.username,
+        "cursos": Curso.objects.all()
     })
 
 @never_cache
 @require_http_methods(["GET"])
 @login_required
-def aulas(request, user):
+def aulas(request, url_curso, user):
     layout = get_layout(request)
+    nome_curso = url_curso.replace("-", " ")
+    curso = Curso.objects.get(nome=nome_curso)
     return render(request, "ccapp/partials/aulas.html", {
         "layout": layout,
         "username": user,
+        "curso": curso.nome,
+        "aulas": curso.aulas.all()
+    })
+    
+@never_cache
+@require_http_methods(["GET"])
+@login_required
+def aula(request, url_curso, url_aula, user):
+    layout = get_layout(request)
+    nome_aula = url_aula.replace("-", " ")
+    return render(request, "ccapp/partials/class.html", {
+        "layout": layout,
+        "username": user,
+        "aula": Aula.objects.get(nome=nome_aula)
     })
 
 

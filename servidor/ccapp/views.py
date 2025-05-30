@@ -41,9 +41,36 @@ def login_view(request):
     
 @require_http_methods(["GET", "POST"])
 def register_view(request):
-    
     if request.method == "POST":
-        pass
+        username = request.POST["username"]
+        email = request.POST["email"]
+        password = request.POST["password"]
+        confirm_password = request.POST["confirm_password"]
+
+        # Checa se usuário ou email já estão em uso
+        if User.objects.filter(email=email).exists():
+            return render(request, "ccapp/pages/cadastro.html", {
+                "message": "Email já está em uso"
+            })
+        elif User.objects.filter(username=username).exists():
+            return render(request, "ccapp/pages/cadastro.html", {
+                "message": "Nome de usuário já em uso"
+            })
+        
+        # Checa se a senha atende critérios mínimos
+        if (password != confirm_password):
+            return render(request, "ccapp/pages/cadastro.html", {
+                "message": "As senhas não coincidem!"
+            })
+        
+        if (len(password) < 8 or not any(char.isdigit() for char in password) or not any(char.isalpha() for char in password)):
+            return render(request, "ccapp/pages/cadastro.html", {
+                "message": "A senha deve ter no mínimo 8 caracteres e conter letras e números!"
+            })
+        
+        user = User.objects.create_user(username=username, email=email, password=password)
+        login(request, user)
+        return redirect("ccapp:cursos")
 
     return render(request, "ccapp/pages/cadastro.html")
 

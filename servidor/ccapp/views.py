@@ -1,12 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
+from django.urls import reverse
 from django.views.decorators.http import require_http_methods
-from .decorators import login_required
+from .decorators import login_required, matricula_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.cache import never_cache
 
-from .models import Curso, Aula
+from .models import Curso, Aula, Alternativa, RespostaQuestao, ProgressoAula, Questao, Matricula
 
 @require_http_methods(["GET"])
 def index(request):
@@ -87,40 +88,141 @@ def logout_view(request):
 @require_http_methods(["GET"])
 @login_required
 def cursos(request, user):
-    # Check if the request is an HTMX request
-    layout = get_layout(request)
-    return render(request, "ccapp/partials/cursos.html", {
-        "layout": layout, 
+    # Nota: precisei fazer uma verificação a mais nesta parte para saber se era request htmx ou não, só o get_layout não dava conta
+    is_htmx = request.headers.get("HX-Request") == "true"
+    hx_target = request.headers.get("HX-Target")
+
+    filtro = request.GET.get('filtro', None)
+    cursos_matriculados = Matricula.objects.filter(aluno=user).values_list('curso__nome', flat=True)
+    if filtro == 'meus':
+        lista_cursos = Curso.objects.filter(nome__in=cursos_matriculados)
+    elif filtro == 'outros':
+        lista_cursos = Curso.objects.exclude(nome__in=cursos_matriculados)
+    else:
+        lista_cursos = Curso.objects.all()
+    
+    dados_progresso = {}
+    for nome in cursos_matriculados:
+        curso = Curso.objects.get(nome=nome)
+        dados_progresso[curso.id] = curso.get_progresso_curso(user)
+        
+    context = {
         "username": user.username,
-        "cursos": Curso.objects.all()
-    })
+        "cursos": lista_cursos,
+        "cursos_matriculados": cursos_matriculados,
+        "dados_progresso": dados_progresso,
+    }
+
+    if is_htmx and hx_target=="lista-cursos":
+        return render(request, "ccapp/partials/lista_cursos.html", context)
+    
+    context["layout"] = get_layout(request)
+    return render(request, "ccapp/partials/cursos.html", context)
+
+@never_cache
+@require_http_methods(["POST"])
+@login_required
+def matricular_curso(request, user, url_curso):
+    nome_curso = url_curso.replace("-", " ")
+    curso = get_object_or_404(Curso, nome=nome_curso)
+    Matricula.objects.get_or_create(aluno=user, curso=curso)
+
+    # Fix para conseguir redirecionar à pagina certa
+    redirect_url = reverse('ccapp:aulas', kwargs={'url_curso': url_curso})
+    if request.headers.get('HX-Request') == 'true':
+        return HttpResponse(status=204, headers={'HX-Redirect': redirect_url})
+
+    return redirect(redirect_url)
 
 @never_cache
 @require_http_methods(["GET"])
 @login_required
+@matricula_required
 def aulas(request, url_curso, user):
     layout = get_layout(request)
     nome_curso = url_curso.replace("-", " ")
     curso = Curso.objects.get(nome=nome_curso)
+
+    aulas_concluidas = ProgressoAula.objects.filter(
+        aluno=user,
+        aula__curso=curso,
+        concluida=True
+    ).values_list('aula_id', flat=True)
+    todas_as_aulas = curso.aulas.order_by('num')
+    proxima_aula = todas_as_aulas.exclude(id__in=aulas_concluidas).first()
+
+
     return render(request, "ccapp/partials/aulas.html", {
         "layout": layout,
         "username": user,
         "curso": curso.nome,
-        "aulas": curso.aulas.all()
+        "aulas": todas_as_aulas,
+        "aulas_concluidas": aulas_concluidas,
+        "proxima_aula": proxima_aula,
     })
     
 @never_cache
 @require_http_methods(["GET"])
 @login_required
+@matricula_required
 def aula(request, url_curso, url_aula, user):
     layout = get_layout(request)
     nome_aula = url_aula.replace("-", " ")
+
+    aula_obj = get_object_or_404(Aula, nome=nome_aula)
+    questoes = aula_obj.questoes.all()
+
+    user_answers = RespostaQuestao.objects.filter(aluno=user, questao__aula=aula_obj)
+    user_answers_dict = {ua.questao.id: ua for ua in user_answers}
+
+    progresso_aula, created = ProgressoAula.objects.get_or_create(aluno=user, aula=aula_obj)
+    all_questions_correct = progresso_aula.concluida
+
     return render(request, "ccapp/partials/class.html", {
         "layout": layout,
         "username": user,
-        "aula": Aula.objects.get(nome=nome_aula)
+        "aula": Aula.objects.get(nome=nome_aula),
+        "questoes": questoes,
+        "user_answers": user_answers_dict,
+        "all_correct": all_questions_correct,
     })
 
+@login_required
+@require_http_methods(["POST"])
+def submit_answers(request, url_aula, user):
+    """
+    Método que gerencia o submit das respostas de um usuário
+    """
+    nome_aula = url_aula.replace("-", " ")
+    aula_obj = get_object_or_404(Aula, nome=nome_aula)
+
+    for key, value in request.POST.items():
+        if key.startswith('questao_'):
+            questao_id = int(key.split('_')[1])
+            alternativa_id = int(value)
+
+            questao_obj = Questao.objects.get(pk=questao_id)
+            alternativa_obj = Alternativa.objects.get(pk=alternativa_id)
+
+            resposta_obj, created = RespostaQuestao.objects.update_or_create(
+                aluno=user,
+                questao=questao_obj,
+                defaults={'resposta': alternativa_obj},
+            )
+
+            ProgressoAula.objects.check_and_update(user, resposta_obj)
+    
+    respostas_user = RespostaQuestao.objects.filter(aluno=user, questao__aula=aula_obj)
+
+    progresso_aula, created = ProgressoAula.objects.get_or_create(aluno=user, aula=aula_obj)
+    context = {
+        "aula": aula_obj,
+        "questoes": aula_obj.questoes.all(),
+        "user_answers": {ua.questao.id: ua for ua in respostas_user},
+        "all_correct": progresso_aula.concluida,
+    }
+
+    return render(request, "ccapp/partials/quiz.html", context)
 
 @never_cache
 @require_http_methods(["GET"])

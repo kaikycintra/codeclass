@@ -1,0 +1,49 @@
+{% load extras %}
+
+<h3>Exercícios</h3>
+
+{% if questoes %}
+    <form hx-post="{% url 'ccapp:submit_answers' aula.nome_pra_url %}"
+          hx-target="#exercicios"
+          hx-swap="innerHTML">
+        {% csrf_token %}
+
+        {% for questao in questoes %}
+            {% with user_answer=user_answers|get_item:questao.id %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="fs-5 mb-0">{{ questao.pergunta }}</h4>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        {% for alternativa in questao.alternativas.all %}
+                            <label class="list-group-item
+                                {% if user_answer and user_answer.resposta.id == alternativa.id and alternativa.correta %}bg-success-subtle{% endif %}
+                                {% if user_answer and user_answer.resposta.id == alternativa.id and not alternativa.correta %}bg-danger-subtle{% endif %}
+                            ">
+                                <input type="radio"
+                                       name="questao_{{ questao.id }}"
+                                       value="{{ alternativa.id }}"
+                                       required
+                                       {% if user_answer and user_answer.resposta.id == alternativa.id %}checked{% endif %}
+                                       {% if user_answer and user_answer.resposta.correta %}disabled{% endif %}>
+                                {{ alternativa.texto }}
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endwith %}
+        {% endfor %}
+
+        {% if all_correct %}
+            <div class="alert alert-success text-center">
+                <strong>Parabéns!</strong> Você completou esta aula.
+            </div>
+        {% else %}
+            <button type="submit" class="btn btn-primary">Enviar Respostas</button>
+        {% endif %}
+    </form>
+{% else %}
+    <p>Não há questões para esta aula! Contate um admin.</p>
+{% endif %}

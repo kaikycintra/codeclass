@@ -151,3 +151,18 @@ class ProgressoAula(models.Model):
 
     class Meta:
         unique_together = ('aluno', 'aula')
+
+#---------------------------------------------------------------
+# Modelos com relação aos usuários
+
+class Perfil(models.Model):
+    """
+    Modelo customizável para o usuário, com bio, entre outras coisas
+    Utilizamos signals.py para criação de um perfil quando um usuário cria uma conta
+    """
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="perfil")
+    biografia = models.TextField(max_length=256, blank=True, null=True, default="Perfil de um usuário do CodeClass")
+    # Outras coisas a adicionar aqui? (Foto de perfil, links, etc)
+
+    def __str__(self):
+        return f'Perfil associado à {self.user.username}'

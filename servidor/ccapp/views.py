@@ -244,6 +244,7 @@ def user(request, username, user):
         "profile_username": profile_user.username,
         "cursos_do_user": cursos_do_user,
         "dados_progresso": dados_progresso,
+        "biografia": profile_user.perfil.biografia,
     })
 
 ## Função para retornar layout certo

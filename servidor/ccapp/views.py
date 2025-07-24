@@ -228,15 +228,22 @@ def submit_answers(request, url_aula, user):
 @require_http_methods(["GET"])
 @login_required
 def user(request, username, user):
-    profile_user = User.objects.get(username=username)
+    #profile_user = User.objects.get(username=username) -> O recomendado é usar o get_object_or_404
+    profile_user = get_object_or_404(User, username=username)
     layout = get_layout(request)
-    if not profile_user:
-        pass
-    
+
+    cursos_do_user = Curso.objects.filter(matriculas__aluno=profile_user)
+
+    dados_progresso = {}
+    for curso in cursos_do_user:
+        dados_progresso[curso.id] = curso.get_progresso_curso(profile_user)
+
     return render(request, "ccapp/partials/user.html", {
         "layout": layout, 
         "username": user.username,
-        "profile_username": profile_user.username
+        "profile_username": profile_user.username,
+        "cursos_do_user": cursos_do_user,
+        "dados_progresso": dados_progresso,
     })
 
 ## Função para retornar layout certo

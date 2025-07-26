@@ -12,6 +12,8 @@ def login_required(view_func):
         return view_func(request, user=request.user, *args, **kwargs) # É necessário usar user=request.user? já dá pra acessar com request.user
     return _wrapped_view
 
+
+# Podemos remover essa função por completo e pensar em outra forma de fazer isso, ou podemos só modificar para ser melhor no geral mesmo
 def matricula_required(view_func):
     """
     Decorator para verificar se um usuário está inscrito em um curso

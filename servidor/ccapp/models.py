@@ -172,8 +172,8 @@ class Comentario(models.Model):
     """
     Modelo de comentários, conectando com o usuário e a aula.
     """
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comentarios")
-    aula = models.ForeignKey(Aula, on_delete=models.CASCADE, related_name="comentarios")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comentarios_feitos")
+    aula = models.ForeignKey(Aula, on_delete=models.CASCADE, related_name="comentarios_aula")
     texto = models.TextField(max_length=256)
     data = models.DateTimeField(auto_now_add=True)
 

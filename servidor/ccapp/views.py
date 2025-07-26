@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.cache import never_cache
 
-from .models import Curso, Aula, Alternativa, RespostaQuestao, ProgressoAula, Questao, Matricula
+from .models import Curso, Aula, Alternativa, RespostaQuestao, ProgressoAula, Questao, Matricula, Comentario
 
 @require_http_methods(["GET"])
 def index(request):
@@ -187,6 +187,7 @@ def aula(request, url_curso, url_aula, user):
         "all_correct": all_questions_correct,
     })
 
+# Aqui está faltando um @matricula_required. Um problema 
 @login_required
 @require_http_methods(["POST"])
 def submit_answers(request, url_aula, user):
@@ -246,6 +247,55 @@ def user(request, username, user):
         "dados_progresso": dados_progresso,
         "biografia": profile_user.perfil.biografia,
     })
+
+@never_cache
+@require_http_methods(["POST"])
+@login_required
+def curtir_comentario(request, id_comentario, user):
+    comentario = get_object_or_404(Comentario, id=id_comentario)
+    
+    if user in comentario.curtidas.all():
+        comentario.curtidas.remove(user)
+    else:
+        comentario.curtidas.add(user)
+
+    return render(request, "ccapp/partials/like.html", {
+        "comentario": comentario,
+    })
+
+@never_cache
+@require_http_methods(["GET"])
+@login_required
+def obter_comentarios(request, id_aula, user):
+    aula = get_object_or_404(Aula, pk=id_aula)
+
+    comentarios_pai = aula.comentarios_aula.filter(parent=None)
+    context = {
+        'aula': aula,
+        'comentarios': comentarios_pai,
+    }
+
+    return render(request, "ccapp/partials/comentarios.html", context)
+
+@never_cache
+@require_http_methods(["POST"])
+@login_required
+def postar_comentario(request, id_aula, user):
+    aula = get_object_or_404(Aula, pk=id_aula)
+    texto = request.POST.get('texto')
+
+    if texto:
+        Comentario.objects.create(aula=aula, user=user, texto=texto)
+        # Lidar com parentes aqui mesmo?
+
+    comentarios_pai = aula.comentarios_aula.filter(parent=None)
+    context = {
+        'aula': aula,
+        'comentarios': comentarios_pai,
+    }
+
+    return render(request, "ccapp/partials/comentarios.html", context)
+
 
 ## Função para retornar layout certo
 def get_layout(request):

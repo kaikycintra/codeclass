@@ -68,96 +68,11 @@
             {% include "ccapp/partials/quiz.html" %}
         </div>
     </div>
-    <div class="row row-cols-1">
-        <p class="fs-1">Comentários</p>
-        <div class="card mb-3">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <strong>João Silva</strong>
-                    <small class="text-muted">2 de maio de 2025</small>
-                </div>
-                <p class="mt-2">Ótima aula! Aprendi muito sobre como usar tags HTML corretamente.</p>
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="d-flex align-items-center">
-                        <small class="text-muted me-2">15 likes</small>
-                        <button class="btn btn-sm btn-outline-primary rounded-5">Curtir</button>
-                    </div>
-                    <button class="btn btn-sm btn-outline-danger rounded-5">Denunciar</button>
-                </div>
-            </div>
-        </div>
-    
-        <div class="card mb-3">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <strong>Maria Oliveira</strong>
-                    <small class="text-muted">1 de maio de 2025</small>
-                </div>
-                <p class="mt-2">Alguém pode explicar melhor a diferença entre <code>&lt;div&gt;</code> e <code>&lt;span&gt;</code>?</p>
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="d-flex align-items-center">
-                        <small class="text-muted me-2">8 likes</small>
-                        <button class="btn btn-sm btn-outline-primary rounded-5">Curtir</button>
-                    </div>
-                    <button class="btn btn-sm btn-outline-danger rounded-5">Denunciar</button>
-                </div>
-    
-                <div class="card mt-3 ms-3 border-start ps-3">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <strong>Carlos Mendes</strong>
-                            <small class="text-muted">1 de maio de 2025</small>
-                        </div>
-                        <p class="mt-2">A tag <code>&lt;div&gt;</code> é usada para agrupar blocos de conteúdo, enquanto <code>&lt;span&gt;</code> é usada para estilizar partes de texto em linha.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center">
-                                <small class="text-muted me-2">5 likes</small>
-                                <button class="btn btn-sm btn-outline-primary rounded-5">Curtir</button>
-                            </div>
-                            <button class="btn btn-sm btn-outline-danger rounded-5">Denunciar</button>
-                        </div>
-                    </div>
-                </div>
-    
-                <button class="btn btn-sm btn-outline-secondary mt-3 rounded-5">Carregar mais respostas</button>
-            </div>
-        </div>
-    
-        <div class="card mb-3">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <strong>Lucas Pereira</strong>
-                    <small class="text-muted">30 de abril de 2025</small>
-                </div>
-                <p class="mt-2">A explicação sobre CSS foi muito clara. Obrigado!</p>
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="d-flex align-items-center">
-                        <small class="text-muted me-2">12 likes</small>
-                        <button class="btn btn-sm btn-outline-primary rounded-5">Curtir</button>
-                    </div>
-                    <button class="btn btn-sm btn-outline-danger rounded-5">Denunciar</button>
-                </div>
-            </div>
-        </div>
-    
-        <div class="card mb-3">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <strong>Ana Costa</strong>
-                    <small class="text-muted">29 de abril de 2025</small>
-                </div>
-                <p class="mt-2">Gostei muito da parte sobre formulários, mas acho que poderia ter mais exemplos práticos.</p>
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="d-flex align-items-center">
-                        <small class="text-muted me-2">10 likes</small>
-                        <button class="btn btn-sm btn-outline-primary rounded-5">Curtir</button>
-                    </div>
-                    <button class="btn btn-sm btn-outline-danger rounded-5">Denunciar</button>
-                </div>
-            </div>
-        </div>
-    
-        <button class="btn btn-outline-secondary w-100 rounded-5">Carregar mais comentários</button>
+    <!-- A ideia é que a caixa de comentários seja dinâmica -->
+    <div id="caixa-comentarios"
+        hx-get="{% url 'ccapp:obter_comentarios' aula.id %}"
+        hx-trigger="load">
+        <p>Carregando comentários...</p>
     </div>
 </main>
 

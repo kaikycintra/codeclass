@@ -239,6 +239,8 @@ def user(request, username, user):
     for curso in cursos_do_user:
         dados_progresso[curso.id] = curso.get_progresso_curso(profile_user)
 
+    comentarios = profile_user.comentarios_feitos
+
     return render(request, "ccapp/partials/user.html", {
         "layout": layout, 
         "username": user.username,
@@ -246,6 +248,7 @@ def user(request, username, user):
         "cursos_do_user": cursos_do_user,
         "dados_progresso": dados_progresso,
         "biografia": profile_user.perfil.biografia,
+        "comentarios": comentarios,
     })
 
 @never_cache

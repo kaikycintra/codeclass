@@ -36,34 +36,27 @@
     <!-- User Comments -->
     <section>
         <h2 class="fs-3">Comentários Feitos</h2>
+        {% for comentario in comentarios.all %}
         <div class="card mb-3">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
-                    <strong>Em: Desenvolvimento Web com Django e HTMX, Aula 1</strong>
-                    <small class="text-muted">2 de maio de 2025</small>
+                    <strong>Em {{ comentario.aula }}</strong>
+
+                    {% if comentario.parent %}
+                    <small class="text-muted">Em resposta à {{ comentario.parent.user.username }}</small>
+                    {% endif %}
+
+                    <small class="text-muted">{{ comentario.data|date:"d/m/Y" }}</small>
                 </div>
-                <p class="mt-2">Ótima aula! Aprendi muito sobre como usar tags HTML corretamente.</p>
+                <p class="mt-2">{{ comentario.texto }}</p>
             </div>
         </div>
-        <div class="card mb-3">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <strong>Em: Introdução ao JavaScrip, Aula 3</strong>
-                    <small class="text-muted">1 de maio de 2025</small>
-                </div>
-                <p class="mt-2">Alguém pode explicar melhor a diferença entre var, let e const?</p>
-            </div>
-        </div>
-        <div class="card mb-3">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <strong>Em: Fundamentos de HTML e CSS, Aula 2</strong>
-                    <small class="text-muted">30 de abril de 2025</small>
-                </div>
-                <p class="mt-2">A explicação sobre CSS foi muito clara. Obrigado!</p>
-            </div>
-        </div>
+        {% empty %}
+        <p>Este usuário não possui comentários</p>
+        {% endfor %}
     </section>
+
+    <!--Refazer depois -->
     <form action="{% url 'ccapp:logout' %}" method="POST">
         {% csrf_token %}
         <button type="submit" class="btn m-2 btn-md rounded-5 btn-outline-secondary">Logout</button>

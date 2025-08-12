@@ -1,81 +1,62 @@
 {% extends layout %}
+{% load extras %}
 {% block body %}
 <main>
     <!-- User Info -->
     <section class="mb-4">
         <h1 class="fs-2">{{ profile_username }}</h1>
         <hr class="my-3 border-2 opacity-50">
-        <p class="text-muted">Bio: Eu gosto de estudar e de batata</p>
+        <p class="text-muted">Bio: {{ biografia }}</p>
     </section>
 
     <!-- Registered Courses -->
     <section class="mb-4">
         <h2 class="fs-3">Cursos Registrados</h2>
+
+        {% for curso in cursos_do_user %}
         <div class="list-group w-100">
             <!-- Course 1 -->
+            {% with progress=dados_progresso|get_item:curso.id %}
             <div class="list-group-item">
                 <div class="d-flex justify-content-between">
-                    <strong>Desenvolvimento Web com Django e HTMX</strong>
-                    <small class="text-muted">Progresso: 75%</small>
+                    <strong>{{ curso.nome }}</strong>
+                    <small class="text-muted">Progresso: {{ progress|default:0 }}</small>
                 </div>
                 <div class="progress mt-2" style="height: 10px;">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ progress|default:0 }}%;" aria-valuenow="{{ progress|default:0 }}" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             </div>
-            <!-- Course 2 -->
-            <div class="list-group-item">
-                <div class="d-flex justify-content-between">
-                    <strong>Introdução ao JavaScript</strong>
-                    <small class="text-muted">Progresso: 50%</small>
-                </div>
-                <div class="progress mt-2" style="height: 10px;">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-            </div>
-            <!-- Course 3 -->
-            <div class="list-group-item">
-                <div class="d-flex justify-content-between">
-                    <strong>Fundamentos de HTML e CSS</strong>
-                    <small class="text-muted">Progresso: 100%</small>
-                </div>
-                <div class="progress mt-2" style="height: 10px;">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-            </div>
+            {% endwith %}
         </div>
+        {% empty %}
+            <p>Este usuário não está matriculado em nenhum curso!</p>
+        {% endfor %}
     </section>
 
     <!-- User Comments -->
     <section>
         <h2 class="fs-3">Comentários Feitos</h2>
+        {% for comentario in comentarios.all %}
         <div class="card mb-3">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
-                    <strong>Em: Desenvolvimento Web com Django e HTMX, Aula 1</strong>
-                    <small class="text-muted">2 de maio de 2025</small>
+                    <strong>Em {{ comentario.aula }}</strong>
+
+                    {% if comentario.parent %}
+                    <small class="text-muted">Em resposta à {{ comentario.parent.user.username }}</small>
+                    {% endif %}
+
+                    <small class="text-muted">{{ comentario.data|date:"d/m/Y" }}</small>
                 </div>
-                <p class="mt-2">Ótima aula! Aprendi muito sobre como usar tags HTML corretamente.</p>
+                <p class="mt-2">{{ comentario.texto }}</p>
             </div>
         </div>
-        <div class="card mb-3">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <strong>Em: Introdução ao JavaScrip, Aula 3</strong>
-                    <small class="text-muted">1 de maio de 2025</small>
-                </div>
-                <p class="mt-2">Alguém pode explicar melhor a diferença entre var, let e const?</p>
-            </div>
-        </div>
-        <div class="card mb-3">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <strong>Em: Fundamentos de HTML e CSS, Aula 2</strong>
-                    <small class="text-muted">30 de abril de 2025</small>
-                </div>
-                <p class="mt-2">A explicação sobre CSS foi muito clara. Obrigado!</p>
-            </div>
-        </div>
+        {% empty %}
+        <p>Este usuário não possui comentários</p>
+        {% endfor %}
     </section>
+
+    <!--Refazer depois -->
     <form action="{% url 'ccapp:logout' %}" method="POST">
         {% csrf_token %}
         <button type="submit" class="btn m-2 btn-md rounded-5 btn-outline-secondary">Logout</button>

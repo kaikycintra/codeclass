@@ -5,22 +5,29 @@
     <section class="mb-1">
       <h1 class="fs-2">Próxima Aula</h1>
       <hr class="my-3 border-2 opacity-50">
-  
-      <a href="#"
-         class="card text-decoration-none mb-3 card-hover">
-        <div class="row g-0">
-          <div class="col-12">
-            <div class="card-body d-flex flex-column" style="height: 100%;">
-              <h3 class="card-title">Nome da Aula</h3>
-              <p class="card-text flex-grow-1">Descrição da aula</p>
-              <p class="card-text"><small>Realizada dia: 01/01/2025</small></p>
-              <div class="progress">
-                <div class="progress-bar bg-success" role="progressbar" style="width: 0%;">0%</div>
-              </div>
+      
+      {% if proxima_aula %}
+        <a href="/curso/{{ proxima_aula.curso_pra_url }}/{{ proxima_aula.nome_pra_url }}"
+           class="card text-decoration-none mb-3 card-hover">
+            <div class="row g-0">
+                <div class="col-12">
+                    <div class="card-body d-flex flex-column" style="height: 100%;">
+                        <h3 class="card-title">{{ proxima_aula.nome }}</h3>
+                        <p class="card-text flex-grow-1">{{ proxima_aula.resumo }}</p>
+                        <p class="card-text"><small>Realizada dia: {{ proxima_aula.data|date:"d/m/Y" }}</small></p>
+                        <div class="progress w-100">
+                          <div class="progress-bar" role="progressbar" style="width: 100%;">Não iniciada</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </a>
+          </a>
+      {% else %}
+      <div class="alert alert-sucess">
+        <h4 class="alert-heading">Parabéns!</h4>
+        <p>Você completou todas as aulas deste curso!</p>
+      </div>
+      {% endif %}
     </section>
   
     <!-- Todas as aulas -->
@@ -44,9 +51,16 @@
                   <h3 class="card-title">{{ aula.nome }}</h3>
                   <p class="card-text flex-grow-1">{{ aula.resumo }}</p>
                   <p class="card-text"><small>Realizada dia: {{ aula.data|date:"d/m/Y" }}</small></p>
-                  <div class="progress w-100">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%;">Concluída</div>
-                  </div>
+                  
+                  {% if aula.id in aulas_concluidas %}
+                    <div class="progress w-100">
+                      <div class="progress-bar bg-success" role="progressbar" style="width: 100%;">Concluída</div>
+                    </div>
+                  {% else %}
+                    <div class="progress w-100">
+                      <div class="progress-bar" role="progressbar" style="width: 100%;">Não iniciada</div>
+                    </div>
+                  {% endif %}
                 </div>
               </div>
             </div>

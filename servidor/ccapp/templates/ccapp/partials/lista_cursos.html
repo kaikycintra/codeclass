@@ -1,0 +1,53 @@
+<!--Partial de listagem de cursos usado para o cursos.html-->
+{% load extras %}
+
+{% for curso in cursos %}
+<div class="card text-decoration-none mb-3 card-hover">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <a href="{% url 'ccapp:aulas' curso.nome_pra_url %}" class="text-decoration-none">
+                <img src="{{ curso.thumb.url }}" class="img-responsiva img-fluid rounded" alt="Responsive image">
+            </a>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card-body d-flex flex-column" style="height: 100%;">
+                <a href="{% url 'ccapp:aulas' curso.nome_pra_url %}"
+                       hx-get="{% url 'ccapp:aulas' curso.nome_pra_url %}"
+                       hx-target="closest main"
+                       hx-swap="outerHTML" 
+                       hx-push-url="true"
+                       class="text-decoration-none text-dark flex-grow-1">
+                        <h3 class="card-title">{{ curso.nome }}</h3>
+                        <p class="card-text flex-grow-1">{{ curso.resumo }}</p>
+                </a>
+                
+                <p class="card-text"><small>Início: {{ curso.data_inicio|date:"d/m/Y" }}<br>Fim: {{ curso.data_fim|date:"d/m/Y" }}</small></p>
+
+                {% if curso.nome not in cursos_matriculados %}
+                    <div class="mt-auto">
+                        <form hx-post="{% url 'ccapp:matricular_curso' curso.nome_pra_url %}" hx-target="this" hx-swap="outerHTML">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-success rounded-5">Quero me matricular</button>
+                        </form>
+                    </div>
+                {% else %}
+                    <!--Talvez uma barra diferente caso seja 100%? Ou definir diferentes cores para diferentes progressos-->
+                    {% with progress=dados_progresso|get_item:curso.id %}
+                    <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress|default:0 }}%;">
+                                    {{ progress|default:0 }}
+                                </div>
+                    </div>
+                    {% endwith %}
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% if not cursos %}
+<h3>Nada a mostrar aqui...</h3>
+{% endif %}

@@ -35,8 +35,8 @@
                     </li>
                     <li class="list-group-item">
                       <p class="fs-2"
-                         hx-get="/cursos/"
-                         hx-push-url="/cursos/"
+                         hx-get="{% url 'ccapp:cursos' %}"
+                         hx-push-url="true"
                          hx-target="next main"
                          hx-swap="outerHTML transition:true"
                          data-bs-toggle="offcanvas" href="#offcanvas"
@@ -80,8 +80,8 @@
               <ul class="navbar-nav nav-underline">
                 <li class="nav-item">
                   <a class="nav-link fs-5 text-white"
-                     hx-get="/cursos/"
-                     hx-push-url="/cursos/"
+                     hx-get="{% url 'ccapp:cursos' %}"
+                     hx-push-url="true"
                      hx-target="next main"
                      hx-swap="outerHTML">
                      Cursos

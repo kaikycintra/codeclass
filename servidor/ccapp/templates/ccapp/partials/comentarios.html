@@ -25,9 +25,13 @@
                 <div class="d-flex justify-content-between align-items-center">
                     {% include "ccapp/partials/like.html" with comentario=comentario %}
 
-                    <!--Nota: esta parte de responder comentário é apenas um placeholder-->
-                    <button class="btn btn-sm btn-outline-secondary rounded-5" disabled>Responder</button>
+                    <button class="btn btn-sm btn-outline-secondary rounded-5"
+                            hx-get="{% url 'ccapp:responder_comentario' comentario.id %}"
+                            hx-target="#reply-form-{{ comentario.id }}"
+                            hx-swap="outerHTML">Responder</button>
                 </div>
+
+                <div id="reply-form-{{ comentario.id }}"></div>
 
                 {% for resposta in comentario.respostas.all %}
                 <div class="card mt-3 ms-3 border-start ps-3">

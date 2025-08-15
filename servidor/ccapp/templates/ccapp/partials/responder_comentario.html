@@ -1,0 +1,18 @@
+<div class="card mb-3">
+    <div class="card-body">
+        <form hx-post="{% url 'ccapp:postar_resposta' comentario.id %}" hx-target="#caixa-comentarios" hx-swap="outerHTML">
+            {% csrf_token %}
+            <textarea class="form-control" name="texto" placeholder="Escreva sua resposta..." required></textarea>
+            <button type="submit" class="btn btn-primary mt-2">Enviar</button>
+        </form>
+
+        <!--Nota: isso aqui é meio complicado. Ele renderiza toda a parte de comentários novamente, ao invés
+        disso seria interessante fazer alguma view que só retira a div que foi inserida lá, mas não consegui-->
+        <button type="button" class="btn btn-secondary btn-sm mt-2"
+                    hx-get="{% url 'ccapp:obter_comentarios' comentario.aula.id %}"
+                    hx-target="#caixa-comentarios"
+                    hx-swap="outerHTML">
+                    Cancelar
+        </button>
+    </div>
+</div>

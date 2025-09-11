@@ -1,4 +1,16 @@
+# Python
 .venv
 .python-version
-servidor/db.sqlite3
-servidor/staticfiles
+__pycache__
+
+# Django
+*.sqlite3
+*.log
+db.sqlite3
+media/
+staticfiles/
+static_root/
+.env
+.env.*
+
+# Migrações Django podem OU não ser ignoradas

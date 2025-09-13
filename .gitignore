@@ -11,6 +11,5 @@ media/
 staticfiles/
 static_root/
 .env
-.env.*
 
 # Migrações Django podem OU não ser ignoradas

@@ -40,3 +40,48 @@ No VSCode, é possível ativar o ambiente automaticamente ao configurar o interp
 
 1. Pressione `Ctrl+Shift+P` e procure por **Python: Select Interpreter**.
 2. Escolha o ambiente virtual criado na lista.
+
+## Docker Setup
+
+Esse projeto utiliza Docker para garantir um ambiente de desenvolvimento consistente. É necessário que tenha os seguintes pacotes em seu computador:
+
+- **Docker versão 28.4.0** ou posterior
+- **Docker compose versão 2.39.2** ou posterior
+
+### Iniciando
+
+Na raiz do projeto execute (opcionalmente, adicione a flag `-d` para poder continuar usando o console).
+
+```bash
+docker compose up --buid
+```
+
+Então, você pode acessar o site com a url `localhost:8000`
+
+### Comandos
+
+É possível executar comandos utilizando o `exec`, como:
+
+```bash
+docker-compose exec <nome_container> <comando aqui>
+```
+
+ou
+
+```bash
+docker container exec <nome_container> <comando aqui>
+```
+
+### Migrações
+
+Caso já exista uma database no seu projeto, o Docker irá se conectar à ela por um **bind mount**. Caso ela não exista, utilize
+
+```bash
+docker container exec <nome_container> python manage.py migrate
+```
+
+e crie um usuário administrador:
+
+```bash
+docker container exec <nome_container> python manage.py createsuperuser
+```

@@ -2,6 +2,17 @@
 
 Esse tutorial mostra como configurar o ambiente de desenvolvimento no linux.
 
+## .env
+
+O projeto utiliza variáveis de ambiente com o arquivo `.env` para segurança e flexibilidade. Há um template `.env.example` como demonstração, copie o template com
+
+```bash
+    cp .env.example .env
+```
+
+e mude o que precisar dentro do arquivo (para desenvolvimento local, não é necessário mudar nada).
+
+
 ## Ambiente virtual de python
 
 É recomendado usar o pyenv para gerenciar múltiplas versões de python e seus pacotes:
@@ -74,7 +85,7 @@ docker container exec <nome_container> <comando aqui>
 
 ### Migrações
 
-Caso já exista uma database no seu projeto, o Docker irá se conectar à ela por um **bind mount**. Caso ela não exista, utilize
+Aplique as migrações necessárias ao projeto:
 
 ```bash
 docker container exec <nome_container> python manage.py migrate
@@ -83,5 +94,5 @@ docker container exec <nome_container> python manage.py migrate
 e crie um usuário administrador:
 
 ```bash
-docker container exec <nome_container> python manage.py createsuperuser
+docker container exec -it <nome_container> python manage.py createsuperuser
 ```

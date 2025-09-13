@@ -1,0 +1,23 @@
+# Git folder
+.git
+
+# Docker files
+Dockerfile
+docker-compose.yaml
+.dockerignore
+
+# Documentation and setup files
+README.md
+SETUP.md
+
+# Local database and media files
+servidor/db.sqlite3
+servidor/media/
+
+# Unnecessary app folders
+aulas/
+pretemplates/
+
+# Python cache
+__pycache__/
+*.pyc

@@ -1,0 +1,9 @@
+services:
+  django-web:
+    build: .
+    # container_name: django-docker # (optional, docker can generate a custom one)
+    volumes:
+      - ./servidor:/app # bind mount directly to computer, good for now
+    ports:
+      - "8000:8000"
+    command: python manage.py runserver 0.0.0.0:8000

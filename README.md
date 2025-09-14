@@ -1,4 +1,4 @@
-# Oi
+# Codeclass
 
 Esse é um projeto do [USPCodeLab Butantã](https://codelab.ime.usp.br/)
 

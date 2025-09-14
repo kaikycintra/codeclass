@@ -1,22 +1,41 @@
-# Stage 1: Base build stage (for now)
-FROM python:3.12.11-slim
+# -----------------------------------------------------------------------------
+#                           Base Build Image
+# -----------------------------------------------------------------------------
+
+FROM python:3.13-slim AS builder
+
+# Set working directory
+WORKDIR /app
+
+# Install uv
+RUN pip install --no-cache-dir uv
+
+# Install python dependencies
+COPY pyproject.toml uv.lock ./
+RUN uv export --format requirements.txt -o requirements.txt
+RUN uv pip install --system -r requirements.txt
+
+# -----------------------------------------------------------------------------
+#                               Dev Image
+# -----------------------------------------------------------------------------
+
+FROM python:3.13-slim AS development
+
+# Set working directory
+WORKDIR /app
+
+# Copy installed python packages from the builder stage
+COPY --from=builder /usr/local/lib/python3.13/site-packages /usr/local/lib/python3.13/site-packages
+
+# Copy project files
+COPY servidor/ .
 
 # Set environment variables for python
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1 
 
-# Set working dir
-WORKDIR /app
-
-# Copy and install dependencies
-COPY requirements.txt /app/
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy Django app to app folder
-COPY  servidor/ .
-
-# Expose the Django port
+# Expose the port the app runs on
 EXPOSE 8000
 
-# Run Development server
-# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Run server with hot reload
+ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8000"]

@@ -14,7 +14,6 @@ urlpatterns = [
     path("curso/<str:url_curso>/", views.aulas, name="aulas"),
     path("curso/<str:url_curso>/<str:url_aula>", views.aula, name="aula"),
     path("user/<str:username>", views.user, name="user"),
-    path('submit-answers/<str:url_aula>/', views.submit_answers, name='submit_answers'),
     path('submeter-atividade/<int:atividade_id>/', views.submeter_atividade, name='submeter_atividade'),
     path("matricular/<str:url_curso>/", views.matricular_curso, name="matricular_curso"),
     path("curtir-comentario/<int:id_comentario>/", views.curtir_comentario, name="curtir_comentario"),

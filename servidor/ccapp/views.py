@@ -204,43 +204,6 @@ def submeter_atividade(request, user, atividade_id):
 
     return render(request, "ccapp/partials/atividades.html", context)
 
-@login_required
-@require_http_methods(["POST"])
-def submit_answers(request, url_aula, user):
-    """
-    Método que gerencia o submit das respostas de um usuário
-    """
-    nome_aula = url_aula.replace("-", " ")
-    aula_obj = get_object_or_404(Aula, nome=nome_aula)
-
-    for key, value in request.POST.items():
-        if key.startswith('questao_'):
-            questao_id = int(key.split('_')[1])
-            alternativa_id = int(value)
-
-            questao_obj = Questao.objects.get(pk=questao_id)
-            alternativa_obj = Alternativa.objects.get(pk=alternativa_id)
-
-            resposta_obj, created = RespostaQuestao.objects.update_or_create(
-                aluno=user,
-                questao=questao_obj,
-                defaults={'resposta': alternativa_obj},
-            )
-
-            ProgressoAula.objects.check_and_update(user, resposta_obj)
-    
-    respostas_user = RespostaQuestao.objects.filter(aluno=user, questao__aula=aula_obj)
-
-    progresso_aula, created = ProgressoAula.objects.get_or_create(aluno=user, aula=aula_obj)
-    context = {
-        "aula": aula_obj,
-        "questoes": aula_obj.questoes.all(),
-        "user_answers": {ua.questao.id: ua for ua in respostas_user},
-        "all_correct": progresso_aula.concluida,
-    }
-
-    return render(request, "ccapp/partials/quiz.html", context)
-
 @never_cache
 @require_http_methods(["GET"])
 @login_required

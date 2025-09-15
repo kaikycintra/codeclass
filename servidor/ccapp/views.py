@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.cache import never_cache
 
-from .models import Curso, Aula, Alternativa, RespostaQuestao, ProgressoAula, Questao, Matricula, Comentario
+from .models import Curso, Aula, Alternativa, RespostaQuestao, ProgressoAula, Questao, Matricula, Comentario, Atividade
 
 @require_http_methods(["GET"])
 def index(request):
@@ -172,22 +172,38 @@ def aula(request, url_curso, url_aula, user):
     aula_obj = get_object_or_404(Aula, nome=nome_aula)
     questoes = aula_obj.questoes.all()
 
-    user_answers = RespostaQuestao.objects.filter(aluno=user, questao__aula=aula_obj)
-    user_answers_dict = {ua.questao.id: ua for ua in user_answers}
-
-    progresso_aula, created = ProgressoAula.objects.get_or_create(aluno=user, aula=aula_obj)
-    all_questions_correct = progresso_aula.concluida
+    progresso, created = ProgressoAula.objects.get_or_create(aluno=user, aula=aula_obj)
 
     return render(request, "ccapp/partials/class.html", {
         "layout": layout,
         "username": user,
         "aula": Aula.objects.get(nome=nome_aula),
-        "questoes": questoes,
-        "user_answers": user_answers_dict,
-        "all_correct": all_questions_correct,
+        "progresso": progresso,
     })
 
-# Aqui está faltando um @matricula_required. Um problema 
+@login_required
+@require_http_methods(["POST"])
+def submeter_atividade(request, user, atividade_id):
+    """
+    Gerencia o Submit de uma única atividade
+    """
+    atividade = get_object_or_404(Atividade, pk=atividade_id)
+    aula = atividade.aula
+    aluno = user
+
+    # Processa o tipo CHECKBOX
+    if atividade.tipo == Atividade.TipoAtividade.CHECKBOX:
+        ProgressoAula.objects.altera_status_conclusao(user=user, aula=aula)
+
+    progresso_atualizado = ProgressoAula.objects.filter(aluno=aluno, aula=aula).first()
+
+    context = {
+        "aula": aula,
+        "progresso": progresso_atualizado
+    }
+
+    return render(request, "ccapp/partials/atividades.html", context)
+
 @login_required
 @require_http_methods(["POST"])
 def submit_answers(request, url_aula, user):

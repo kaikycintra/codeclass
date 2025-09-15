@@ -76,21 +76,39 @@ class Matricula(models.Model):
         return f'{self.aluno.username} matriculado em {self.curso}'
 
 
-## Classes de Exercícios e progressos de aula
+#---------------------------------------------------------------
+# Modelos com relação à atividades
+
+class Atividade(models.Model):
+    """
+    Modelo que armazena um tipo de atividade (CHECKBOX, TEXTO, etc)
+    Modelo genérico que pode estender à diferentes tipos
+    """
+    class TipoAtividade(models.TextChoices):
+        CHECKBOX = "CHECKBOX", "Confirmação Simples"
+    
+    aula = models.ForeignKey(Aula, on_delete=models.CASCADE, related_name="atividades")
+    titulo = models.CharField(max_length=200, default=f"Confirmar Conclusão da Aula")
+    tipo = models.CharField(max_length=10, choices=TipoAtividade.choices, default=TipoAtividade.CHECKBOX)
+    enunciado = models.TextField(blank=True, null=True, default="Marque a caixa para concluir a aula")
+
+    def __str__(self):
+        return f'{self.titulo} ({self.aula.nome})'
+
 
 class Questao(models.Model):
     """
-    Modelo que armazena a questão e o enunciado
+    Modelo que armazena a questão e o enunciado - Atividade QUIZ
     """
     aula = models.ForeignKey(Aula, on_delete=models.CASCADE, related_name="questoes")
     pergunta = models.TextField()
 
     def __str__(self):
         return f'Questão para {self.aula.nome}'
-    
+
 class Alternativa(models.Model):
     """
-    Modelo flexível que armazena as alternativas de uma questão
+    Modelo flexível que armazena as alternativas de uma questão - Atividade QUIZ
     """
     questao = models.ForeignKey(Questao, on_delete=models.CASCADE, related_name="alternativas")
     texto = models.TextField(max_length=255)
@@ -101,7 +119,7 @@ class Alternativa(models.Model):
 
 class RespostaQuestao(models.Model):
     """
-    Modelo que armazena a resposta de um usuário/estudante a uma questão
+    Modelo que armazena a resposta de um usuário/estudante a uma questão - Atividade QUIZ
     """
     aluno = models.ForeignKey(User, on_delete=models.CASCADE, related_name="respostas")
     questao = models.ForeignKey(Questao, on_delete=models.CASCADE, related_name="respostas")
@@ -117,9 +135,18 @@ class RespostaQuestao(models.Model):
     
 class ProgressoAulaManager(models.Manager):
     """
-    Método de gerenciamento para o progresso de uma aula
-    Utilizamos um método lazy para atualizar e criar os ProgressoAula
+    Gerencia a lógica de negócio para o progresso da aula.
     """
+    def altera_status_conclusao(self, user, aula):
+        """
+        Método simples, que marca uma aula como concluída/não-concluída (como um toggle)
+        """
+        progresso, created = self.get_or_create(aluno=user, aula=aula)
+        progresso.concluida = not progresso.concluida
+        progresso.save()
+
+        return progresso
+
     def check_and_update(self, user, resposta_questao_obj):
         if not resposta_questao_obj.correta():
             return
@@ -152,6 +179,14 @@ class ProgressoAula(models.Model):
 
     class Meta:
         unique_together = ('aluno', 'aula')
+    
+    def save(self, *args, **kwargs):
+        """ Define data de conclusão automaticamente """
+        if self.concluida and not self.data_conclusao:
+            self.data_conclusao = timezone.now()
+        elif not self.concluida:
+            self.data_conclusao = None
+        super().save(*args, **kwargs)
 
 #---------------------------------------------------------------
 # Modelos com relação aos usuários

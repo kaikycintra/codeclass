@@ -68,7 +68,7 @@
         </div>
         <hr class="my-3 border-2 opacity-50 d-md-none">
         <div class="col" id="exercicios" style="overflow-y: auto; max-height: 600px;">
-            {% include "ccapp/partials/quiz.html" %}
+            {% include "ccapp/partials/atividades.html" with aula=aula progresso=progresso %}
         </div>
     </div>
     <!-- A ideia é que a caixa de comentários seja dinâmica -->

@@ -94,44 +94,6 @@ class Atividade(models.Model):
 
     def __str__(self):
         return f'{self.titulo} ({self.aula.nome})'
-
-
-class Questao(models.Model):
-    """
-    Modelo que armazena a questão e o enunciado - Atividade QUIZ
-    """
-    aula = models.ForeignKey(Aula, on_delete=models.CASCADE, related_name="questoes")
-    pergunta = models.TextField()
-
-    def __str__(self):
-        return f'Questão para {self.aula.nome}'
-
-class Alternativa(models.Model):
-    """
-    Modelo flexível que armazena as alternativas de uma questão - Atividade QUIZ
-    """
-    questao = models.ForeignKey(Questao, on_delete=models.CASCADE, related_name="alternativas")
-    texto = models.TextField(max_length=255)
-    correta = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.texto
-
-class RespostaQuestao(models.Model):
-    """
-    Modelo que armazena a resposta de um usuário/estudante a uma questão - Atividade QUIZ
-    """
-    aluno = models.ForeignKey(User, on_delete=models.CASCADE, related_name="respostas")
-    questao = models.ForeignKey(Questao, on_delete=models.CASCADE, related_name="respostas")
-    resposta = models.ForeignKey(Alternativa, on_delete=models.CASCADE)
-    data_resposta = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f'Resposta de {self.aluno.username} para {self.questao.pergunta[:30]}...'
-
-    def correta(self):
-        """Checa se a resposta está correta"""
-        return self.resposta.correta
     
 class ProgressoAulaManager(models.Manager):
     """

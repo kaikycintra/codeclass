@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.cache import never_cache
 
-from .models import Curso, Aula, Alternativa, RespostaQuestao, ProgressoAula, Questao, Matricula, Comentario, Atividade
+from .models import Curso, Aula, ProgressoAula, Matricula, Comentario, Atividade
 
 @require_http_methods(["GET"])
 def index(request):
@@ -170,7 +170,6 @@ def aula(request, url_curso, url_aula, user):
     nome_aula = url_aula.replace("-", " ")
 
     aula_obj = get_object_or_404(Aula, nome=nome_aula)
-    questoes = aula_obj.questoes.all()
 
     progresso, created = ProgressoAula.objects.get_or_create(aluno=user, aula=aula_obj)
 

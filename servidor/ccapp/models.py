@@ -109,24 +109,6 @@ class ProgressoAulaManager(models.Manager):
 
         return progresso
 
-    def check_and_update(self, user, resposta_questao_obj):
-        if not resposta_questao_obj.correta():
-            return
-        
-        aula_atual = resposta_questao_obj.questao.aula
-
-        progresso, created = self.get_or_create(aluno=user, aula=aula_atual, defaults={'concluida':False})
-        if progresso.concluida:
-            return
-        
-        total_questoes = aula_atual.questoes.count()
-        respostas_corretas_count = RespostaQuestao.objects.filter(aluno=user, questao__aula=aula_atual, resposta__correta=True).values('questao').distinct().count()
-
-        if respostas_corretas_count >= total_questoes:
-            progresso.concluida = True
-            progresso.data_conclusao = timezone.now()
-            progresso.save()
-
 
 class ProgressoAula(models.Model):
     """

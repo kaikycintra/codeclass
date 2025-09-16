@@ -71,12 +71,6 @@
             {% include "ccapp/partials/quiz.html" %}
         </div>
     </div>
-    <!-- A ideia é que a caixa de comentários seja dinâmica -->
-    <div id="caixa-comentarios"
-        hx-get="{% url 'ccapp:obter_comentarios' aula.id %}"
-        hx-trigger="load">
-        <p>Carregando comentários...</p>
-    </div>
 </main>
 
 {% endblock %}

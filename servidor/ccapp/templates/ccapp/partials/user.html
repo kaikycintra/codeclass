@@ -33,29 +33,6 @@
         {% endfor %}
     </section>
 
-    <!-- User Comments -->
-    <section>
-        <h2 class="fs-3">Comentários Feitos</h2>
-        {% for comentario in comentarios.all %}
-        <div class="card mb-3">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <strong>Em {{ comentario.aula }}</strong>
-
-                    {% if comentario.parent %}
-                    <small class="text-muted">Em resposta à {{ comentario.parent.user.username }}</small>
-                    {% endif %}
-
-                    <small class="text-muted">{{ comentario.data|date:"d/m/Y" }}</small>
-                </div>
-                <p class="mt-2">{{ comentario.texto }}</p>
-            </div>
-        </div>
-        {% empty %}
-        <p>Este usuário não possui comentários</p>
-        {% endfor %}
-    </section>
-
     <!--Refazer depois -->
     <form action="{% url 'ccapp:logout' %}" method="POST">
         {% csrf_token %}

@@ -15,13 +15,7 @@ urlpatterns = [
     path("curso/<str:url_curso>/<str:url_aula>", views.aula, name="aula"),
     path("user/<str:username>", views.user, name="user"),
     path('submit-answers/<str:url_aula>/', views.submit_answers, name='submit_answers'),
-    path("matricular/<str:url_curso>/", views.matricular_curso, name="matricular_curso"),
-    path("curtir-comentario/<int:id_comentario>/", views.curtir_comentario, name="curtir_comentario"),
-    path("obter-comentarios/<int:id_aula>/", views.obter_comentarios, name="obter_comentarios"),
-    path("postar-comentario/<int:id_aula>/", views.postar_comentario, name="postar_comentario"),
-    path("responder-comentario/<int:id_comentario>/", views.responder_comentario, name="responder_comentario"),
-    path("postar-resposta/<int:id_comentario>/", views.postar_resposta, name="postar_resposta"),
-
+    path("matricular/<str:url_curso>/", views.matricular_curso, name="matricular_curso")
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

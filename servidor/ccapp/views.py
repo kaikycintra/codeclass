@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.cache import never_cache
 from django.contrib import messages
 
-from .models import Curso, Aula, ProgressoAula, Matricula, Comentario
+from .models import Curso, Aula, ProgressoAula, Matricula
 
 @require_http_methods(["GET"])
 def index(request):
@@ -228,104 +228,14 @@ def user(request, username, user):
     for curso in cursos_do_user:
         dados_progresso[curso.id] = curso.get_progresso_curso(profile_user)
 
-    comentarios = profile_user.comentarios_feitos
-
     return render(request, "ccapp/partials/user.html", {
         "layout": layout, 
         "username": user.username,
         "profile_username": profile_user.username,
         "cursos_do_user": cursos_do_user,
         "dados_progresso": dados_progresso,
-        "biografia": profile_user.perfil.biografia,
-        "comentarios": comentarios,
+        "biografia": profile_user.perfil.biografia
     })
-
-@never_cache
-@require_http_methods(["POST"])
-@login_required
-def curtir_comentario(request, id_comentario, user):
-    comentario = get_object_or_404(Comentario, id=id_comentario)
-    
-    if user in comentario.curtidas.all():
-        comentario.curtidas.remove(user)
-    else:
-        comentario.curtidas.add(user)
-
-    return render(request, "ccapp/partials/like.html", {
-        "comentario": comentario,
-    })
-
-@never_cache
-@require_http_methods(["GET"])
-@login_required
-def obter_comentarios(request, id_aula, user):
-    aula = get_object_or_404(Aula, pk=id_aula)
-
-    comentarios_pai = aula.comentarios_aula.filter(parent=None)
-    context = {
-        'aula': aula,
-        'comentarios': comentarios_pai,
-    }
-
-    return render(request, "ccapp/partials/comentarios.html", context)
-
-@never_cache
-@require_http_methods(["POST"])
-@login_required
-def postar_comentario(request, id_aula, user):
-    aula = get_object_or_404(Aula, pk=id_aula)
-    texto = request.POST.get('texto')
-
-    if texto:
-        Comentario.objects.create(aula=aula, user=user, texto=texto)
-        # Lidar com parentes aqui mesmo?
-
-    comentarios_pai = aula.comentarios_aula.filter(parent=None)
-    context = {
-        'aula': aula,
-        'comentarios': comentarios_pai,
-    }
-
-    return render(request, "ccapp/partials/comentarios.html", context)
-
-# Provavelmente seria melhor refazer a função de cima para poder usar na mesma url da api, mas deixei aqui por simplicidade
-@never_cache
-@require_http_methods(["GET"])
-@login_required
-def responder_comentario(request, id_comentario, user):
-    comentario_pai = get_object_or_404(Comentario, pk=id_comentario)
-
-    context = {
-        "comentario": comentario_pai,
-        "is_reply": True,
-    }
-
-    return render(request, "ccapp/partials/responder_comentario.html", context)
-
-@never_cache
-@require_http_methods(["POST"])
-@login_required
-def postar_resposta(request, id_comentario, user):
-    comentario_pai = get_object_or_404(Comentario, pk=id_comentario)
-    aula=comentario_pai.aula
-    texto=request.POST.get('texto')
-    if texto:
-        Comentario.objects.create(
-            user=user,
-            aula=aula,
-            texto=texto,
-            parent=comentario_pai
-        )
-
-    # Re-renderiza os comentarios
-    comentarios_pai = aula.comentarios_aula.filter(parent=None)
-    context = {
-        'aula': aula,
-        'comentarios': comentarios_pai,
-    }
-
-    return render(request, "ccapp/partials/comentarios.html", context)
-
 
 ## Função para retornar layout certo
 def get_layout(request):

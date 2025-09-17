@@ -1,4 +1,4 @@
-<h3>Exercícios</h3>
+<h3></h3>
 
 {% if progresso and progresso.concluida %}
     <div class="alert alert-success text-center">
@@ -31,6 +31,41 @@
                         Marcar como concluída
                     </label>
                 </div>
+            </form>
+        {% elif aula.tipo == 'TEXTO' %}
+            {% if progresso.resposta_atividade %}
+                <div class="mb-3">
+                    <h6 class="text-muted">Sua resposta enviada:</h6>
+                    <blockquote class="blockquote bg-light p-3 rounded">
+                        <p class="mb-0 fs-6">{{ progresso.resposta_atividade|linebreaks }}</p>
+                    </blockquote>
+                    <small class="form-text text-muted">Você pode editar e reenviar sua resposta abaixo.</small>
+                </div>
+            {% endif %}
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form hx-post="{% url 'ccapp:submeter_conclusao' aula_id=aula.id %}"
+                    hx-target="#exercicios"
+                    hx-swap="innerHTML">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <textarea class="form-control" name="resposta_atividade" rows="5" required>{% if progresso.resposta_atividade %}{{ progresso.resposta_atividade }}{% endif %}</textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    {% if progresso.resposta_atividade %}
+                        Salvar Alterações
+                    {% else %}
+                        Enviar Resposta
+                    {% endif %}
+                </button>
             </form>
         {% endif %}
     </div>

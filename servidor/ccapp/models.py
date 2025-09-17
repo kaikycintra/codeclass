@@ -51,9 +51,10 @@ class Aula(models.Model):
     # Campos de atividade
     class TipoAtividade(models.TextChoices):
         CHECKBOX = "CHECKBOX", "Confirmação Simples"
+        TEXTO = "TEXTO", "Resposta de Texto"
 
-    tipo = models.CharField(max_length=10, choices=TipoAtividade.choices, default=TipoAtividade.CHECKBOX)
-    texto_atividade = models.TextField(blank=True, null=True, default="Marque a caixa para concluir a aula")
+    tipo = models.CharField(max_length=10, choices=TipoAtividade.choices)
+    texto_atividade = models.TextField(blank=True, null=True)
     
     def __str__(self):
         return(f"{self.curso.nome}: Aula {self.num}-{self.nome}")
@@ -87,12 +88,17 @@ class ProgressoAulaManager(models.Manager):
     """
     Gerencia a lógica de negócio para o progresso da aula.
     """
-    def altera_status_conclusao(self, user, aula):
+    def altera_status_conclusao(self, user, aula, tipo, resposta):
         """
-        Método simples, que marca uma aula como concluída/não-concluída (como um toggle)
+        Método simples, que marca uma aula como concluída/não-concluída
         """
+
         progresso, created = self.get_or_create(aluno=user, aula=aula)
-        progresso.concluida = not progresso.concluida
+        if tipo == "CHECKBOX":
+            progresso.concluida = not progresso.concluida
+        elif tipo == "TEXTO":
+            progresso.concluida = True
+            progresso.resposta_atividade = resposta
         progresso.save()
 
         return progresso
@@ -106,6 +112,8 @@ class ProgressoAula(models.Model):
     aula = models.ForeignKey(Aula, on_delete=models.CASCADE)
     concluida = models.BooleanField(default=False)
     data_conclusao = models.DateTimeField(null=True, blank=True)
+
+    resposta_atividade = models.TextField(max_length=256, null=True)
 
     objects = ProgressoAulaManager()
 

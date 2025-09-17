@@ -6,6 +6,7 @@ from .decorators import login_required, matricula_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.cache import never_cache
+from django.contrib import messages
 
 from .models import Curso, Aula, ProgressoAula, Matricula, Comentario
 
@@ -190,8 +191,19 @@ def submeter_conclusao(request, user, aula_id):
     aluno = user
 
     # Processa o tipo CHECKBOX
-    if aula.tipo == Atividade.TipoAtividade.CHECKBOX:
-        ProgressoAula.objects.altera_status_conclusao(user=user, aula=aula)
+    if aula.tipo == aula.TipoAtividade.CHECKBOX:
+        ProgressoAula.objects.altera_status_conclusao(user=user, aula=aula, tipo="CHECKBOX")
+    elif aula.tipo == aula.TipoAtividade.TEXTO:
+        resposta = request.POST.get('resposta_atividade', '').strip()
+
+        if len(resposta) > 256:
+            messages.error(request, "Sua resposta não pode ter mais de 256 caracteres")
+        elif len(resposta) < 1:
+            messages.error(request, "Sua resposta não pode ser vazia")
+        else:
+            ProgressoAula.objects.altera_status_conclusao(user=user, aula=aula, tipo="TEXTO", resposta=resposta)
+            messages.success(request, "Resposta enviada!")
+
 
     progresso_atualizado = ProgressoAula.objects.filter(aluno=aluno, aula=aula).first()
 

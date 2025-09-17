@@ -182,16 +182,15 @@ def aula(request, url_curso, url_aula, user):
 
 @login_required
 @require_http_methods(["POST"])
-def submeter_atividade(request, user, atividade_id):
+def submeter_conclusao(request, user, aula_id):
     """
-    Gerencia o Submit de uma única atividade
+    Gerencia a conclusão de uma aula
     """
-    atividade = get_object_or_404(Atividade, pk=atividade_id)
-    aula = atividade.aula
+    aula = get_object_or_404(Aula, pk=aula_id)
     aluno = user
 
     # Processa o tipo CHECKBOX
-    if atividade.tipo == Atividade.TipoAtividade.CHECKBOX:
+    if aula.tipo == Atividade.TipoAtividade.CHECKBOX:
         ProgressoAula.objects.altera_status_conclusao(user=user, aula=aula)
 
     progresso_atualizado = ProgressoAula.objects.filter(aluno=aluno, aula=aula).first()

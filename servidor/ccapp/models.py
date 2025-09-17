@@ -43,13 +43,17 @@ class Aula(models.Model):
     
     resumo = models.CharField(max_length=320)
     
-    # Nota: refactor da parte de vídeo
     video = models.CharField(max_length=100, blank=True, null=True)
     notas = models.FileField(upload_to="notas_de_aula/", null=True, blank=True)
     slides = models.FileField(upload_to="slides", null=True, blank=True)
     code = models.FileField(upload_to="codigos", null=True, blank=True)
     
-    # porcentagem = 
+    # Campos de atividade
+    class TipoAtividade(models.TextChoices):
+        CHECKBOX = "CHECKBOX", "Confirmação Simples"
+
+    tipo = models.CharField(max_length=10, choices=TipoAtividade.choices, default=TipoAtividade.CHECKBOX)
+    texto_atividade = models.TextField(blank=True, null=True, default="Marque a caixa para concluir a aula")
     
     def __str__(self):
         return(f"{self.curso.nome}: Aula {self.num}-{self.nome}")

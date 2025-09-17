@@ -6,38 +6,32 @@
     </div>
 {% endif %}
 
-{% for atividade in aula.atividades.all %}
-    <div class="card mb-4">
-        <div class="card-header">
-            <h4 class="fs-5 mb-0">{{ atividade.enunciado|linebreaks }}</h4>
-        </div>
-        <div class="card-body">
-
-            {% if atividade.tipo == 'CHECKBOX' %}
-                <form>
-                    {% csrf_token %}
-                    <div class="fs-5">
-                        <input class="form-check-input" 
-                                type="checkbox" 
-                                role="switch" 
-                                id="atividade-{{ atividade.id }}"
-                
-                                hx-post="{% url 'ccapp:submeter_atividade' atividade_id=atividade.id %}"
-                                hx-target="#exercicios"
-                                hx-swap="innerHTML"
-                                
-                                {% if progresso and progresso.concluida %}checked{% endif %}>
-                                
-                        <label class="form-check-label" for="atividade-{{ atividade.id }}">
-                            Marcar como concluída
-                        </label>
-                    </div>
-                </form>
-            {% endif %}
-        </div>
+<div class="card mb-4">
+    <div class="card-header">
+        <h4 class="fs-5 mb-0">{{ aula.texto_atividade|linebreaks }}</h4>
     </div>
-{% endfor %}
+    <div class="card-body">
 
-{% if not aula.atividades.all %}
-    <p>Não há atividades para esta aula. Você pode prosseguir para a próxima.</p>
-{% endif %}
+        {% if aula.tipo == 'CHECKBOX' %}
+            <form>
+                {% csrf_token %}
+                <div class="fs-5">
+                    <input class="form-check-input" 
+                            type="checkbox" 
+                            role="switch" 
+                            id="checkbox-{{ aula.id }}"
+            
+                            hx-post="{% url 'ccapp:submeter_conclusao' aula_id=aula.id %}"
+                            hx-target="#exercicios"
+                            hx-swap="innerHTML"
+                            
+                            {% if progresso and progresso.concluida %}checked{% endif %}>
+                            
+                    <label class="form-check-label" for="checkbox-{{ aula.id }}">
+                        Marcar como concluída
+                    </label>
+                </div>
+            </form>
+        {% endif %}
+    </div>
+</div>

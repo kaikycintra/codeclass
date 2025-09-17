@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.cache import never_cache
 
-from .models import Curso, Aula, ProgressoAula, Matricula, Comentario, Atividade
+from .models import Curso, Aula, ProgressoAula, Matricula, Comentario
 
 @require_http_methods(["GET"])
 def index(request):

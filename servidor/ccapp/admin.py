@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Aula, Curso, ProgressoAula, Perfil, Comentario, Matricula, Atividade
+from .models import Aula, Curso, ProgressoAula, Perfil, Comentario, Matricula
 
 # Register your models here.
 
@@ -8,7 +8,6 @@ admin.site.register(Curso)
 admin.site.register(Perfil)
 admin.site.register(Comentario)
 admin.site.register(Matricula)
-admin.site.register(Atividade)
 
 @admin.register(ProgressoAula)
 class ProgressoAulaAdmin(admin.ModelAdmin):

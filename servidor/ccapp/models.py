@@ -81,23 +81,7 @@ class Matricula(models.Model):
 
 
 #---------------------------------------------------------------
-# Modelos com relação à atividades
-
-class Atividade(models.Model):
-    """
-    Modelo que armazena um tipo de atividade (CHECKBOX, TEXTO, etc)
-    Modelo genérico que pode estender à diferentes tipos
-    """
-    class TipoAtividade(models.TextChoices):
-        CHECKBOX = "CHECKBOX", "Confirmação Simples"
-    
-    aula = models.ForeignKey(Aula, on_delete=models.CASCADE, related_name="atividades")
-    titulo = models.CharField(max_length=200, default=f"Confirmar Conclusão da Aula")
-    tipo = models.CharField(max_length=10, choices=TipoAtividade.choices, default=TipoAtividade.CHECKBOX)
-    enunciado = models.TextField(blank=True, null=True, default="Marque a caixa para concluir a aula")
-
-    def __str__(self):
-        return f'{self.titulo} ({self.aula.nome})'
+# Modelos com relação ao progresso de um estudante
     
 class ProgressoAulaManager(models.Manager):
     """

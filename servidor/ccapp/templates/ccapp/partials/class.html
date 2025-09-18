@@ -28,17 +28,18 @@
         <p class="fs-4 mb-1">Aula {{ aula.num }}: {{ aula.nome }}</p>
     </div>
     <hr class="my-3 border-2 opacity-50">
-    <div class="row row-cols-1 row-cols-md-2 g-4 mb-5">
-        <div class="col">
-            <div>
-                <p class="fs-1">Vídeo</p>
-                <iframe style="aspect-ratio: 16 / 9; width: 100%;"
+
+    <div class="mb-5">
+        <p class="fs-1">Vídeo</p>
+            <iframe style="aspect-ratio: 16 / 9; width: 100%;"
                 frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                 referrerpolicy="strict-origin-when-cross-origin" 
                 allowfullscreen
                 src="{{ aula.video }}">
-                </iframe>
-            </div>
+            </iframe>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-4 mb-5">
+        <div class="col">
             <div>
                 <p class="fs-1">Conteúdo</p>
                 <ul class="list-group list-group-flush">

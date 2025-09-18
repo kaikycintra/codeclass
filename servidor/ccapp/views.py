@@ -192,7 +192,7 @@ def submeter_conclusao(request, user, aula_id):
 
     # Processa o tipo CHECKBOX
     if aula.tipo == aula.TipoAtividade.CHECKBOX:
-        ProgressoAula.objects.altera_status_conclusao(user=user, aula=aula, tipo="CHECKBOX")
+        ProgressoAula.objects.altera_status_conclusao(user=user, aula=aula, tipo="CHECKBOX", resposta="")
     elif aula.tipo == aula.TipoAtividade.TEXTO:
         resposta = request.POST.get('resposta_atividade', '').strip()
 

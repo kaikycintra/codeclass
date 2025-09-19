@@ -6,8 +6,9 @@ from .decorators import login_required, matricula_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.cache import never_cache
+from django.contrib import messages
 
-from .models import Curso, Aula, Alternativa, RespostaQuestao, ProgressoAula, Questao, Matricula
+from .models import Curso, Aula, ProgressoAula, Matricula
 
 @require_http_methods(["GET"])
 def index(request):
@@ -170,60 +171,48 @@ def aula(request, url_curso, url_aula, user):
     nome_aula = url_aula.replace("-", " ")
 
     aula_obj = get_object_or_404(Aula, nome=nome_aula)
-    questoes = aula_obj.questoes.all()
 
-    user_answers = RespostaQuestao.objects.filter(aluno=user, questao__aula=aula_obj)
-    user_answers_dict = {ua.questao.id: ua for ua in user_answers}
-
-    progresso_aula, created = ProgressoAula.objects.get_or_create(aluno=user, aula=aula_obj)
-    all_questions_correct = progresso_aula.concluida
+    progresso, created = ProgressoAula.objects.get_or_create(aluno=user, aula=aula_obj)
 
     return render(request, "ccapp/partials/class.html", {
         "layout": layout,
         "username": user,
         "aula": Aula.objects.get(nome=nome_aula),
-        "questoes": questoes,
-        "user_answers": user_answers_dict,
-        "all_correct": all_questions_correct,
+        "progresso": progresso,
     })
 
-# Aqui está faltando um @matricula_required. Um problema 
 @login_required
 @require_http_methods(["POST"])
-def submit_answers(request, url_aula, user):
+def submeter_conclusao(request, user, aula_id):
     """
-    Método que gerencia o submit das respostas de um usuário
+    Gerencia a conclusão de uma aula
     """
-    nome_aula = url_aula.replace("-", " ")
-    aula_obj = get_object_or_404(Aula, nome=nome_aula)
+    aula = get_object_or_404(Aula, pk=aula_id)
+    aluno = user
 
-    for key, value in request.POST.items():
-        if key.startswith('questao_'):
-            questao_id = int(key.split('_')[1])
-            alternativa_id = int(value)
+    # Processa o tipo CHECKBOX
+    if aula.tipo == aula.TipoAtividade.CHECKBOX:
+        ProgressoAula.objects.altera_status_conclusao(user=user, aula=aula, tipo="CHECKBOX", resposta="")
+    elif aula.tipo == aula.TipoAtividade.TEXTO:
+        resposta = request.POST.get('resposta_atividade', '').strip()
 
-            questao_obj = Questao.objects.get(pk=questao_id)
-            alternativa_obj = Alternativa.objects.get(pk=alternativa_id)
+        if len(resposta) > 256:
+            messages.error(request, "Sua resposta não pode ter mais de 256 caracteres")
+        elif len(resposta) < 1:
+            messages.error(request, "Sua resposta não pode ser vazia")
+        else:
+            ProgressoAula.objects.altera_status_conclusao(user=user, aula=aula, tipo="TEXTO", resposta=resposta)
+            messages.success(request, "Resposta enviada!")
 
-            resposta_obj, created = RespostaQuestao.objects.update_or_create(
-                aluno=user,
-                questao=questao_obj,
-                defaults={'resposta': alternativa_obj},
-            )
 
-            ProgressoAula.objects.check_and_update(user, resposta_obj)
-    
-    respostas_user = RespostaQuestao.objects.filter(aluno=user, questao__aula=aula_obj)
+    progresso_atualizado = ProgressoAula.objects.filter(aluno=aluno, aula=aula).first()
 
-    progresso_aula, created = ProgressoAula.objects.get_or_create(aluno=user, aula=aula_obj)
     context = {
-        "aula": aula_obj,
-        "questoes": aula_obj.questoes.all(),
-        "user_answers": {ua.questao.id: ua for ua in respostas_user},
-        "all_correct": progresso_aula.concluida,
+        "aula": aula,
+        "progresso": progresso_atualizado
     }
 
-    return render(request, "ccapp/partials/quiz.html", context)
+    return render(request, "ccapp/partials/atividades.html", context)
 
 @never_cache
 @require_http_methods(["GET"])

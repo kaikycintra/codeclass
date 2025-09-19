@@ -43,13 +43,18 @@ class Aula(models.Model):
     
     resumo = models.CharField(max_length=320)
     
-    # Nota: refactor da parte de vídeo
     video = models.CharField(max_length=100, blank=True, null=True)
     notas = models.FileField(upload_to="notas_de_aula/", null=True, blank=True)
     slides = models.FileField(upload_to="slides", null=True, blank=True)
     code = models.FileField(upload_to="codigos", null=True, blank=True)
     
-    # porcentagem = 
+    # Campos de atividade
+    class TipoAtividade(models.TextChoices):
+        CHECKBOX = "CHECKBOX", "Confirmação Simples"
+        TEXTO = "TEXTO", "Resposta de Texto"
+
+    tipo = models.CharField(max_length=10, choices=TipoAtividade.choices)
+    texto_atividade = models.TextField(blank=True, null=True)
     
     def __str__(self):
         return(f"{self.curso.nome}: Aula {self.num}-{self.nome}")
@@ -76,67 +81,27 @@ class Matricula(models.Model):
         return f'{self.aluno.username} matriculado em {self.curso}'
 
 
-## Classes de Exercícios e progressos de aula
-
-class Questao(models.Model):
-    """
-    Modelo que armazena a questão e o enunciado
-    """
-    aula = models.ForeignKey(Aula, on_delete=models.CASCADE, related_name="questoes")
-    pergunta = models.TextField()
-
-    def __str__(self):
-        return f'Questão para {self.aula.nome}'
-    
-class Alternativa(models.Model):
-    """
-    Modelo flexível que armazena as alternativas de uma questão
-    """
-    questao = models.ForeignKey(Questao, on_delete=models.CASCADE, related_name="alternativas")
-    texto = models.TextField(max_length=255)
-    correta = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.texto
-
-class RespostaQuestao(models.Model):
-    """
-    Modelo que armazena a resposta de um usuário/estudante a uma questão
-    """
-    aluno = models.ForeignKey(User, on_delete=models.CASCADE, related_name="respostas")
-    questao = models.ForeignKey(Questao, on_delete=models.CASCADE, related_name="respostas")
-    resposta = models.ForeignKey(Alternativa, on_delete=models.CASCADE)
-    data_resposta = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f'Resposta de {self.aluno.username} para {self.questao.pergunta[:30]}...'
-
-    def correta(self):
-        """Checa se a resposta está correta"""
-        return self.resposta.correta
+#---------------------------------------------------------------
+# Modelos com relação ao progresso de um estudante
     
 class ProgressoAulaManager(models.Manager):
     """
-    Método de gerenciamento para o progresso de uma aula
-    Utilizamos um método lazy para atualizar e criar os ProgressoAula
+    Gerencia a lógica de negócio para o progresso da aula.
     """
-    def check_and_update(self, user, resposta_questao_obj):
-        if not resposta_questao_obj.correta():
-            return
-        
-        aula_atual = resposta_questao_obj.questao.aula
+    def altera_status_conclusao(self, user, aula, tipo, resposta):
+        """
+        Método simples, que marca uma aula como concluída/não-concluída
+        """
 
-        progresso, created = self.get_or_create(aluno=user, aula=aula_atual, defaults={'concluida':False})
-        if progresso.concluida:
-            return
-        
-        total_questoes = aula_atual.questoes.count()
-        respostas_corretas_count = RespostaQuestao.objects.filter(aluno=user, questao__aula=aula_atual, resposta__correta=True).values('questao').distinct().count()
-
-        if respostas_corretas_count >= total_questoes:
+        progresso, created = self.get_or_create(aluno=user, aula=aula)
+        if tipo == "CHECKBOX":
+            progresso.concluida = not progresso.concluida
+        elif tipo == "TEXTO":
             progresso.concluida = True
-            progresso.data_conclusao = timezone.now()
-            progresso.save()
+            progresso.resposta_atividade = resposta
+        progresso.save()
+
+        return progresso
 
 
 class ProgressoAula(models.Model):
@@ -148,10 +113,20 @@ class ProgressoAula(models.Model):
     concluida = models.BooleanField(default=False)
     data_conclusao = models.DateTimeField(null=True, blank=True)
 
+    resposta_atividade = models.TextField(max_length=256, null=True)
+
     objects = ProgressoAulaManager()
 
     class Meta:
         unique_together = ('aluno', 'aula')
+    
+    def save(self, *args, **kwargs):
+        """ Define data de conclusão automaticamente """
+        if self.concluida and not self.data_conclusao:
+            self.data_conclusao = timezone.now()
+        elif not self.concluida:
+            self.data_conclusao = None
+        super().save(*args, **kwargs)
 
 #---------------------------------------------------------------
 # Modelos com relação aos usuários
